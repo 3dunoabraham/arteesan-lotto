@@ -9,7 +9,8 @@
             >
                 <span @click="toggleAdvanced" class="mt-8 clickable letter-s-3 tx-tertiary opacity-hover-50 tx-center pa-2 border-b-1-tertiary pb-2">
                     <span>{{LANG.farms}}</span>
-                    <span v-if="!togglers.advanced">. . .</span>
+                    <span v-if="!togglers.advanced"><i class="ml-2 fas fa-caret-right"></i></span>
+                    <span v-if="togglers.advanced"><i class="ml-2 fas fa-caret-down"></i></span>
                 </span>
             </div>
         <!-- </div> -->

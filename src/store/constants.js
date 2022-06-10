@@ -21,6 +21,9 @@ export const ABIS = {
   CHAINLINK: [
     'function latestAnswer() external view returns (uint256)',
   ],
+  ROULETTE: [
+    'function registeredFunds(address account) external pure returns (uint256)',
+  ],
   PAIR: [
     'function transfer(address to, uint value) external returns (bool)',
     'function balanceOf(address account) external pure returns (uint256)',

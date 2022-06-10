@@ -11,7 +11,7 @@
 					<span class="tx-lg nowrap opacity-25 flex-1 tx-center" :class="[accs_length ? 'mr-8' : '']" >
 						{{LANG.exchange}}
 					</span>
-					<div class="flex" v-if="accs_length">
+					<div class="flex-center" v-if="accs_length">
 			        	<div v-if="accs_length" @click="getTradeData(false)" class="pa-2"
 				        	:class="[ loading ? 'opacity-50 noclick' : 'clickable opacity-hover-50' ],
 			        				[(!loading && _secondInputIs0 ) ? 'tx-success' : '']"
@@ -27,8 +27,21 @@
 		        			<!-- <i v-if="configEditToggle" class="fas fa-times-circle"></i> -->
 				            <!-- <i v-else class="fas fa-cog"></i> -->
 
-		        			<i v-if="configEditToggle" class="fas fa-tasks"></i>
-				            <i v-else class="fas fa-sliders-h"></i>
+		        			<!-- <i v-if="configEditToggle" class="fas fa-tasks"></i>
+				            <i v-else class="fas fa-sliders-h"></i> -->
+
+				            <div v-if="!configEditToggle"  class="flex-column px-2 py-1 border-r-5 n-conve">
+				            	<i class="fas fa-eye" title="PRO Mode"></i>
+				            	<small class="tx-xs mt-1">PRO</small>
+			            	</div>
+				            <div v-else  class="flex-column tx-primary px-2 py-1 border-r-5 n-conca">
+				            	<i class="fas fa-eye-slash " title="PRO Mode"></i>
+				            	<small class="tx-xs mt-1">PRO</small>
+			            	</div>
+
+
+		        			<!-- <div v-if="!configEditToggle" class=" px-2 py-4 border-r-15 tx-sm n-flat">PRO</div>
+				            <div v-else class=" px-2 py-4 border-r-15 tx-sm-h n-inset tx-success">PRO</div> -->
 			        	</div>
 					</div>
 				</div>
@@ -117,6 +130,9 @@
 		        		<span class="w-100 flex-1 tx-center tx-secondary mx-2 tx-center">
 		        			{{token1amount ? token1amount : "..."}} <br> <small>{{tokens[1].id}}</small>
 		        		</span>
+		        		<!-- {{!loading}}
+		        		{{!!_bothInputsAreSomething}}
+		        		{{!!_hasFirstTokenAllowance}} -->
 			        	<div class="flex-center">
 				            <div class="clickable opacity-hover-75 my-2 border-r-25 n-flat flex-column py-2 px-3" 
 				            	v-if="	!loading > 0 &&

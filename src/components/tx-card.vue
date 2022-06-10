@@ -1,62 +1,67 @@
 <template>
-    <div  v-if="_formArgKeys.length" class="">
+    <div class="">
 
-        <div v-if="!!props.title">
-            {{props.title}}
-        </div>
+        <span v-if="!props.call_only">
+            <div v-if="!!props.title" class="tx-xs"> {{props.title}} </div>
+        </span>
+
         <div v-if="togglers.advanced">
-            <div v-if="props.address" style="max-width: 200px;" class="">
+            <div v-if="!props.abi"> Contract abi: </div>
+
+            <div v-if="props.abi"  class="tx-sm">
+                <span>ABI functions: {{props.abi.length}}</span>
+            </div>
+            <div v-if="props.address" style="max-width: 200px;" class="tx-sm">
                 <span>Contract Address:</span>
-                <div class="py-2" style="overflow-x: scroll;">
-                    <small class="tx-xs">{{props.address}}</small>
-                </div>
+                <div class="py-2" style="overflow-x: scroll;"> <small class="tx-xs">{{props.address}}</small> </div>
             </div>
-            <div v-if="!props.address">
-                Contract Address:
-            </div>
-
-            <!-- <div v-if="props.abi" style="max-width: 200px;" class="">
-                <span>Contract abi:</span>
-                <div class="py-2" style="overflow-x: scroll;">
-                    <small class="tx-xs">{{props.abi}}</small>
-                </div>
-            </div> -->
-            <div v-if="!props.abi">
-                Contract abi:
-            </div>
-
-            <div v-if="props.function" style="max-width: 200px;" class="tx-xs my-2">
-                <span>Contract function:</span>
-                <!-- <div class="py-2" style="overflow-x: scroll;"> -->
-                    <small class="ml-2">{{props.function}}</small>
-                <!-- </div> -->
-            </div>
-            <div v-if="!props.function">
-                Contract function:
+            <div v-if="props.function" class="tx-xs my-2">
+                <span>method:</span>
+                <small class="ml-2">{{props.function}}</small>
             </div>
         </div>
-        <div class="flex-wrap mt-3">
+
+        <div class="flex-wrap mt-3" v-if="!props.abi || !props.address || !props.function">
             <div class="flex-center">
                 <input v-if="!props.abi" style="max-width: 40px;" type="text" v-model="form.contractAbi"       class=" tx-primary n-inset noborder pa-1 ma-3" placeholder="abi">
                 <input v-if="!props.address" style="width: 120px" type="text" v-model="form.contractAddress"   class=" tx-primary n-inset noborder pa-1 " placeholder="address">
             </div>
             <input v-if="!props.function" style="width: 80px" type="text" v-model="form.functionName"      class=" tx-primary n-inset noborder pa-1 " placeholder="function">
         </div>
-        <div class="flex-column">
+
+        <div class="flex-column" v-if="_formArgKeys.length && !props.button_only">
             <template v-for="arg in _formArgKeys">
                 <input type="text" v-model="props.form_args[arg].value"              class=" tx-primary n-inset noborder pa-1 flex-1" :placeholder="'arg #'+arg">
             </template>
         </div>
-        <!-- {{_valid}} -->
-        <div class="pa-2 my-2 tx-sm" :class="[_valid ? 'n-flat opacity-hover-75 clickable border-r-15' : 'border-r-5 noclick n-flat-disabled']" @click="tx">
-            send tx
+        
+        <span v-if="props.call_only" class="flex-column">
+            <div v-if="!!props.title" class="tx-xs"> {{props.title}} </div>
+            <div v-if="!props.title"> Response </div>
+
+            <span v-if="theResult" class="mx-2">{{_parsedResult}}</span>
+        </span>
+
+        <div class="pa-2 ma-2 mb-0 tx-sm flex" :class="[_valid ? 'n-flat opacity-hover-75 clickable border-r-15' : 'border-r-5 noclick nocursor n-flat-disabled']" @click="execute">
+            <div v-if="loading">
+                <i class="fas fa-circle-notch spin-spin"></i>
+            </div>
+            <div v-if="!loading">
+                <span v-if="props.call_only">
+                    <span v-if="!props.button_only">get</span>
+                    <span v-if="props.button_only"><i class="fa fa-redo"></i></span>
+                </span>
+                <span v-if="!props.call_only">send</span>
+            </div>
         </div>
+
         <div  v-if="props.advanced" class="flex-center">
-            <span @click="toggleAdvanced" class=" clickable letter-s-3 tx-tertiary opacity-hover-50 tx-center pa-2 flex">
-                <span v-if="!togglers.advanced">Show more</span>
-                <span class="tx-sm" v-if="togglers.advanced">Show less</span>
+            <span @click="toggleAdvanced" class=" clickable letter-s-3  opacity-hover-50 tx-center pa-2 flex tx-xs">
+                <span v-if="!togglers.advanced" class="tx-tertiary">Show more</span>
+                <span v-if="togglers.advanced" class="tx-sm opacity-50">Show less</span>
             </span>
         </div>
+
     </div>
 </template>
 <script>
@@ -77,6 +82,8 @@
 
                 loading: false,
                 loadings: {},
+
+                theResult: null,
 
                 togglers: {
                     advanced: false,
@@ -121,10 +128,33 @@
             _formArgKeys()          { return Object.keys(this.form.args) },
             _valid()
             {
+                if (this.loading) return false
                 for (var i = 0; i < this._formArgKeys.length; i++) {
                     if (!this.form.args[i].value || this.form.args[i].value == "") return false
                 }
                 return true
+            },
+            _parsedArgs()
+            {
+                let args = []
+                for (var i = 0; i < this._formArgKeys.length; i++) {
+                    if (this.form.args[i].type == "uint256")
+                    {
+                        args.push(ethers.utils.parseEther(parseFloat(this.form.args[i].value).toFixed(17)))
+                    } else {
+                        args.push(this.form.args[i].value)
+                    }
+                }
+                return args
+            },
+            _parsedResult()
+            {
+                if (this.props.res_type == "uint256")
+                {
+                    return parseDecimals(parseFloat(ethers.utils.formatEther(this.theResult)))
+                }
+
+                return this.theResult
             },
 		},
         mounted()
@@ -266,6 +296,21 @@
                     console.log(error)
                 }
             },
+            async execute()
+            {
+                console.log ("execute")
+                if (this.loading) return
+                this.loading = true
+
+                if (this.props.call_only)
+                {
+                    this.theResult = await this.call()
+                } else {
+                    await this.tx()
+                }
+
+                this.loading = false
+            },
             async tx()
             {
                 if (!this.first_acc) return
@@ -274,28 +319,22 @@
                 const BLOCKCHAIN = this.$store.getters.newProvider
                 const USER_WALLET = await BLOCKCHAIN.getSigner()
 
-                const theContract = new Contract(this.form.contractAddress, ABIS[this.form.contractAbi], USER_WALLET)
+                const theContract = new Contract(this.form.contractAddress, this.form.contractAbi, USER_WALLET)
 
-                console.log("asd")
-                try {
-                    
-                    let response = {}
+                return new Promise(async (resolve, reject) => {
+                    try {
+                        let response = {}
 
-                    let aTx = await theContract[this.form.functionName].apply(this, args)
-                    let aResult = await aTx.wait()
-                    response = aResult
-                } catch (error)
-                {
-                    console.log("***error!!!")
-                    console.log(error)
-                }
-            },
-            "callContract": async (contract, methodName, args, signer = null) => {
-                let response = {}
-
-                let aTx = await contract[methodName].apply(this, args)
-                let aResult = await aTx.wait()
-                response = aResult
+                    console.log ("this._parsedArgs")
+                    console.log (this._parsedArgs)
+                        let aTx = await theContract[this.form.functionName].apply(this, this._parsedArgs)
+                        let aResult = await aTx.wait()
+                        resolve(aResult)
+                    } catch (error)
+                    {
+                        reject(error)
+                    }
+                })
             },
             async call()
             {
@@ -303,28 +342,19 @@
 
                 let firstAddress = this.first_acc.address
                 const BLOCKCHAIN = this.$store.getters.newProvider
-                const USER_WALLET = await BLOCKCHAIN.getSigner()
-                const fruitContract = new Contract(this.form.contractAddress, ABIS[this.form.contractAbi], USER_WALLET)
-                try {
-                    let transaction = await fruitContract[this.form.functionName](this.form.arg1)
-                    console.log(transaction)
-                    // await transaction.wait()
-                    // alert("done")
-                    // const allowanceTx = await fruitContract.allowance(firstAddress, CURRENT_NETWORK.ROUTER_ADDRESS)
-                    // let parsedAllowanceTx = parseDecimals(parseFloat(ethers.utils.formatEther(allowanceTx)))
-                    // context.commit(
-                    //     "updateAccountAllowance",
-                    //     {
-                    //     address: firstAddress,
-                    //     tokenAddress: tokenAddress,
-                    //     allowance: parsedAllowanceTx,
-                    //     }
-                    // )
-                } catch (error)
-                {
-                    console.log("***error!!!")
-                    console.log(error)
-                }
+                console.log(this.form.contractAddress, this.form.contractAbi, BLOCKCHAIN)
+
+                const theContract = new Contract(this.form.contractAddress, this.form.contractAbi, BLOCKCHAIN)
+
+                return new Promise(async (resolve, reject) => {
+                    try {
+                        let aTx = await theContract[this.form.functionName].apply(this, this._parsedArgs)
+                        resolve(aTx)
+                    } catch (error)
+                    {
+                        reject(error)
+                    }
+                })
             },
             
 		},

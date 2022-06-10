@@ -1,6 +1,11 @@
 <template>
     <div>
+            <div class="flex-1 tx-center letter-s-15 opacity-50">
+                <h1>{{LANG.welcome}} <br> to my <br> Portfolio </h1>
+            </div>
         <div class="flex-column flex-lg2x-row">
+
+
             <div class="flex-center flex-1 my-8" style="min-width: 300px; " v-if="!accs_length">
                 <span @click="connectWallet"
                      class="clickable opacity-hover-75 mx-2 pa-6 border-r-15 n-conve tx-xl mt-8 letter-s-15 tx-center"
@@ -8,10 +13,15 @@
                     {{LANG.connect}} <br> {{LANG.wallet}}
                 </span>
             </div>
-
-            <!-- <exchange ref="exchange"/> -->
-            <div class="flex-1 tx-center letter-s-15 opacity-50">
-                <h1>{{LANG.welcome}} <br> to my <br> Portfolio </h1>
+            <div v-if="accs_length">
+                <div class="n-inset border-r-50 ma-8 pa-4">
+                    <h1 class="mt-0 tx-center">Exchange </h1>
+                    <exchange ref="exchange"/>
+                </div>
+                <div class="n-inset border-r-50 ma-8 pa-4">
+                    <h1 class="mt-0 tx-center">Roulette </h1>
+                    <roulette v-if="accs_length" />
+                </div>
             </div>
             
         </div>
@@ -19,59 +29,17 @@
             <infispinner />
         </div>
 
-        <!-- <farms v-if="accs_length" /> -->
-        <!-- <tx-maker v-if="accs_length" /> -->
-        <div  v-if="accs_length" >
-            <!-- <tx-maker v-if="accs_length" /> -->
-            <hr class="w-50 opacity-10">
-            <h1 class="tx-center">Dashboard </h1>
-            <div class="flex-wrap">
-                <tx-card  class="n-flat flex-column pa-5 ma-2" style="width: 260px"
-                    :props="
-                        {
-                            form_args: form.txCard1,
-                            abi: ABIS.ROUTER,
-                            address: CURRENT_NETWORK.BANK_ADDRESS,
-                            function: 'factory',
-                        }"
-                />
-                <tx-card class="n-flat flex-column pa-5 ma-2" style="width: 260px"
-                    :props="
-                        {
-                            title: 'Test',
-                            form_args: form.txCard2,
-                            abi: ABIS.FACTORY,
-                            advanced: true
-                        }"
-                />
-                <tx-card class="n-flat flex-column pa-5 ma-2" style="width: 260px"
-                    :props="
-                        {
-                            title: 'Approve to Router \n (Controller)',
-                            form_args: form.approveCard,
-                            abi: ABIS.ERC20,
-                            function: 'approve',
-                        }"
-                />
-                <tx-card class="n-flat flex-column pa-5 ma-2" style="width: 260px"
-                    :props="
-                        {
-                            form_args: form.txCard3,
-                            address: CURRENT_NETWORK.BANK_ADDRESS,
-                            abi: ABIS.FACTORY,
-                        }"
-                />
-            </div>
-        </div>
 
     </div>
 </template>
 <script>
     import infispinner from "../components/infispinner.vue";
     import newItem from "../components/new-item.vue";
+    import txCard from "../components/tx-card.vue";
+    
     import exchange from "./exchange.vue";
     import txMaker from "./tx-maker.vue";
-    import txCard from "../components/tx-card.vue";
+    import roulette from "../modules/roulette.vue";
 
     import { ABIS, CURRENT_NETWORK } from '../store/constants';
 
@@ -81,6 +49,7 @@
             infispinner,
 
             exchange,
+            roulette,
             txMaker,
             txCard,
 
@@ -114,7 +83,9 @@
         },
         methods: {
             async connectWallet() {
+                this.loading = true
                 await this.$store.dispatch("connectWallet")
+                this.loading = false
                 // this.$refs.exchange.getTradeData(true)
                 // this.$refs.exchange.getAccountBalances(true)
             },
