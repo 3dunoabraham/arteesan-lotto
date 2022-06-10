@@ -18,11 +18,11 @@
 
         <!-- <farms v-if="accs_length" /> -->
         <!-- <tx-maker v-if="accs_length" /> -->
-        <div v-if="accs_length" >
+        <div  >
             <div class="w-100 tx-center">
                 <h1>{{LANG.welcome}} <br> to my Portfolio </h1>
             </div>
-            <tx-maker />
+            <tx-maker v-if="accs_length" />
         </div>
 
     </div>
