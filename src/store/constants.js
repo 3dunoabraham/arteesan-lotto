@@ -241,9 +241,9 @@ export const bscNetwork = {
 export const maticNetwork = {
   SCANNER_URL: 'https://polygonscan.com',
   RPC_URL: 'https://bsc-dataseed1.binance.org',
-  ROUTER_ADDRESS: '0x0069E50350FABf3A207AefBDd10537F8d03B631a',
-  FACTORY_ADDRESS: '0x51aEaC52520A583151325D27D66E9295e8CCb810',
-  WETH_ADDRESS: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
+  ROUTER_ADDRESS: '0xa5e0829caced8ffdd4de3c43696c57f7d7a678ff',
+  FACTORY_ADDRESS: '0x5757371414417b8c6caad45baef941abc7d3ab32',
+  WETH_ADDRESS: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
 
   FRUIT_ADDRESS: '0x40e11f5e8027080a222eb8955f44aaef07e828d8',
   SEED_ADDRESS: '0xcdd59cec22452646415d4caad9186aa0965739ef',
@@ -256,16 +256,16 @@ export const maticNetwork = {
   TOKEN_LIST: [
     {
       id: 'MATIC',
-      address: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
-      chainlink_address: "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+      address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+      chainlink_address: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
       image:
         './res/3890.png',
       price: 1,
     },
     {
       id: 'USD (DAI)',
-      address: "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
-      chainlink_address: "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
+      address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+      chainlink_address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
       image:
         './res/4943.png',
       price: 0,
@@ -314,7 +314,7 @@ export const maticNetworkNew = {
   BASE_TOKEN_ADDRESS: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
 
   BASE_USD_ID: 'USD (DAI)',
-  BASE_USD_ADDRESS: '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063',
+  BASE_USD_ADDRESS: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
 
 
   FRUIT_ADDRESS: '0x7BFA6B8f09AED170Bff62Faf6680B7F16c9B9829',
@@ -340,7 +340,7 @@ export const maticNetworkNew = {
     },
     {
       id: 'USD (DAI)',
-      address: "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063",
+      address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
       chainlink_address: "0x4746DeC9e833A82EC7C2C1356372CcF2cfcD2F3D",
       image:
         './res/4943.png',

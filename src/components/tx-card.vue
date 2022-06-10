@@ -302,11 +302,17 @@
                 if (this.loading) return
                 this.loading = true
 
-                if (this.props.call_only)
+                try
                 {
-                    this.theResult = await this.call()
-                } else {
-                    await this.tx()
+                    if (this.props.call_only)
+                    {
+                        this.theResult = await this.call()
+                    } else {
+                        await this.tx()
+                    }
+                } catch (error)
+                {
+                    console.log("catched executing (error)")
                 }
 
                 this.loading = false

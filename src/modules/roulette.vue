@@ -104,18 +104,20 @@
                         res_type: 'uint256',
                     }"
             />
+        </div>
+        <!-- <hr class="w-50 opacity-10">
+        <div class="flex-wrap ">
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
-                        title: 'Increase Funds',
-                        form_args: form.increaseFunds,
-                        abi: ['function increaseFunds(uint256 amount) external'],
-                        address: '0xfab5299d486725319aae4d02ee48500affa2d418',
-                        function: 'increaseFunds',
-                        res_type: 'uint256',
+                        title: 'Get Pair',
+                        abi: ABIS.FACTORY,
+                        form_args: form.getPair,
+                        function: 'getPair',
+                        call_only: true,
                     }"
             /> 
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
@@ -148,6 +150,10 @@
                         "1": { value: '', type: "uint256" },
                     },
                     DAIBalanceOf: {"0": { value: "", type: "address" }, },
+                    getPair: {
+                        "0": { value: "", type: "address" },
+                        "1": { value: "", type: "address" },
+                    },
                 },
             };
         }, 
