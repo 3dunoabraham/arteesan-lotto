@@ -10,6 +10,9 @@
             </div>
 
             <!-- <exchange ref="exchange"/> -->
+            <div class="flex-1 tx-center letter-s-15 opacity-50">
+                <h1>{{LANG.welcome}} <br> to my <br> Portfolio </h1>
+            </div>
             
         </div>
         <div class="w-100 flex-center" v-if="loading">
@@ -18,11 +21,38 @@
 
         <!-- <farms v-if="accs_length" /> -->
         <!-- <tx-maker v-if="accs_length" /> -->
-        <div  >
-            <div class="w-100 tx-center">
-                <h1>{{LANG.welcome}} <br> to my Portfolio </h1>
+        <div  v-if="accs_length" >
+            <!-- <tx-maker v-if="accs_length" /> -->
+            <hr class="w-50 opacity-10">
+            <h1 class="tx-center">Dashboard </h1>
+            <div class="flex-wrap">
+                <tx-card  class="n-flat flex-column pa-5 ma-2" style="width: 260px"
+                    :props="
+                        {
+                            form_args: form.txCard1,
+                            abi: ABIS.ROUTER,
+                            address: CURRENT_NETWORK.BANK_ADDRESS,
+                            function: 'factory',
+                        }"
+                />
+                <tx-card class="n-flat flex-column pa-5 ma-2" style="width: 260px"
+                    :props="
+                        {
+                            title: 'Test',
+                            form_args: form.txCard2,
+                            abi: ABIS.FACTORY,
+                            advanced: true
+                        }"
+                />
+                <tx-card class="n-flat flex-column pa-5 ma-2" style="width: 260px"
+                    :props="
+                        {
+                            form_args: form.txCard3,
+                            address: CURRENT_NETWORK.BANK_ADDRESS,
+                            abi: ABIS.FACTORY,
+                        }"
+                />
             </div>
-            <tx-maker v-if="accs_length" />
         </div>
 
     </div>
@@ -32,6 +62,9 @@
     import newItem from "../components/new-item.vue";
     import exchange from "./exchange.vue";
     import txMaker from "./tx-maker.vue";
+    import txCard from "../components/tx-card.vue";
+
+    import { ABIS, CURRENT_NETWORK } from '../store/constants';
 
     export default {
         name: 'home-page',     
@@ -40,12 +73,21 @@
 
             exchange,
             txMaker,
+            txCard,
 
             newItem,
         },
         data() {
             return {
+                CURRENT_NETWORK,
+                ABIS,
+
                 loading: false,
+                form: {
+                    txCard1: {"0": { value: "", }, },
+                    txCard2: {"0": { value: "", }, },
+                    txCard3: {"0": { value: "", }, "1": { value: "", }, "2": { value: "", }, },
+                },
             };
         }, 
         computed: {
@@ -56,10 +98,14 @@
                 return this.$store.getters.articles;
             },
         },
+        mounted()
+        {
+
+        },
         methods: {
             async connectWallet() {
                 await this.$store.dispatch("connectWallet")
-                this.$refs.exchange.getTradeData(true)
+                // this.$refs.exchange.getTradeData(true)
                 // this.$refs.exchange.getAccountBalances(true)
             },
         },
