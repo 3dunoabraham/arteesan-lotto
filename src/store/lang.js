@@ -29,6 +29,7 @@ export const LANG = {
 		investedLps: "Invested LPs",
 		comingSoon: "Coming Soon",
 		farmLevel: "Farm Level",
+		welcome: "Welcome",
 	
 		connect: "Connect",
 		wallet: "Wallet",
@@ -83,6 +84,7 @@ export const LANG = {
 		investedLps: "Cupones Invertidos",
 		comingSoon: "Próximamente",
 		farmLevel: "Nivel de Fertilidad",
+		welcome: "Bienvenido",
 	
 		connect: "Conectar",
 		wallet: "Cartera",

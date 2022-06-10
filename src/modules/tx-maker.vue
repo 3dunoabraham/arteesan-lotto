@@ -14,7 +14,7 @@
             </div>
         <!-- </div> -->
         <div v-if="togglers.advanced" class="flex-column flex-justify-start pt-8 " >
-            
+            <!-- 
             <div class="flex-column">
                     <div class="flex-row">
                             <div class="clickable n-flat opacity-hover-50 pa-2 ma-2" @click="transferOwnershipCash">
@@ -30,14 +30,13 @@
                         <input type="text" v-model="form.newFarm"   class=" tx-primary n-flat ma-3" placeholder="address">
                         <input type="text" v-model="form.newFarmAlloc"   class=" tx-primary n-flat ma-3" placeholder="Alloc">
                     </div>
-                    <!-- <hr class="opacity-10 w-100" /> -->
                     <div class="flex-row">
                     
                             <div class="clickable n-flat opacity-hover-50 pa-2 ma-2" @click="addFarm">
                                 Add Farm
                             </div>
                     </div>
-            </div>
+            </div> -->
         <div v-if="togglers.advanced" class="flex-column flex-justify-start pt-8 " >
             
             <div class="flex-column">
@@ -67,7 +66,7 @@
             </div>
         </div>
             <div class="flex-column">
-                    <div class="flex-column tx-xs ">
+                    <!-- <div class="flex-column tx-xs ">
                         <span>USD:{{CURRENT_NETWORK.BASE_USD_ADDRESS}}</span>
                     <hr class="opacity-10 w-100" />
 
@@ -80,7 +79,7 @@
                         <span>to masterchef printer</span>
                         
                         0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6
-                    </div>
+                    </div> -->
                     <div class="w-50">
                         <input type="text" v-model="form.contractAbi"       class=" tx-primary n-flat ma-3" placeholder="abi">
                         <input type="text" v-model="form.contractAddress"   class=" tx-primary n-flat ma-3" placeholder="address">

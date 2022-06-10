@@ -9,7 +9,7 @@
                 </span>
             </div>
 
-            <exchange ref="exchange"/>
+            <!-- <exchange ref="exchange"/> -->
             
         </div>
         <div class="w-100 flex-center" v-if="loading">
@@ -18,6 +18,12 @@
 
         <!-- <farms v-if="accs_length" /> -->
         <!-- <tx-maker v-if="accs_length" /> -->
+        <div v-if="accs_length" >
+            <div class="w-100 tx-center">
+                <h1>{{LANG.welcome}} <br> to my Portfolio </h1>
+            </div>
+            <tx-maker />
+        </div>
 
     </div>
 </template>
