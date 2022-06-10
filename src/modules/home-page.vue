@@ -47,6 +47,15 @@
                 <tx-card class="n-flat flex-column pa-5 ma-2" style="width: 260px"
                     :props="
                         {
+                            title: 'Approve to Router \n (Controller)',
+                            form_args: form.approveCard,
+                            abi: ABIS.ERC20,
+                            function: 'approve',
+                        }"
+                />
+                <tx-card class="n-flat flex-column pa-5 ma-2" style="width: 260px"
+                    :props="
+                        {
                             form_args: form.txCard3,
                             address: CURRENT_NETWORK.BANK_ADDRESS,
                             abi: ABIS.FACTORY,
@@ -84,6 +93,7 @@
 
                 loading: false,
                 form: {
+                    approveCard: {"0": { value: CURRENT_NETWORK.CONTROLLER_ADDRESS, }, "1": { value: "", }, },
                     txCard1: {"0": { value: "", }, },
                     txCard2: {"0": { value: "", }, },
                     txCard3: {"0": { value: "", }, "1": { value: "", }, "2": { value: "", }, },

@@ -129,6 +129,9 @@
 		},
         mounted()
         {
+            this.form.contractAbi = this.props.abi ? this.props.abi : [this.form.contractAbi]
+            this.form.contractAddress = this.props.address ? this.props.address : ""
+            this.form.functionName = this.props.function ? this.props.function : ""
             this.form.args = {...this.props.form_args}
         },
 		methods: {
@@ -270,28 +273,29 @@
                 let firstAddress = this.first_acc.address
                 const BLOCKCHAIN = this.$store.getters.newProvider
                 const USER_WALLET = await BLOCKCHAIN.getSigner()
-                const fruitContract = new Contract(this.form.contractAddress, ABIS[this.form.contractAbi], USER_WALLET)
+
+                const theContract = new Contract(this.form.contractAddress, ABIS[this.form.contractAbi], USER_WALLET)
+
                 console.log("asd")
                 try {
-                    let transaction = await fruitContract[this.form.functionName](this.form.arg1)
-                    // let transaction = await fruitContract[this.form.functionName](this.form.arg1, ethers.constants.MaxUint256.toString())
-                    await transaction.wait()
-                    alert("done")
-                    // const allowanceTx = await fruitContract.allowance(firstAddress, CURRENT_NETWORK.ROUTER_ADDRESS)
-                    // let parsedAllowanceTx = parseDecimals(parseFloat(ethers.utils.formatEther(allowanceTx)))
-                    // context.commit(
-                    //     "updateAccountAllowance",
-                    //     {
-                    //     address: firstAddress,
-                    //     tokenAddress: tokenAddress,
-                    //     allowance: parsedAllowanceTx,
-                    //     }
-                    // )
+                    
+                    let response = {}
+
+                    let aTx = await theContract[this.form.functionName].apply(this, args)
+                    let aResult = await aTx.wait()
+                    response = aResult
                 } catch (error)
                 {
                     console.log("***error!!!")
                     console.log(error)
                 }
+            },
+            "callContract": async (contract, methodName, args, signer = null) => {
+                let response = {}
+
+                let aTx = await contract[methodName].apply(this, args)
+                let aResult = await aTx.wait()
+                response = aResult
             },
             async call()
             {
