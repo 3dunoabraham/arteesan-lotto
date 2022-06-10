@@ -37,14 +37,14 @@
         </div>
         <div class="flex-wrap mt-3">
             <div class="flex-center">
-                <input v-if="!props.abi" style="max-width: 40px;" type="text" v-model="form.contractAbi"       class=" tx-primary n-flat ma-3" placeholder="abi">
-                <input v-if="!props.address" style="width: 120px" type="text" v-model="form.contractAddress"   class=" tx-primary n-flat " placeholder="address">
+                <input v-if="!props.abi" style="max-width: 40px;" type="text" v-model="form.contractAbi"       class=" tx-primary n-inset noborder pa-1 ma-3" placeholder="abi">
+                <input v-if="!props.address" style="width: 120px" type="text" v-model="form.contractAddress"   class=" tx-primary n-inset noborder pa-1 " placeholder="address">
             </div>
-            <input v-if="!props.function" style="width: 80px" type="text" v-model="form.functionName"      class=" tx-primary n-flat " placeholder="function">
+            <input v-if="!props.function" style="width: 80px" type="text" v-model="form.functionName"      class=" tx-primary n-inset noborder pa-1 " placeholder="function">
         </div>
         <div class="flex-column">
             <template v-for="arg in _formArgKeys">
-                <input type="text" v-model="props.form_args[arg].value"              class=" tx-primary n-flat flex-1" :placeholder="'arg #'+arg">
+                <input type="text" v-model="props.form_args[arg].value"              class=" tx-primary n-inset noborder pa-1 flex-1" :placeholder="'arg #'+arg">
             </template>
         </div>
         <!-- {{_valid}} -->
