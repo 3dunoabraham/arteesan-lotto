@@ -1,7 +1,7 @@
 <template>
     <div>
             <div class="flex-1 tx-center letter-s-3 opacity-50">
-                <h1>Web3 <br> {{LANG.appDesc}} <br> (w / Vue)</h1>
+                <h1>Web3 <br> {{LANG.appDesc}} <br> (Vue)</h1>
             </div>
         <div class="flex-column flex-lg2x-row">
 
