@@ -14,7 +14,7 @@
                     </span>
                 </a> -->
                 <a class="nodeco letter-s-3 noborder n-tx tx-md n-flat clickable flex-center"
-                    href="https://www.gitbook.com/"  target="_blank"
+                    href="https://gamearteesan.gitbook.io/arteesan/"  target="_blank"
                     style="border-radius: 0 30px 30px 0"
                 >
                     <span class="px-5 pb-4 pt-3 opacity-hover-50">
