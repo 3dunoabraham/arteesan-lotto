@@ -75,33 +75,31 @@
                         abi: ['function placeBet(uint8 userNumber, uint256 betAmount) external'],
                         address: '0xfab5299d486725319aae4d02ee48500affa2d418',
                         function: 'placeBet',
-                        res_type: 'uint256',
                     }"
             />
         </div>
+        <!-- resolver = 0xd92d48E79Bb31E1de9BeA06611E60Ecd97A04cEA -->
         <div class="flex-wrap ">
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
-                        title: 'DAI Allowance to Roulette',
-                        form_args: form.rouletteAllowance,
-                        abi: ABIS.ERC20,
-                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                        function: 'allowance',
-                        res_type: 'uint256',
+                        title: 'requestResolveBet',
+                        form_args: form.requestResolveBet,
+                        abi: ['function requestResolveBet() external'],
+                        address: '0xfab5299d486725319aae4d02ee48500affa2d418',
+                        function: 'requestResolveBet',
                         button_only: true,
-                        call_only: true,
                     }"
             />
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
-                        title: 'Add DAI Allowance to Roulette',
-                        form_args: form.addRouletteAllowance,
-                        abi: ABIS.ERC20,
-                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                        function: 'approve',
-                        res_type: 'uint256',
+                        title: 'resolveBet',
+                        form_args: form.resolveBet,
+                        abi: ['function resolveBet(address userAddress) external returns (bool)'],
+                        address: '0xfab5299d486725319aae4d02ee48500affa2d418',
+                        function: 'resolveBet',
+                        button_only: true,
                     }"
             />
         </div>
@@ -138,6 +136,8 @@
                 loading: false,
                 form: {
                     approveCard: {"0": { value: CURRENT_NETWORK.CONTROLLER_ADDRESS, }, "1": { value: "", }, },
+                    requestResolveBet: {},
+                    resolveBet: {"0": { value: "", type: "address" }, },
                     increaseFunds: {"0": { value: "", type: "uint256" }, },
                     registeredFunds: {"0": { value: "", type: "address" }, },
                     rouletteAllowance: {"0": { value: "", type: "address" }, "1": { value: '0xfab5299d486725319aae4d02ee48500affa2d418', type: "address" }, },
@@ -170,6 +170,7 @@
             // this.form.rouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             // this.form.addRouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             this.form.DAIBalanceOf["0"].value = this.first_acc.address
+            this.form.resolveBet["0"].value = this.first_acc.address
         },
         methods: {
             async connectWallet() {

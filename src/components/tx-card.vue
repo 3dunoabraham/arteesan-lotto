@@ -2,7 +2,9 @@
     <div class="">
 
         <span v-if="!props.call_only">
-            <div v-if="!!props.title" class="tx-xs"> {{props.title}} </div>
+            <span v-if="!props.button_only">
+                <div v-if="!!props.title" class="tx-xs"> {{props.title}} </div>
+            </span>
         </span>
 
         <div v-if="togglers.advanced">
@@ -51,7 +53,14 @@
                     <span v-if="!props.button_only">get</span>
                     <span v-if="props.button_only"><i class="fa fa-redo"></i></span>
                 </span>
-                <span v-if="!props.call_only">send</span>
+                <span v-if="!props.call_only">
+                    <span v-if="props.button_only">
+                        <div v-if="!!props.title" class="tx-xs"> {{props.title}} </div>
+                    </span>
+                    <span v-if="!props.button_only">
+                        <div v-if="!!props.title" class="tx-xs"> send </div>
+                    </span>
+                </span>
             </div>
         </div>
 
@@ -182,120 +191,6 @@
             {
                 this.togglers.contractAbiAdvanced = !this.togglers.contractAbiAdvanced
             },
-            async getFarmsData()
-            {
-                this.loading = true
-                await this.$store.dispatch("refreshFarms")
-                this.loading = false
-            },
-            async giveAllowance()
-            {
-
-
-                let firstAddress = this.first_acc.address
-                const BLOCKCHAIN = this.$store.getters.newProvider
-                const USER_WALLET = await BLOCKCHAIN.getSigner()
-                let giverAddress = this.form.tokenOfallowance
-                const tokenContract = new Contract(giverAddress, ABIS.FRUIT, USER_WALLET)
-
-                console.log("giveAllowance . . .")
-                try {
-                    let transaction = await tokenContract.approve(this.form.allowanceAddress, ethers.constants.MaxUint256.toString())
-                    // let transaction = await fruitContract[this.form.functionName](this.form.arg1, ethers.constants.MaxUint256.toString())
-                    await transaction.wait()
-                    alert("done")
-                } catch (error)
-                {
-                    console.log("***error!!!")
-                    console.log(error)
-                }
-            },
-            async getAllowance()
-            {
-                let firstAddress = this.first_acc.address
-                const BLOCKCHAIN = this.$store.getters.newProvider
-                const USER_WALLET = await BLOCKCHAIN.getSigner()
-                console.log("getAllowance . . .")
-                console.log(this.form.tokenOfallowance, this.form.allowanceAddress)
-
-                let giverAddress = this.form.tokenOfallowance
-                const tokenContract = new Contract(giverAddress, ABIS.FRUIT, USER_WALLET)
-
-                try {
-                    let getbalance = await tokenContract.balanceOf(firstAddress)
-                    console.log("ethers.utils.formatEther(getbalance)", ethers.utils.formatEther(getbalance))
-                    let transaction = await tokenContract.allowance(firstAddress, this.form.allowanceAddress)
-                    // let transaction = await fruitContract[this.form.functionName](this.form.arg1, ethers.constants.MaxUint256.toString())
-                    // await transaction.wait()
-                    let allowanceNumber = ethers.utils.formatEther(transaction)
-                    this.theAllowanceNumber = allowanceNumber
-                } catch (error)
-                {
-                    console.log("***error!!!")
-                    console.log(error)
-                }
-            },
-            async addFarm()
-            {
-                let firstAddress = this.first_acc.address
-                const BLOCKCHAIN = this.$store.getters.newProvider
-                const USER_WALLET = await BLOCKCHAIN.getSigner()
-                const chefContract = new Contract(CURRENT_NETWORK.MASTERCHEF_ADDRESS, ABIS.MASTERCHEF, USER_WALLET)
-
-                console.log("asd")
-                try {
-                    let transaction = await chefContract.add(this.form.newFarmAlloc, this.form.newFarm, true)
-                    // let transaction = await fruitContract[this.form.functionName](this.form.arg1, ethers.constants.MaxUint256.toString())
-                    await transaction.wait()
-                    alert("done")
-                } catch (error)
-                {
-                    console.log("***error!!!")
-                    console.log(error)
-                }
-            },
-            async transferOwnershipCash()
-            {
-                let firstAddress = this.first_acc.address
-                const BLOCKCHAIN = this.$store.getters.newProvider
-                const USER_WALLET = await BLOCKCHAIN.getSigner()
-                const tokenContract = new Contract(CURRENT_NETWORK.CASH_ADDRESS, ABIS.FRUIT, USER_WALLET)
-
-                console.log(CURRENT_NETWORK.CASH_ADDRESS, "transferOwnershipCash", CURRENT_NETWORK.PRINTER_ADDRESS, tokenContract.transferOwnership)
-                try {
-                    // let owner = await tokenContract.owner()
-                    // console.log("owner: ", owner)
-                    let transaction = await tokenContract.transferOwnership(CURRENT_NETWORK.PRINTER_ADDRESS)
-                    // let transaction = await fruitContract[this.form.functionName](this.form.arg1, ethers.constants.MaxUint256.toString())
-                    await transaction.wait()
-                    alert("done")
-                } catch (error)
-                {
-                    console.log("***error!!!")
-                    console.log(error)
-                }
-            },
-            async transferOwnershipBond()
-            {
-                let firstAddress = this.first_acc.address
-                const BLOCKCHAIN = this.$store.getters.newProvider
-                const USER_WALLET = await BLOCKCHAIN.getSigner()
-                const tokenContract = new Contract(CURRENT_NETWORK.BOND_ADDRESS, ABIS.FRUIT, USER_WALLET)
-
-                console.log(CURRENT_NETWORK.BOND_ADDRESS, "transferOwnershipBond", CURRENT_NETWORK.PRINTER_ADDRESS)
-                try {
-                    let owner = await tokenContract.owner()
-                    console.log("owner: ", owner)
-                    let transaction = await tokenContract.transferOwnership(CURRENT_NETWORK.PRINTER_ADDRESS)
-                    // let transaction = await fruitContract[this.form.functionName](this.form.arg1, ethers.constants.MaxUint256.toString())
-                    await transaction.wait()
-                    alert("done")
-                } catch (error)
-                {
-                    console.log("***error!!!")
-                    console.log(error)
-                }
-            },
             async execute()
             {
                 console.log ("execute")
@@ -331,8 +226,8 @@
                     try {
                         let response = {}
 
-                    console.log ("this._parsedArgs")
-                    console.log (this._parsedArgs)
+                    // console.log ("this._parsedArgs")
+                    // console.log (this._parsedArgs)
                         let aTx = await theContract[this.form.functionName].apply(this, this._parsedArgs)
                         let aResult = await aTx.wait()
                         resolve(aResult)
@@ -348,7 +243,7 @@
 
                 let firstAddress = this.first_acc.address
                 const BLOCKCHAIN = this.$store.getters.newProvider
-                console.log(this.form.contractAddress, this.form.contractAbi, BLOCKCHAIN)
+                // console.log(this.form.functionName, this.form.contractAddress, this.form.contractAbi, BLOCKCHAIN)
 
                 const theContract = new Contract(this.form.contractAddress, this.form.contractAbi, BLOCKCHAIN)
 

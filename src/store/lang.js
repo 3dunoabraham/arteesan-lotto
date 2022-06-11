@@ -1,5 +1,6 @@
 export const LANG = {
 	EN: {
+		appDesc: "DApp Builder",
 		from: "from",
 		my: "My",
 		mys: "My",
@@ -55,6 +56,7 @@ export const LANG = {
 		switchTo: "Switch to",		
 	},
 	ES: {
+		appDesc: "DApp Builder",
 		from: "vender",
 		my: "Mi",
 		mys: "Mis",
