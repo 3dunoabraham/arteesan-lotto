@@ -77,6 +77,16 @@
                         function: 'placeBet',
                     }"
             />
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'betBulk',
+                        form_args: form.betBulk,
+                        abi: ['function betBulk(uint8 bulkOption, uint256 betAmount) external'],
+                        address: '0xfab5299d486725319aae4d02ee48500affa2d418',
+                        function: 'betBulk',
+                    }"
+            />
         </div>
         <!-- resolver = 0xd92d48E79Bb31E1de9BeA06611E60Ecd97A04cEA -->
         <div class="flex-wrap ">
@@ -102,6 +112,22 @@
                         button_only: true,
                     }"
             />
+        </div>
+        <hr class="w-50 opacity-10">
+        <div class="flex-wrap ">
+            <tx-card  class=" flex-column pa-5 ma-2" 
+                :props="
+                    {
+                        title: 'lastResultOf',
+                        form_args: form.lastResultOf,
+                        abi: ['function lastResultOf(address userAddress) public view returns (uint8)'],
+                        address: '0xfab5299d486725319aae4d02ee48500affa2d418',
+                        function: 'lastResultOf',
+                        res_type: 'uint',
+                        button_only: true,
+                        call_only: true,
+                    }"
+            /> 
         </div>
         <!-- <hr class="w-50 opacity-10">
         <div class="flex-wrap ">
@@ -140,12 +166,17 @@
                     resolveBet: {"0": { value: "", type: "address" }, },
                     increaseFunds: {"0": { value: "", type: "uint256" }, },
                     registeredFunds: {"0": { value: "", type: "address" }, },
+                    lastResultOf: {"0": { value: "", type: "address" }, },
                     rouletteAllowance: {"0": { value: "", type: "address" }, "1": { value: '0xfab5299d486725319aae4d02ee48500affa2d418', type: "address" }, },
                     addRouletteAllowance: {
                         "0": { value: "0xfab5299d486725319aae4d02ee48500affa2d418", type: "address" },
                         "1": { value: '', type: "uint256" },
                     },
                     placeBet: {
+                        "0": { value: "", type: "uint" },
+                        "1": { value: '', type: "uint256" },
+                    },
+                    betBulk: {
                         "0": { value: "", type: "uint" },
                         "1": { value: '', type: "uint256" },
                     },
@@ -167,6 +198,7 @@
         {
             this.form.registeredFunds["0"].value = this.first_acc.address
             this.form.rouletteAllowance["0"].value = this.first_acc.address
+            this.form.lastResultOf["0"].value = this.first_acc.address
             // this.form.rouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             // this.form.addRouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             this.form.DAIBalanceOf["0"].value = this.first_acc.address
