@@ -162,6 +162,10 @@
                 {
                     return parseDecimals(parseFloat(ethers.utils.formatEther(this.theResult)))
                 }
+                if (this.props.res_type == "uint")
+                {
+                    return parseInt(10**18*parseFloat(ethers.utils.formatEther(this.theResult).toString()))
+                }
 
                 return this.theResult
             },
@@ -203,11 +207,15 @@
                     {
                         this.theResult = await this.call()
                     } else {
-                        await this.tx()
+                        this.theResult = await this.tx()
                     }
                 } catch (error)
                 {
                     console.log("catched executing (error)")
+                    if (this.props.DEBUG)
+                    {
+                        console.log(error)
+                    }
                 }
 
                 this.loading = false
@@ -219,15 +227,15 @@
                 let firstAddress = this.first_acc.address
                 const BLOCKCHAIN = this.$store.getters.newProvider
                 const USER_WALLET = await BLOCKCHAIN.getSigner()
-
+                // console.log("contractAddress",  this.form.contractAddress)
                 const theContract = new Contract(this.form.contractAddress, this.form.contractAbi, USER_WALLET)
 
                 return new Promise(async (resolve, reject) => {
                     try {
                         let response = {}
 
-                    // console.log ("this._parsedArgs")
-                    // console.log (this._parsedArgs)
+                        // console.log ("this._parsedArgs")
+                        // console.log (this._parsedArgs)
                         let aTx = await theContract[this.form.functionName].apply(this, this._parsedArgs)
                         let aResult = await aTx.wait()
                         resolve(aResult)

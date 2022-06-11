@@ -22,6 +22,10 @@
                     <h1 class="mt-0 tx-center">Roulette </h1>
                     <roulette v-if="accs_length" />
                 </div>
+                <div class="n-inset border-r-50 ma-8 pa-4">
+                    <h1 class="mt-0 tx-center">Lotto </h1>
+                    <lotto v-if="accs_length" />
+                </div>
             </div>
             
         </div>
@@ -40,6 +44,7 @@
     import exchange from "./exchange.vue";
     import txMaker from "./tx-maker.vue";
     import roulette from "../modules/roulette.vue";
+    import lotto from "../modules/lotto.vue";
 
     import { ABIS, CURRENT_NETWORK } from '../store/constants';
 
@@ -50,6 +55,8 @@
 
             exchange,
             roulette,
+            lotto,
+
             txMaker,
             txCard,
 
