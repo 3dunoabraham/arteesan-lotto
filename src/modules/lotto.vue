@@ -63,6 +63,18 @@
                         form_args: form.addTargetAllowance,
                         abi: ABIS.ERC20,
                         address: CURRENT_NETWORK.DAO_ADDRESS,
+                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                        function: 'approve',
+                        res_type: 'uint256',
+                    }"
+            />
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'Add DAI Allowance to Roulette',
+                        form_args: form.addRouletteAllowance,
+                        abi: ABIS.ERC20,
+                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
                         function: 'approve',
                         res_type: 'uint256',
                     }"
