@@ -158,16 +158,29 @@
             },
             _parsedResult()
             {
-                if (this.props.res_type == "uint256")
+                let altResult = { ...this.theResult }
+                let altResType = this.props.res_type
+
+                if (this.props.res_type.indexOf("struct") >= 0)
                 {
-                    return parseDecimals(parseFloat(ethers.utils.formatEther(this.theResult)))
+                    console.log("found a struct", this.props.res_type.split(".")[1])
+                    altResult = {...this.theResult[this.props.res_type.split(".")[1]]}
+                    altResType = this.props.res_type.split(".")[2]
                 }
-                if (this.props.res_type == "uint")
+                if (altResType == "uint256")
                 {
-                    return parseInt(10**18*parseFloat(ethers.utils.formatEther(this.theResult).toString()))
+                    return parseDecimals(parseFloat(ethers.utils.formatEther(altResult)))
+                }
+                if (altResType == "uint")
+                {
+                    return parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString()))
+                }
+                if (altResType == "timestamp")
+                {
+                    return new Date(1000*parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString()))).toLocaleString("en-US")
                 }
 
-                return this.theResult
+                return altResult
             },
 		},
         mounted()
@@ -197,7 +210,6 @@
             },
             async execute()
             {
-                console.log ("execute")
                 if (this.loading) return
                 this.loading = true
 
@@ -212,10 +224,7 @@
                 } catch (error)
                 {
                     console.log("catched executing (error)")
-                    if (this.props.DEBUG)
-                    {
-                        console.log(error)
-                    }
+                    if (this.props.DEBUG) { console.log(error) }
                 }
 
                 this.loading = false
@@ -254,9 +263,11 @@
                 // console.log(this.form.functionName, this.form.contractAddress, this.form.contractAbi, BLOCKCHAIN)
 
                 const theContract = new Contract(this.form.contractAddress, this.form.contractAbi, BLOCKCHAIN)
+                // if (this.props.DEBUG) { console.table(this.form.contractAbi) }
 
                 return new Promise(async (resolve, reject) => {
                     try {
+                        if (this.props.DEBUG) { console.log(`calling ${this.form.functionName} | args:`, this._parsedArgs) }
                         let aTx = await theContract[this.form.functionName].apply(this, this._parsedArgs)
                         resolve(aTx)
                     } catch (error)
