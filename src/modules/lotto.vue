@@ -202,81 +202,44 @@
                     }"
             />
         </div>
-        <!-- <div class="flex-wrap ">
-            <tx-card  class=" flex-column pa-2 border-r-15 " 
-                :props="
-                    {
-                        title: 'Add DAI Allowance to target',
-                        form_args: form.addTargetAllowance,
-                        abi: ABIS.ERC20,
-                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                        function: 'approve',
-                        res_type: 'uint256',
-                    }"
-            />
-            <tx-card  class=" flex-column pa-2 border-r-15 " 
-                :props="
-                    {
-                        title: 'Increase Funds',
-                        form_args: form.increaseFunds,
-                        abi: ['function increaseFunds(uint256 amount) external'],
-                        address: '0xfab5299d486725319aae4d02ee48500affa2d418',
-                        function: 'increaseFunds',
-                        res_type: 'uint256',
-                    }"
-            /> 
-        </div>
         <hr class="w-50 opacity-10">
         <div class="flex-wrap ">
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
-                        title: 'placeBet',
-                        form_args: form.placeBet,
-                        abi: ['function placeBet(uint8 userNumber, uint256 betAmount) external'],
-                        address: '0xfab5299d486725319aae4d02ee48500affa2d418',
-                        function: 'placeBet',
+                        title: 'withdrawFromProposal',
+                        form_args: form.withdrawFromProposal,
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'withdrawFromProposal',
                     }"
             />
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
-                        title: 'betBulk',
-                        form_args: form.betBulk,
-                        abi: ['function betBulk(uint8 bulkOption, uint256 betAmount) external'],
-                        address: '0xfab5299d486725319aae4d02ee48500affa2d418',
-                        function: 'betBulk',
+                        title: 'get Requester',
+                        form_args: {},
+                        abi: ABIS.RESOLVER,
+                        address: CURRENT_NETWORK.RESOLVER_ADDRESS,
+                        function: 'requester',
+                        res_type: 'address',
+                        button_only: true,
+                        call_only: true,
+                        DEBUG: true,
+                    }"
+            />
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'set Requester',
+                        form_args: form.setRequester,
+                        abi: ABIS.RESOLVER,
+                        address: CURRENT_NETWORK.RESOLVER_ADDRESS,
+                        function: 'setRequester',
+                        DEBUG: true,
                     }"
             />
         </div>
-        <div class="flex-wrap ">
-            <tx-card  class=" flex-column pa-5 ma-2" 
-                :props="
-                    {
-                        title: 'lastResultOf',
-                        form_args: form.lastResultOf,
-                        abi: ['function lastResultOf(address userAddress) public view returns (uint8)'],
-                        address: '0xfab5299d486725319aae4d02ee48500affa2d418',
-                        function: 'lastResultOf',
-                        res_type: 'uint',
-                        button_only: true,
-                        call_only: true,
-                    }"
-            /> 
-        </div> -->
-        <!-- <hr class="w-50 opacity-10">
-        <div class="flex-wrap ">
-            <tx-card  class=" flex-column pa-2 border-r-15 " 
-                :props="
-                    {
-                        title: 'Get Pair',
-                        abi: ABIS.FACTORY,
-                        form_args: form.getPair,
-                        function: 'getPair',
-                        call_only: true,
-                    }"
-            /> 
-        </div> -->
     </div>
 </template>
 <script>
@@ -307,6 +270,9 @@
                     increaseFunds: {"0": { value: "", type: "uint256" }, },
                     registeredFunds: {"0": { value: "", type: "address" }, },
                     lastResultOf: {"0": { value: "", type: "address" }, },
+                    setRequester: {
+                        "0": { value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
+                    },
                     targetAllowance: {
                         "0": { value: "", type: "address" },
                         "1": { value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },

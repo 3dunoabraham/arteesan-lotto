@@ -1,10 +1,12 @@
 // import 
 import * as TheOpenFarmDAO from './ABIS/TheOpenFarmDAO.json';
 import * as TheOpenFarmDAOsLotto from './ABIS/TheOpenFarmDAOsLotto.json';
+import * as VRFv2Consumer from './ABIS/VRFv2Consumer.json';
 
 export const ABIS = {
   DAO: TheOpenFarmDAO.abi,
   LOTTO: TheOpenFarmDAOsLotto.abi,
+  RESOLVER: VRFv2Consumer.abi,
 
   ROUTER: [
     'function getAmountsOut(uint amountIn, address[] memory path) public view returns(uint[] memory amounts)',
