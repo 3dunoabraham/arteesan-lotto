@@ -33,7 +33,17 @@
 
         <div class="flex-column" v-if="_formArgKeys.length && !props.button_only">
             <template v-for="arg in _formArgKeys">
-                <input type="text" v-model="props.form_args[arg].value"              class=" tx-primary n-inset noborder pa-1 flex-1" :placeholder="'arg #'+arg">
+                
+                <div v-if="props.form_args[arg].type == 'address'" class="tx-xs ">
+                    {{shortAddressSpaced(props.form_args[arg].value)}}
+                </div>
+                <div class="flex" >
+                    <div v-if="togglers.advanced && props.form_args[arg].label" class="tx-xs "> {{props.form_args[arg].label}} </div>
+                    <input type="text" v-model="props.form_args[arg].value"
+                        :class="[props.form_args[arg].type == 'address' ? 'tx-xs mb-2' : '']"
+                        class=" tx-primary n-inset noborder pa-1 flex-1" :placeholder="'arg #'+arg"
+                    >
+                </div>
             </template>
         </div>
         
@@ -76,7 +86,7 @@
 <script>
     import { ethers, Contract }  from 'ethers';
     import { ABIS, CURRENT_NETWORK } from '../store/constants';
-    import { parseDecimals, ERROR_HELPER, shortAddress } from '../store/helpers';
+    import { parseDecimals, ERROR_HELPER, shortAddress, shortAddressSpaced } from '../store/helpers';
     import newItem from "../components/new-item.vue";
     import farmItem from "../components/farm-item.vue";
 
@@ -179,6 +189,11 @@
                 {
                     return parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString()))
                 }
+                if (altResType == "address")
+                {
+                    // if (this.props.DEBUG) { console.log(`found an address`, altResult) }
+                    return this.theResult
+                }
                 if (altResType == "timestamp")
                 {
                     if (this.props.DEBUG)
@@ -199,6 +214,8 @@
             this.form.args = {...this.props.form_args}
         },
 		methods: {
+            shortAddress,
+            shortAddressSpaced,
             parseDecimals,
             isFarmStake(poolLp)
             {

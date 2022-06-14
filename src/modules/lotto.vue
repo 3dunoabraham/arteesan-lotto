@@ -187,33 +187,31 @@
                         abi: ABIS.DAO,
                         address: CURRENT_NETWORK.DAO_ADDRESS,
                         function: 'executeProposal',
-                        DEBUG: true,
                     }"
             />
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
-                        title: 'test proposal',
-                        form_args: form.executeTest,
-                        abi: ABIS.DAO,
-                        address: CURRENT_NETWORK.DAO_ADDRESS,
-                        function: 'executeTest',
-                        DEBUG: true,
+                        title: 'requestResolveRound',
+                        form_args: form.requestResolveRound,
+                        abi: ABIS.LOTTO,
+                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                        function: 'requestResolveRound',
+                    }"
+            />
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'resolveBet',
+                        form_args: form.resolveBet,
+                        abi: ABIS.LOTTO,
+                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                        function: 'resolveBet',
                     }"
             />
         </div>
         <hr class="w-50 opacity-10">
         <div class="flex-wrap ">
-            <tx-card  class=" flex-column pa-2 border-r-15 " 
-                :props="
-                    {
-                        title: 'withdrawFromProposal',
-                        form_args: form.withdrawFromProposal,
-                        abi: ABIS.DAO,
-                        address: CURRENT_NETWORK.DAO_ADDRESS,
-                        function: 'withdrawFromProposal',
-                    }"
-            />
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
@@ -225,7 +223,6 @@
                         res_type: 'address',
                         button_only: true,
                         call_only: true,
-                        DEBUG: true,
                     }"
             />
             <tx-card  class=" flex-column pa-2 border-r-15 " 
@@ -236,7 +233,21 @@
                         abi: ABIS.RESOLVER,
                         address: CURRENT_NETWORK.RESOLVER_ADDRESS,
                         function: 'setRequester',
+                    }"
+            />
+        </div>
+        <hr class="w-50 opacity-10">
+        <div class="flex-wrap ">
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'getVoteResult',
+                        form_args: form.getVoteResult,
+                        abi: ABIS.LOTTO,
+                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                        function: 'getVoteResult',
                         DEBUG: true,
+                        advanced: true,
                     }"
             />
         </div>
@@ -261,57 +272,61 @@
                 form: {
                     createProposal: {"0": { value: "", type: "uint" }, },
 
-                    approveCard: {"0": { value: CURRENT_NETWORK.CONTROLLER_ADDRESS, }, "1": { value: "", }, },
-                    requestResolveBet: {},
-                    resolveBet: {"0": { value: "", type: "address" }, },
-                    withdrawFromProposal: {"0": { value: "", type: "uint" }, },
-                    executeTest: {"0": { value: "", type: "uint" }, },
-                    executeProposal: {"0": { value: "", type: "uint" }, },
-                    increaseFunds: {"0": { value: "", type: "uint256" }, },
-                    registeredFunds: {"0": { value: "", type: "address" }, },
-                    lastResultOf: {"0": { value: "", type: "address" }, },
+                    approveCard: {"0": { label:`value: CURRENT_NETWORK.CONTROLLER_ADDRESS`,value: CURRENT_NETWORK.CONTROLLER_ADDRESS, }, "1": { label:`value: "",`,value: "", }, },
+                    withdrawFromProposal: {"0": { label:`value: "",`,value: "", type: "uint" }, },
+                    requestResolveRound: {"0": { label:`value: "",`,value: "", type: "uint" }, },
+                    resolveBet: {"0": { label:`value: "",`,value: "", type: "uint" }, },
+                    executeProposal: {"0": { label:`value: "",`,value: "", type: "uint" }, },
+                    increaseFunds: {"0": { label:`value: "",`,value: "", type: "uint256" }, },
+                    registeredFunds: {"0": { label:`value: "",`,value: "", type: "address" }, },
+                    lastResultOf: {"0": { label:`value: "",`,value: "", type: "address" }, },
                     setRequester: {
-                        "0": { value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
+                        "0": { label:`value: CURRENT_NETWORK.LOTTO_ADDRESS`,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
+                    },
+                    getVoteResult: {
+                        "0": { label:`value: "",`,value: "", type: "uint" },
+                        "1": { label:`value: "",`,value: "", type: "uint" },
+                        "2": { label:`value: "",`,value: "", type: "address" },
                     },
                     targetAllowance: {
-                        "0": { value: "", type: "address" },
-                        "1": { value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                        "0": { label:`value: "",`,value: "", type: "address" },
+                        "1": { label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
                     },
                     transferOwnership: {
-                        "0": { value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                        "0": { label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
                     },
                     getProposalPropertyDeadline: {
-                        "0": { value: '', type: "uint" },
+                        "0": { label:`value: '',`,value: '', type: "uint" },
                     },
                     getProposalPropertyAmount: {
-                        "0": { value: '', type: "uint" },
+                        "0": { label:`value: '',`,value: '', type: "uint" },
                     },
                     getProposalPropertyAmountVotes: {
-                        "0": { value: '', type: "uint" },
+                        "0": { label:`value: '',`,value: '', type: "uint" },
                     },
                     getProposalPropertyAmountRequired: {
-                        "0": { value: '', type: "uint" },
+                        "0": { label:`value: '',`,value: '', type: "uint" },
                     },
                     addTargetAllowance: {
-                        "0": { value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
-                        "1": { value: '', type: "uint256" },
+                        "0": { label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                        "1": { label:`value: '',`,value: '', type: "uint256" },
                     },
                     placeBet: {
-                        "0": { value: "", type: "uint" },
-                        "1": { value: '', type: "uint256" },
+                        "0": { label:`value: "",`,value: "", type: "uint" },
+                        "1": { label:`value: '',`,value: '', type: "uint256" },
                     },
                     betBulk: {
-                        "0": { value: "", type: "uint" },
-                        "1": { value: '', type: "uint256" },
+                        "0": { label:`value: "",`,value: "", type: "uint" },
+                        "1": { label:`value: '',`,value: '', type: "uint256" },
                     },
                     voteOnProposal: {
-                        "0": { value: "", type: "uint" },
-                        "1": { value: '', type: "uint" },
+                        "0": { label:`value: "",`,value: "", type: "uint" },
+                        "1": { label:`value: '',`,value: '', type: "uint" },
                     },
-                    DAIBalanceOf: {"0": { value: "", type: "address" }, },
+                    DAIBalanceOf: {"0": { label:`value: "",`,value: "", type: "address" }, },
                     getPair: {
-                        "0": { value: "", type: "address" },
-                        "1": { value: "", type: "address" },
+                        "0": { label:`value: "",`,value: "", type: "address" },
+                        "1": { label:`value: "",`,value: "", type: "address" },
                     },
                 },
             };
@@ -330,7 +345,7 @@
             // this.form.targetAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             // this.form.addRouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             this.form.DAIBalanceOf["0"].value = this.first_acc.address
-            this.form.resolveBet["0"].value = this.first_acc.address
+            this.form.getVoteResult["2"].value = this.first_acc.address
         },
         methods: {
             async connectWallet() {
