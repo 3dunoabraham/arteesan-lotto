@@ -1,9 +1,11 @@
 // import 
 import * as TheOpenFarmDAO from './ABIS/TheOpenFarmDAO.json';
+import * as TheOpenFarmDAOsLotto from './ABIS/TheOpenFarmDAOsLotto.json';
 
 export const ABIS = {
   DAO: TheOpenFarmDAO.abi,
-  
+  LOTTO: TheOpenFarmDAOsLotto.abi,
+
   ROUTER: [
     'function getAmountsOut(uint amountIn, address[] memory path) public view returns(uint[] memory amounts)',
     'function swapExactTokensForTokens(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline) external returns (uint[] memory amounts)',
@@ -335,8 +337,8 @@ export const maticNetworkNew = {
   RESERVE_ADDRESS: '0xaF44DFE0130f175148Ee0D7D722aA4f06F6D2203',
 
   RESOLVER_ADDRESS: '0x79E47D2e40c96e7B1Ac3220B9Fe1a31573F1f948',
-  LOTTO_ADDRESS: '0xC55d9fc8D95e3B98FE55bAd48f0626aCe6208bD8',
-  DAO_ADDRESS: '0xa3770ef6F35bD88bE4dda981ABaEDD84f6Fd9790',
+  LOTTO_ADDRESS: '0x31A6DCA98B864333B7Fa8AaD8982b29E3af1c02F',
+  DAO_ADDRESS: '0xD845E5E918B383c10A52497CC17843c509546EeD',
 
   ROULETTE_ADDRESS: '0xfab5299d486725319aae4d02ee48500affa2d418',
   ROULETTE_RESOLVER_ADDRESS: '0xd92d48E79Bb31E1de9BeA06611E60Ecd97A04cEA',

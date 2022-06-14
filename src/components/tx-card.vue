@@ -163,9 +163,13 @@
 
                 if (this.props.res_type.indexOf("struct") >= 0)
                 {
-                    console.log("found a struct", this.props.res_type.split(".")[1])
+                    if (this.props.DEBUG) { console.log(`found a struct`, altResult) }
                     altResult = {...this.theResult[this.props.res_type.split(".")[1]]}
                     altResType = this.props.res_type.split(".")[2]
+                    if (this.props.DEBUG)
+                    {
+                        console.log(`getting ${this.props.res_type.split(".")[1]} | type ${altResType}`)
+                    }
                 }
                 if (altResType == "uint256")
                 {
@@ -177,6 +181,10 @@
                 }
                 if (altResType == "timestamp")
                 {
+                    if (this.props.DEBUG)
+                    {
+                        console.log("timestamp", ethers.utils.formatEther(altResult), parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString())))
+                    }
                     return new Date(1000*parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString()))).toLocaleString("en-US")
                 }
 

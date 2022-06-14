@@ -53,17 +53,59 @@
                         call_only: true,
                     }"
             />
+        </div>
+        <hr class="w-50 opacity-10">
+        <div class="flex-wrap ">
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
                         title: 'getDeadline ',
-                        form_args: form.getDeadline,
+                        form_args: form.getProposalPropertyDeadline,
                         abi: ABIS.DAO,
                         address: CURRENT_NETWORK.DAO_ADDRESS,
                         function: 'proposals',
                         res_type: 'struct.deadline.timestamp',
                         call_only: true,
-                        DEBUG: true,
+                    }"
+            />
+        </div>
+        <div class="flex-wrap ">
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'amountOf tokens ',
+                        form_args: form.getProposalPropertyAmount,
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'proposals',
+                        res_type: 'struct.amountOfTokens.uint256',
+                        call_only: true,
+                    }"
+            />
+            | 
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'amountOf votes ',
+                        form_args: form.getProposalPropertyAmountVotes,
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'proposals',
+                        res_type: 'struct.amountOfVotes.uint',
+                        call_only: true,
+                    }"
+            />
+            /
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'amountOfvotes required',
+                        form_args: form.getProposalPropertyAmountRequired,
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'proposals',
+                        res_type: 'struct.amountOfVotesRequired.uint',
+                        call_only: true,
                     }"
             />
         </div>
@@ -77,6 +119,17 @@
                         abi: ABIS.ERC20,
                         address: CURRENT_NETWORK.BASE_USD_ADDRESS,
                         function: 'approve',
+                        res_type: 'uint256',
+                    }"
+            />
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'transferOwnership to dao',
+                        form_args: form.transferOwnership,
+                        abi: ABIS.LOTTO,
+                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                        function: 'transferOwnership',
                         res_type: 'uint256',
                     }"
             />
@@ -119,11 +172,32 @@
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
+                        title: 'withdrawFromProposal',
+                        form_args: form.withdrawFromProposal,
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'withdrawFromProposal',
+                    }"
+            />
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
                         title: 'execute proposal',
                         form_args: form.executeProposal,
                         abi: ABIS.DAO,
                         address: CURRENT_NETWORK.DAO_ADDRESS,
                         function: 'executeProposal',
+                        DEBUG: true,
+                    }"
+            />
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'test proposal',
+                        form_args: form.executeTest,
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'executeTest',
                         DEBUG: true,
                     }"
             />
@@ -227,6 +301,8 @@
                     approveCard: {"0": { value: CURRENT_NETWORK.CONTROLLER_ADDRESS, }, "1": { value: "", }, },
                     requestResolveBet: {},
                     resolveBet: {"0": { value: "", type: "address" }, },
+                    withdrawFromProposal: {"0": { value: "", type: "uint" }, },
+                    executeTest: {"0": { value: "", type: "uint" }, },
                     executeProposal: {"0": { value: "", type: "uint" }, },
                     increaseFunds: {"0": { value: "", type: "uint256" }, },
                     registeredFunds: {"0": { value: "", type: "address" }, },
@@ -235,7 +311,19 @@
                         "0": { value: "", type: "address" },
                         "1": { value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
                     },
-                    getDeadline: {
+                    transferOwnership: {
+                        "0": { value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                    },
+                    getProposalPropertyDeadline: {
+                        "0": { value: '', type: "uint" },
+                    },
+                    getProposalPropertyAmount: {
+                        "0": { value: '', type: "uint" },
+                    },
+                    getProposalPropertyAmountVotes: {
+                        "0": { value: '', type: "uint" },
+                    },
+                    getProposalPropertyAmountRequired: {
                         "0": { value: '', type: "uint" },
                     },
                     addTargetAllowance: {
