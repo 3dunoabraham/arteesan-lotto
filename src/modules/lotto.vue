@@ -267,6 +267,19 @@
                         advanced: true,
                     }"
             />
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'getVoteResult',
+                        form_args: form.getVoteResult,
+                        abi: ABIS.LOTTO,
+                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                        function: 'getVoteResult',
+                        DEBUG: true,
+                        res_type: 'uint',
+                        advanced: true,
+                    }"
+            />
         </div>
     </div>
 </template>
@@ -299,6 +312,11 @@
                     lastResultOf: {"0": { label:`value: "",`,value: "", type: "address" }, },
                     setRequester: {
                         "0": { label:`value: CURRENT_NETWORK.LOTTO_ADDRESS`,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
+                    },
+                    getVoteResult: {
+                        "0": { label:`value: "",`,value: "", type: "uint" },
+                        "1": { label:`value: "",`,value: "", type: "uint" },
+                        "2": { label:`value: "",`,value: "", type: "address" },
                     },
                     getVoterVoteIndex: {
                         "0": { label:`value: "",`,value: "", type: "uint" },
@@ -366,6 +384,7 @@
             // this.form.addRouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             this.form.DAIBalanceOf["0"].value = this.first_acc.address
             this.form.getVoterVoteIndex["1"].value = this.first_acc.address
+            this.form.getVoteResult["2"].value = this.first_acc.address
         },
         methods: {
             async connectWallet() {
