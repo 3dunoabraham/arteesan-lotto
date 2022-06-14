@@ -16,14 +16,29 @@
             <div v-if="accs_length">
                 <div class="n-inset border-r-50 ma-8 pa-4">
                     <h1 class="mt-0 tx-center">Exchange </h1>
+                    <h6 class="my-0 tx-center ">
+                        <a href="https://github.com/arteesanio/OpenFarm-WebDApp-V1" target="_blank" class="tx-primary">
+                            Webb Dapp Github
+                        </a>
+                    </h6>
+                    <h6 class="my-0 tx-center">
+                        <a href="https://github.com/arteesanio/OpenFarm-Bank-Contracts" target="_blank" class="tx-primary">
+                            Bank Contracts Github
+                        </a>
+                    </h6>
                     <exchange ref="exchange"/>
                 </div>
                 <div class="n-inset border-r-50 ma-8 pa-4">
                     <h1 class="mt-0 tx-center">Roulette </h1>
                     <roulette v-if="accs_length" />
                 </div>
-                <div class="n-inset border-r-50 ma-8 pa-4">
+                <div class="n-inset border-r-50 ma-8 pa-4 ">
                     <h1 class="mt-0 tx-center">Lotto </h1>
+                    <h6 class="my-0 tx-center ">
+                        <a href="https://github.com/arteesanio/OpenFarm-Lotto-Contracts" target="_blank" class="tx-primary">
+                            Contracts Github
+                        </a>
+                    </h6>
                     <lotto v-if="accs_length" />
                 </div>
             </div>

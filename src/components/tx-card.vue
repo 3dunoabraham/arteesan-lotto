@@ -56,7 +56,16 @@
 
         <div class="pa-2 ma-2 mb-0 tx-sm flex" :class="[_valid ? 'n-flat opacity-hover-75 clickable border-r-15' : 'border-r-5 noclick nocursor n-flat-disabled']" @click="execute">
             <div v-if="loading">
-                <i class="fas fa-circle-notch spin-spin"></i>
+                <!-- <i class="fas fa-sync tx-success spin-spin" ></i> -->
+                <div v-if="props.call_only">
+                    <i class="fas fa-cloud-download-alt hover-hover tx-tertiary"></i>
+                </div>
+                <div v-if="!props.call_only">
+                    <i class="fas fa-file-signature shake-shake tx-secondary"></i>
+                </div>
+                <!-- <div v-if="!props.button_only">
+                    <i class="fas fa-ellipsis-h spin-spin"></i>
+                </div> -->
             </div>
             <div v-if="!loading">
                 <span v-if="props.call_only">

@@ -82,7 +82,22 @@
                         call_only: true,
                     }"
             />
-            | 
+            /
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'amountOf tokens required',
+                        form_args: form.amountOfTokensRequired,
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'proposals',
+                        res_type: 'struct.amountOfTokensRequired.uint256',
+                        call_only: true,
+                    }"
+            />
+            |
+        </div>
+        <div class="flex-wrap ">
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
@@ -241,12 +256,14 @@
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
-                        title: 'getVoteResult',
-                        form_args: form.getVoteResult,
-                        abi: ABIS.LOTTO,
-                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                        function: 'getVoteResult',
+                        title: 'getVoterVoteIndex',
+                        form_args: form.getVoterVoteIndex,
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'getVoterVoteIndex',
                         DEBUG: true,
+                        call_only: true,
+                        res_type: 'uint',
                         advanced: true,
                     }"
             />
@@ -283,10 +300,10 @@
                     setRequester: {
                         "0": { label:`value: CURRENT_NETWORK.LOTTO_ADDRESS`,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
                     },
-                    getVoteResult: {
+                    getVoterVoteIndex: {
                         "0": { label:`value: "",`,value: "", type: "uint" },
-                        "1": { label:`value: "",`,value: "", type: "uint" },
-                        "2": { label:`value: "",`,value: "", type: "address" },
+                        // "1": { label:`value: "",`,value: "", type: "uint" },
+                        "1": { label:`value: "",`,value: "", type: "address" },
                     },
                     targetAllowance: {
                         "0": { label:`value: "",`,value: "", type: "address" },
@@ -305,6 +322,9 @@
                         "0": { label:`value: '',`,value: '', type: "uint" },
                     },
                     getProposalPropertyAmountRequired: {
+                        "0": { label:`value: '',`,value: '', type: "uint" },
+                    },
+                    amountOfTokensRequired: {
                         "0": { label:`value: '',`,value: '', type: "uint" },
                     },
                     addTargetAllowance: {
@@ -345,7 +365,7 @@
             // this.form.targetAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             // this.form.addRouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             this.form.DAIBalanceOf["0"].value = this.first_acc.address
-            this.form.getVoteResult["2"].value = this.first_acc.address
+            this.form.getVoterVoteIndex["1"].value = this.first_acc.address
         },
         methods: {
             async connectWallet() {

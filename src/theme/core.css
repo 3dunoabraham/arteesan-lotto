@@ -3,6 +3,16 @@
 .spin-nback { animation: spinnback 4s;  animation-iteration-count: infinite }
 @keyframes spinnback { 0%{ transform: rotate(-90deg); } 50% { transform: rotate(-450deg); } 100% { transform: rotate(-90deg); } }
 
+.shake-shake { animation: shakeshake 2s;  animation-iteration-count: infinite }
+@keyframes shakeshake { 0%{ transform: rotate(0deg); } 35%{ transform: rotate(-5deg); } 50% { transform: rotate(15deg); } 100% { transform: rotate(0deg); } }
+.shake-nback { animation: shakenback 4s;  animation-iteration-count: infinite }
+@keyframes shakenback { 0%{ transform: rotate(-0deg); } 50% { transform: rotate(-450deg); } 100% { transform: rotate(-0deg); } }
+
+.hover-hover { animation: hoverhover 2s;  animation-iteration-count: infinite }
+@keyframes hoverhover { 0%{ transform: translateY(0px); } 20% { transform: translateY(-3px); } 80% { transform: translateY(6px); } 100% { transform: translateY(0px); } }
+.hover-nhover { animation: hovernback 2s;  animation-iteration-count: infinite }
+@keyframes hovernback { 0%{ transform: translateY(0px); } 50% { transform: translateY(9px); } 100% { transform: translateY(0px); } }
+
 .flex { display: flex }
 .flex-center { display: flex; justify-content: center; align-items: center }
 .flex-row { display: flex; flex-direction: row; justify-content: center; align-items: center }
