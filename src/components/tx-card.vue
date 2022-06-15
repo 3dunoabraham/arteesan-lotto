@@ -203,6 +203,14 @@
                     // if (this.props.DEBUG) { console.log(`found an address`, altResult) }
                     return this.theResult
                 }
+                if (altResType == "word")
+                {
+                    // if (this.props.DEBUG) { console.log(`found an address`, altResult) }
+                    console.log(altResult, "ethers.utils.formatEther(altResult) % 1443", parseFloat(ethers.utils.formatEther(altResult)) % 1443)
+                    console.log(ethers.utils.parseEther(ethers.utils.formatEther(altResult).toString()).mod(1443).toString())
+                    console.log(ethers.utils.parseEther(ethers.utils.formatEther(altResult).toString()).mod(1443).toString())
+                    return ethers.utils.formatEther(altResult) % 1443
+                }
                 if (altResType == "timestamp")
                 {
                     if (this.props.DEBUG)

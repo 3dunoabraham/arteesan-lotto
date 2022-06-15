@@ -68,6 +68,18 @@
                         call_only: true,
                     }"
             />
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'get randomResult ',
+                        form_args: form.getProposalPropertyResult,
+                        abi: ABIS.LOTTO,
+                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                        function: 'gameRounds',
+                        res_type: 'struct.randomResult.uint',
+                        call_only: true,
+                    }"
+            />
         </div>
         <div class="flex-wrap ">
             <tx-card  class=" flex-column pa-2 border-r-15 " 
@@ -187,11 +199,11 @@
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
-                        title: 'withdrawFromProposal',
+                        title: 'withdrawFrom failed Proposal',
                         form_args: form.withdrawFromProposal,
                         abi: ABIS.DAO,
                         address: CURRENT_NETWORK.DAO_ADDRESS,
-                        function: 'withdrawFromProposal',
+                        function: 'withdrawFromFailedProposal',
                     }"
             />
             <tx-card  class=" flex-column pa-2 border-r-15 " 
@@ -230,6 +242,18 @@
             <tx-card  class=" flex-column pa-2 border-r-15 " 
                 :props="
                     {
+                        title: 'get randomRequests',
+                        form_args: form.randomRequests,
+                        abi: ABIS.LOTTO,
+                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                        function: 'randomRequests',
+                        res_type: 'uint',
+                        call_only: true,
+                    }"
+            />
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
                         title: 'get Requester',
                         form_args: {},
                         abi: ABIS.RESOLVER,
@@ -248,6 +272,21 @@
                         abi: ABIS.RESOLVER,
                         address: CURRENT_NETWORK.RESOLVER_ADDRESS,
                         function: 'setRequester',
+                    }"
+            />
+            <br>
+            <hr>
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 's_randomWords',
+                        form_args: form.randomWords,
+                        abi: ABIS.RESOLVER,
+                        address: CURRENT_NETWORK.RESOLVER_ADDRESS,
+                        function: 's_randomWords',
+                        res_type: 'word',
+                        DEBUG: true,
+                        call_only: true,
                     }"
             />
         </div>
@@ -280,6 +319,19 @@
                         advanced: true,
                     }"
             />
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'getVoteRedeemd',
+                        form_args: form.getVoteRedeemd,
+                        abi: ABIS.LOTTO,
+                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                        function: 'getVoteRedeemd',
+                        DEBUG: true,
+                        res_type: 'word',
+                        call_only: true,
+                    }"
+            />
         </div>
     </div>
 </template>
@@ -305,13 +357,19 @@
                     approveCard: {"0": { label:`value: CURRENT_NETWORK.CONTROLLER_ADDRESS`,value: CURRENT_NETWORK.CONTROLLER_ADDRESS, }, "1": { label:`value: "",`,value: "", }, },
                     withdrawFromProposal: {"0": { label:`value: "",`,value: "", type: "uint" }, },
                     requestResolveRound: {"0": { label:`value: "",`,value: "", type: "uint" }, },
+                    randomRequests: {"0": { label:`value: "",`,value: "", type: "uint" }, },
                     resolveBet: {"0": { label:`value: "",`,value: "", type: "uint" }, },
                     executeProposal: {"0": { label:`value: "",`,value: "", type: "uint" }, },
                     increaseFunds: {"0": { label:`value: "",`,value: "", type: "uint256" }, },
                     registeredFunds: {"0": { label:`value: "",`,value: "", type: "address" }, },
                     lastResultOf: {"0": { label:`value: "",`,value: "", type: "address" }, },
+                    randomWords: {"0": { label:`value: "",`,value: "", type: "uint" }, },
                     setRequester: {
                         "0": { label:`value: CURRENT_NETWORK.LOTTO_ADDRESS`,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
+                    },
+                    getVoteRedeemd: {
+                        "0": { label:`value: "",`,value: "", type: "uint" },
+                        "1": { label:`value: "",`,value: "", type: "uint" },
                     },
                     getVoteResult: {
                         "0": { label:`value: "",`,value: "", type: "uint" },
@@ -329,6 +387,9 @@
                     },
                     transferOwnership: {
                         "0": { label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                    },
+                    getProposalPropertyResult: {
+                        "0": { label:`value: '',`,value: '', type: "uint" },
                     },
                     getProposalPropertyDeadline: {
                         "0": { label:`value: '',`,value: '', type: "uint" },
