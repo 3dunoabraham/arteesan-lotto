@@ -124,7 +124,6 @@
                         address: '0xfab5299d486725319aae4d02ee48500affa2d418',
                         function: 'lastResultOf',
                         res_type: 'uint',
-                        button_only: true,
                         call_only: true,
                     }"
             /> 
@@ -198,7 +197,7 @@
         {
             this.form.registeredFunds["0"].value = this.first_acc.address
             this.form.rouletteAllowance["0"].value = this.first_acc.address
-            this.form.lastResultOf["0"].value = this.first_acc.address
+            // this.form.lastResultOf["0"].value = this.first_acc.address
             // this.form.rouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             // this.form.addRouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             this.form.DAIBalanceOf["0"].value = this.first_acc.address

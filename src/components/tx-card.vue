@@ -1,15 +1,17 @@
 <template>
     <div class="">
 
-        <span v-if="!props.call_only" :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']">
-            <span v-if="!props.button_only" class="clickable " @click="toggleShowLess">
+        <span v-if="!props.call_only" >
+            <span v-if="!props.button_only" @click="toggleShowLess"
+                :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']" class="clickable "
+            >
                 <div v-if="!!props.title" class="tx-xs "> {{props.title}} </div>
             </span>
         </span>
 
         <div v-if="togglers.show_more" >
 
-            <div v-if="togglers.advanced" class="n-flat pa-2 mt-1 border-r-5">
+            <div v-if="togglers.advanced" class=" pa-2 mt-1 border-r-5">
                 <div v-if="!props.abi"> Contract abi: </div>
 
                 <div v-if="props.abi"  class="tx-sm">
@@ -25,7 +27,7 @@
                 </div>
             </div>
 
-            <div v-if="!props.abi || !props.address || !props.function" class="flex-wrap mt-3 n-flat pa-2 mt-1 border-r-5">
+            <div v-if="!props.abi || !props.address || !props.function" class="flex-wrap mt-3  pa-2 mt-1 border-r-5">
                 <div class="flex-center">
                     <input v-if="!props.abi" style="max-width: 40px;" type="text" v-model="form.contractAbi"       class=" tx-primary n-inset noborder pa-1 ma-3" placeholder="abi">
                     <input v-if="!props.address" style="width: 120px" type="text" v-model="form.contractAddress"   class=" tx-primary n-inset noborder pa-1 " placeholder="address">
@@ -33,6 +35,21 @@
                 <input v-if="!props.function" style="width: 80px" type="text" v-model="form.functionName"      class=" tx-primary n-inset noborder pa-1 " placeholder="function">
             </div>
 
+        </div>
+        
+        <span v-if="props.call_only" class=" flex-column" >
+            <div v-if="!!props.title"  @click="toggleShowLess"
+                :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']" class="tx-xs clickable "
+            >
+                {{props.title}}
+            </div>
+            <div v-if="!props.title"> Response </div>
+
+            <span v-if="theResult" class="mx-2">{{_parsedResult}}</span>
+            
+        </span>
+
+        <div v-if="togglers.show_more" >
             <div v-if="_formArgKeys.length && !props.button_only" class="flex-column n-flat pa-2 mt-1 border-r-5">
                 <template v-for="arg in _formArgKeys">
                     
@@ -49,16 +66,8 @@
                 </template>
             </div>
         </div>
-        
-        <span v-if="props.call_only" class="clickable flex-column" :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']">
-            <div v-if="!!props.title" class="tx-xs clickable " @click="toggleShowLess" > {{props.title}} </div>
-            <div v-if="!props.title"> Response </div>
 
-            <span v-if="theResult" class="mx-2">{{_parsedResult}}</span>
-            
-        </span>
-
-        <div v-if="togglers.show_more" class="n-flat pa-2 mt-1 border-r-5">
+        <div v-if="togglers.show_more" class=" pa-2 mt-1 border-r-5">
 
             <div class="pa-2 ma-2 mb-0 tx-sm flex" :class="[_valid ? 'n-flat opacity-hover-75 clickable border-r-15' : 'border-r-5 noclick nocursor n-flat-disabled']" @click="execute">
                 <div v-if="loading">
