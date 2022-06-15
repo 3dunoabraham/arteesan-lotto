@@ -332,6 +332,19 @@
                         call_only: true,
                     }"
             />
+            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                :props="
+                    {
+                        title: 'getVoterAmountOfVotes',
+                        form_args: form.getVoterAmountOfVotes,
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'getVoterAmountOfVotes',
+                        DEBUG: true,
+                        res_type: 'uint',
+                        call_only: true,
+                    }"
+            />
         </div>
     </div>
 </template>
@@ -370,6 +383,10 @@
                     getVoteRedeemd: {
                         "0": { label:`value: "",`,value: "", type: "uint" },
                         "1": { label:`value: "",`,value: "", type: "uint" },
+                    },
+                    getVoterAmountOfVotes: {
+                        "0": { label:`value: "",`,value: "", type: "uint" },
+                        "1": { label:`value: "",`,value: "", type: "address" },
                     },
                     getVoteResult: {
                         "0": { label:`value: "",`,value: "", type: "uint" },
@@ -444,6 +461,7 @@
             // this.form.targetAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             // this.form.addRouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             this.form.DAIBalanceOf["0"].value = this.first_acc.address
+            this.form.getVoterAmountOfVotes["1"].value = this.first_acc.address
             this.form.getVoterVoteIndex["1"].value = this.first_acc.address
             this.form.getVoteResult["2"].value = this.first_acc.address
         },

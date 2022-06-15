@@ -46,7 +46,8 @@
                 >
                     {{props.title}}
                 </div>
-                <i v-if="loading" class="fas fa-cloud-download-alt tx-xs tx-success hover-hover" ></i>
+                <i v-if="loading" :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']"
+                    class="fas fa-cloud-download-alt tx-xs hover-hover" ></i>
             </div>
             <div v-if="!props.title"> Response </div>
             <span v-if="theResult" class="mx-2">{{_parsedResult}}</span>
@@ -77,7 +78,7 @@
             <div class="pa-2 ma-2 mb-0 tx-sm flex" :class="[_valid ? 'n-flat opacity-hover-75 clickable border-r-15' : 'border-r-5 noclick nocursor n-flat-disabled']" @click="execute">
                 <div v-if="loading">
                     <div v-if="props.call_only">
-                        <i class="fas fa-cloud-download-alt hover-hover tx-tertiary"></i>
+                        <i class="fas fa-cloud-download-alt hover-hover " :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']"></i>
                     </div>
                     <div v-if="!props.call_only">
                         <i class="fas fa-file-signature shake-shake tx-secondary"></i>
