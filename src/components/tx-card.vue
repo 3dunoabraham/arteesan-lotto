@@ -65,6 +65,7 @@
                     <div class="flex" v-if="true">
                         <div v-if="togglers.advanced && props.form_args[arg].label" class="tx-xs "> {{props.form_args[arg].label}} </div>
                         <input type="text" v-model="props.form_args[arg].value"
+                            style="width: 80px" 
                             :class="[props.form_args[arg].type == 'address' ? 'tx-xs mb-2' : '']"
                             class=" tx-primary n-inset noborder pa-1 flex-1" :placeholder="'arg #'+arg"
                         >
