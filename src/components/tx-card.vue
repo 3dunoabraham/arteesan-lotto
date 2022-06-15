@@ -1,95 +1,102 @@
 <template>
     <div class="">
 
-        <span v-if="!props.call_only">
-            <span v-if="!props.button_only">
-                <div v-if="!!props.title" class="tx-xs"> {{props.title}} </div>
+        <span v-if="!props.call_only" :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']">
+            <span v-if="!props.button_only" class="clickable " @click="toggleShowLess">
+                <div v-if="!!props.title" class="tx-xs "> {{props.title}} </div>
             </span>
         </span>
 
-        <div v-if="togglers.advanced">
-            <div v-if="!props.abi"> Contract abi: </div>
+        <div v-if="togglers.show_more" >
 
-            <div v-if="props.abi"  class="tx-sm">
-                <span>ABI functions: {{props.abi.length}}</span>
-            </div>
-            <div v-if="props.address" style="max-width: 200px;" class="tx-sm">
-                <span>Contract Address:</span>
-                <div class="py-2" style="overflow-x: scroll;"> <small class="tx-xs">{{props.address}}</small> </div>
-            </div>
-            <div v-if="props.function" class="tx-xs my-2">
-                <span>method:</span>
-                <small class="ml-2">{{props.function}}</small>
-            </div>
-        </div>
+            <div v-if="togglers.advanced" class="n-flat pa-2 mt-1 border-r-5">
+                <div v-if="!props.abi"> Contract abi: </div>
 
-        <div class="flex-wrap mt-3" v-if="!props.abi || !props.address || !props.function">
-            <div class="flex-center">
-                <input v-if="!props.abi" style="max-width: 40px;" type="text" v-model="form.contractAbi"       class=" tx-primary n-inset noborder pa-1 ma-3" placeholder="abi">
-                <input v-if="!props.address" style="width: 120px" type="text" v-model="form.contractAddress"   class=" tx-primary n-inset noborder pa-1 " placeholder="address">
-            </div>
-            <input v-if="!props.function" style="width: 80px" type="text" v-model="form.functionName"      class=" tx-primary n-inset noborder pa-1 " placeholder="function">
-        </div>
-
-        <div class="flex-column" v-if="_formArgKeys.length && !props.button_only">
-            <template v-for="arg in _formArgKeys">
-                
-                <div v-if="props.form_args[arg].type == 'address'" class="tx-xs ">
-                    {{shortAddressSpaced(props.form_args[arg].value)}}
+                <div v-if="props.abi"  class="tx-sm">
+                    <span>ABI functions: {{props.abi.length}}</span>
                 </div>
-                <div class="flex" >
-                    <div v-if="togglers.advanced && props.form_args[arg].label" class="tx-xs "> {{props.form_args[arg].label}} </div>
-                    <input type="text" v-model="props.form_args[arg].value"
-                        :class="[props.form_args[arg].type == 'address' ? 'tx-xs mb-2' : '']"
-                        class=" tx-primary n-inset noborder pa-1 flex-1" :placeholder="'arg #'+arg"
-                    >
+                <div v-if="props.address" style="max-width: 200px;" class="tx-sm">
+                    <span>Contract Address:</span>
+                    <div class="py-2" style="overflow-x: scroll;"> <small class="tx-xs">{{props.address}}</small> </div>
                 </div>
-            </template>
+                <div v-if="props.function" class="tx-xs my-2">
+                    <span>method:</span>
+                    <small class="ml-2">{{props.function}}</small>
+                </div>
+            </div>
+
+            <div v-if="!props.abi || !props.address || !props.function" class="flex-wrap mt-3 n-flat pa-2 mt-1 border-r-5">
+                <div class="flex-center">
+                    <input v-if="!props.abi" style="max-width: 40px;" type="text" v-model="form.contractAbi"       class=" tx-primary n-inset noborder pa-1 ma-3" placeholder="abi">
+                    <input v-if="!props.address" style="width: 120px" type="text" v-model="form.contractAddress"   class=" tx-primary n-inset noborder pa-1 " placeholder="address">
+                </div>
+                <input v-if="!props.function" style="width: 80px" type="text" v-model="form.functionName"      class=" tx-primary n-inset noborder pa-1 " placeholder="function">
+            </div>
+
+            <div v-if="_formArgKeys.length && !props.button_only" class="flex-column n-flat pa-2 mt-1 border-r-5">
+                <template v-for="arg in _formArgKeys">
+                    
+                    <div v-if="props.form_args[arg].type == 'address'" class="tx-xs ">
+                        {{shortAddressSpaced(props.form_args[arg].value)}}
+                    </div>
+                    <div class="flex" v-if="true">
+                        <div v-if="togglers.advanced && props.form_args[arg].label" class="tx-xs "> {{props.form_args[arg].label}} </div>
+                        <input type="text" v-model="props.form_args[arg].value"
+                            :class="[props.form_args[arg].type == 'address' ? 'tx-xs mb-2' : '']"
+                            class=" tx-primary n-inset noborder pa-1 flex-1" :placeholder="'arg #'+arg"
+                        >
+                    </div>
+                </template>
+            </div>
         </div>
         
-        <span v-if="props.call_only" class="flex-column">
-            <div v-if="!!props.title" class="tx-xs"> {{props.title}} </div>
+        <span v-if="props.call_only" class="clickable flex-column" :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']">
+            <div v-if="!!props.title" class="tx-xs clickable " @click="toggleShowLess" > {{props.title}} </div>
             <div v-if="!props.title"> Response </div>
 
             <span v-if="theResult" class="mx-2">{{_parsedResult}}</span>
+            
         </span>
 
-        <div class="pa-2 ma-2 mb-0 tx-sm flex" :class="[_valid ? 'n-flat opacity-hover-75 clickable border-r-15' : 'border-r-5 noclick nocursor n-flat-disabled']" @click="execute">
-            <div v-if="loading">
-                <!-- <i class="fas fa-sync tx-success spin-spin" ></i> -->
-                <div v-if="props.call_only">
-                    <i class="fas fa-cloud-download-alt hover-hover tx-tertiary"></i>
-                </div>
-                <div v-if="!props.call_only">
-                    <i class="fas fa-file-signature shake-shake tx-secondary"></i>
-                </div>
-                <!-- <div v-if="!props.button_only">
-                    <i class="fas fa-ellipsis-h spin-spin"></i>
-                </div> -->
-            </div>
-            <div v-if="!loading">
-                <span v-if="props.call_only">
-                    <span v-if="!props.button_only">get</span>
-                    <span v-if="props.button_only"><i class="fa fa-redo"></i></span>
-                </span>
-                <span v-if="!props.call_only">
-                    <span v-if="props.button_only">
-                        <div v-if="!!props.title" class="tx-xs"> {{props.title}} </div>
-                    </span>
-                    <span v-if="!props.button_only">
-                        <div v-if="!!props.title" class="tx-xs"> send </div>
-                    </span>
-                </span>
-            </div>
-        </div>
+        <div v-if="togglers.show_more" class="n-flat pa-2 mt-1 border-r-5">
 
-        <div  v-if="props.advanced" class="flex-center">
-            <span @click="toggleAdvanced" class=" clickable letter-s-3  opacity-hover-50 tx-center pa-2 flex tx-xs">
-                <span v-if="!togglers.advanced" class="tx-tertiary">Show more</span>
-                <span v-if="togglers.advanced" class="tx-sm opacity-50">Show less</span>
-            </span>
-        </div>
+            <div class="pa-2 ma-2 mb-0 tx-sm flex" :class="[_valid ? 'n-flat opacity-hover-75 clickable border-r-15' : 'border-r-5 noclick nocursor n-flat-disabled']" @click="execute">
+                <div v-if="loading">
+                    <!-- <i class="fas fa-sync tx-success spin-spin" ></i> -->
+                    <div v-if="props.call_only">
+                        <i class="fas fa-cloud-download-alt hover-hover tx-tertiary"></i>
+                    </div>
+                    <div v-if="!props.call_only">
+                        <i class="fas fa-file-signature shake-shake tx-secondary"></i>
+                    </div>
+                    <!-- <div v-if="!props.button_only">
+                        <i class="fas fa-ellipsis-h spin-spin"></i>
+                    </div> -->
+                </div>
+                <div v-if="!loading">
+                    <span v-if="props.call_only">
+                        <span v-if="!props.button_only">get</span>
+                        <span v-if="props.button_only"><i class="fa fa-redo"></i></span>
+                    </span>
+                    <span v-if="!props.call_only">
+                        <span v-if="props.button_only" :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']">
+                            <div v-if="!!props.title" class="tx-xs" > {{props.title}} </div>
+                        </span>
+                        <span v-if="!props.button_only">
+                            <div v-if="!!props.title" class="tx-xs"> send </div>
+                        </span>
+                    </span>
+                </div>
+            </div>
 
+            <div  v-if="props.advanced" class="flex-center">
+                <span @click="toggleAdvanced" class=" clickable letter-s-3  opacity-hover-50 tx-center pa-2 flex tx-xs">
+                    <span v-if="!togglers.advanced" class="tx-tertiary">Show more</span>
+                    <span v-if="togglers.advanced" class="tx-sm opacity-50">Show less</span>
+                </span>
+            </div>
+
+        </div>
     </div>
 </template>
 <script>
@@ -116,6 +123,8 @@
                 togglers: {
                     advanced: false,
                     contractAbiAdvanced: false,
+                    hideFilledArgs: false,
+                    show_more: false,
                 },
                 theAllowanceNumber: "",
                 form: {
@@ -234,6 +243,18 @@
             shortAddress,
             shortAddressSpaced,
             parseDecimals,
+
+            toggleShowLess()
+            {
+                console.log("this.togglers.show_more", this.togglers.show_more)
+                this.togglers.show_more = !this.togglers.show_more
+                console.log("this.togglers.show_more", this.togglers.show_more)
+                if (this.togglers.show_more)
+                {
+                    if (this._valid) this.execute()
+                }
+            },
+
             isFarmStake(poolLp)
             {
                 return CURRENT_NETWORK.FRUIT_ADDRESS.toUpperCase() == this.pools[poolLp].lpToken.toUpperCase()
