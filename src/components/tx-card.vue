@@ -3,9 +3,11 @@
 
         <span v-if="!props.call_only" >
             <span v-if="!props.button_only" @click="toggleShowLess"
-                :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']" class="clickable "
+                :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']" class="clickable flex-row nowrap"
             >
                 <div v-if="!!props.title" class="tx-xs "> {{props.title}} </div>
+                <i v-if="loading"  class="tx-xs fa fa-file-signature shake-shake"></i>
+
             </span>
         </span>
 
@@ -38,14 +40,17 @@
         </div>
         
         <span v-if="props.call_only" class=" flex-column" >
-            <div v-if="!!props.title"  @click="toggleShowLess"
-                :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']" class="tx-xs clickable "
-            >
-                {{props.title}}
+            <div class="flex-row">
+                <div v-if="!!props.title"  @click="toggleShowLess"
+                    :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']" class="tx-xs clickable "
+                >
+                    {{props.title}}
+                </div>
+                <i v-if="loading" class="fas fa-cloud-download-alt tx-xs tx-success hover-hover" ></i>
             </div>
             <div v-if="!props.title"> Response </div>
-
             <span v-if="theResult" class="mx-2">{{_parsedResult}}</span>
+            
             
         </span>
 
@@ -71,16 +76,12 @@
 
             <div class="pa-2 ma-2 mb-0 tx-sm flex" :class="[_valid ? 'n-flat opacity-hover-75 clickable border-r-15' : 'border-r-5 noclick nocursor n-flat-disabled']" @click="execute">
                 <div v-if="loading">
-                    <!-- <i class="fas fa-sync tx-success spin-spin" ></i> -->
                     <div v-if="props.call_only">
                         <i class="fas fa-cloud-download-alt hover-hover tx-tertiary"></i>
                     </div>
                     <div v-if="!props.call_only">
                         <i class="fas fa-file-signature shake-shake tx-secondary"></i>
                     </div>
-                    <!-- <div v-if="!props.button_only">
-                        <i class="fas fa-ellipsis-h spin-spin"></i>
-                    </div> -->
                 </div>
                 <div v-if="!loading">
                     <span v-if="props.call_only">
@@ -88,8 +89,14 @@
                         <span v-if="props.button_only"><i class="fa fa-redo"></i></span>
                     </span>
                     <span v-if="!props.call_only">
-                        <span v-if="props.button_only" :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']">
-                            <div v-if="!!props.title" class="tx-xs" > {{props.title}} </div>
+                        <span v-if="props.button_only"
+                            :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']"
+                            class=" flex nowrap"
+                        >
+                            <div v-if="!!props.title" class="tx-xs" >
+                                {{props.title}}
+                            </div>
+                            <i v-if="loading">loading adv show args</i>
                         </span>
                         <span v-if="!props.button_only">
                             <div v-if="!!props.title" class="tx-xs"> send </div>
