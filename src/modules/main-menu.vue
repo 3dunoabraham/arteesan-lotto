@@ -13,10 +13,13 @@
                         <i class="fab fa-telegram"></i>
                     </span>
                 </a> -->
-                <a class="nodeco letter-s-3 noborder n-tx tx-md n-flat clickable flex-center"
+                <a class="nodeco letter-s-3 noborder n-tx tx-md n-flat clickable flex-column"
                     href="https://gamearteesan.gitbook.io/arteesan/"  target="_blank"
                     style="border-radius: 0 30px 30px 0"
                 >
+                    <!-- <img src="res/aaa.png" class="nocursor noclick"
+                        style=" width: 50px; height: 50px"
+                    > -->
                     <span class="px-5 pb-4 pt-3 opacity-hover-50">
                         <i class="mr-2 fas fa-external-link-alt"></i> Docs
                     </span>
