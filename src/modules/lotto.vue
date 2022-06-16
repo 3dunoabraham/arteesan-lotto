@@ -285,6 +285,19 @@
                                     call_only: true,
                                 }"
                         />
+                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                            :props="
+                                {
+                                    title: 'wonAmount',
+                                    form_args: form.wonAmount,
+                                    abi: ABIS.LOTTO,
+                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                    function: 'wonAmount',
+                                    DEBUG: true,
+                                    res_type: 'uint',
+                                    call_only: true,
+                                }"
+                        />
                 </div>
                 <div class="flex-column n-flat mx-2 pa-2">
                     <h4 class="tx-ls-3 my-2 tx-center">ACT ON PROPOSAL </h4>
@@ -431,6 +444,11 @@
                     setRequester: {                        
                         "0": {placeholder:"",label:`value: CURRENT_NETWORK.LOTTO_ADDRESS`,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
                     },
+                    wonAmount: {                        
+                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        
+                        "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
+                    },
                     getVoteScratchedNumber: {                        
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                         
@@ -542,6 +560,7 @@
                 this.form.getVoterVoteIndex ["0"].value = this.form.proposalIndexRead
                 this.form.getVoteRedeemd ["0"].value = this.form.proposalIndexRead
                 this.form.getVoteScratchedNumber ["0"].value = this.form.proposalIndexRead
+                this.form.wonAmount ["0"].value = this.form.proposalIndexRead
                 this.form.getVoterAmountOfVotes ["0"].value = this.form.proposalIndexRead
             },
             setProposalIndexInAct() {
