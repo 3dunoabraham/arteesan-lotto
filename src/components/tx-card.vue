@@ -66,6 +66,7 @@
                         <div v-if="togglers.advanced && props.form_args[arg].label" class="tx-xs "> {{props.form_args[arg].label}} </div>
                         <input type="text" v-model="props.form_args[arg].value"
                             style="width: 80px" 
+                            :placeholder="props.form_args[arg].placeholder"
                             :class="[props.form_args[arg].type == 'address' ? 'tx-xs mb-2' : '']"
                             class=" tx-primary n-inset noborder pa-1 flex-1" :placeholder="'arg #'+arg"
                         >
@@ -264,9 +265,9 @@
 
             toggleShowLess()
             {
-                console.log("this.togglers.show_more", this.togglers.show_more)
+                // console.log("this.togglers.show_more", this.togglers.show_more)
                 this.togglers.show_more = !this.togglers.show_more
-                console.log("this.togglers.show_more", this.togglers.show_more)
+                // console.log("this.togglers.show_more", this.togglers.show_more)
                 if (this.togglers.show_more)
                 {
                     if (this._valid) this.execute()
