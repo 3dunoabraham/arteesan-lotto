@@ -259,6 +259,16 @@
                                 }"
                         />
                     </div>
+                    <hr class="w-50 opacity-10">
+                    <small class="tx-xs mb-1 tx-ls-1">setVotePos</small>
+                    <div class="flex-row nowrap">
+                        <input type="text" name="" v-model="form.votePos" class="n-flat noborder pa-2 n-tx" style="width: 60px">
+                        <div class="clickable n-flat pa-2"
+                            @click="setVotePos"
+                        >
+                            set
+                        </div>
+                    </div>
                         <tx-card  class=" flex-column pa-2 border-r-15 " 
                             :props="
                                 {
@@ -292,14 +302,14 @@
                                     form_args: form.wonAmount,
                                     abi: ABIS.LOTTO,
                                     address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                    function: 'wonAmount',
+                                    function: 'getWonAmount',
                                     DEBUG: true,
-                                    res_type: 'uint',
+                                    res_type: 'uint256',
                                     call_only: true,
                                 }"
                         />
                 </div>
-                <div class="flex-column n-flat mx-2 pa-2">
+                <div class="flex-column  n-flat mx-2 pa-2">
                     <h4 class="tx-ls-3 my-2 tx-center">ACT ON PROPOSAL </h4>
                     <small class="tx-xs mb-1 tx-ls-1">setProposalIndexInAct</small>
                     <div class="flex-row nowrap">
@@ -407,6 +417,7 @@
                 form: {
                     proposalIndexAct: "",
                     proposalIndexRead: "",
+                    votePos: "",
 
                     createProposal: {"0": { placeholder: "min. votes", value: "", type: "uint" }, },
 
@@ -562,6 +573,11 @@
                 this.form.getVoteScratchedNumber ["0"].value = this.form.proposalIndexRead
                 this.form.wonAmount ["0"].value = this.form.proposalIndexRead
                 this.form.getVoterAmountOfVotes ["0"].value = this.form.proposalIndexRead
+            },
+            setVotePos() {
+                this.form.wonAmount["1"].value = this.form.votePos
+                this.form.getVoteScratchedNumber["1"].value = this.form.votePos
+                this.form.getVoteRedeemd["1"].value = this.form.votePos
             },
             setProposalIndexInAct() {
                 this.form.voteOnProposal ["0"].value = this.form.proposalIndexAct
