@@ -1,6 +1,6 @@
 <template>
     <div class="">
-
+        {{props.advanced ? "*" : ""}}
         <span v-if="!props.call_only" >
             <span v-if="!props.button_only" @click="toggleShowLess"
                 :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']" class="clickable flex-row nowrap"
@@ -68,7 +68,7 @@
                             style="width: 80px" 
                             :placeholder="props.form_args[arg].placeholder"
                             :class="[props.form_args[arg].type == 'address' ? 'tx-xs mb-2' : '']"
-                            class=" tx-primary n-inset noborder pa-1 flex-1" :placeholder="'arg #'+arg"
+                            class=" tx-primary n-inset noborder pa-1 flex-1" 
                         >
                     </div>
                 </template>
