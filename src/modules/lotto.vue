@@ -308,6 +308,18 @@
                                     call_only: true,
                                 }"
                         />
+                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                            :props="
+                                {
+                                    title: 'withdrawAmount',
+                                    form_args: form.withdrawAmount,
+                                    abi: ABIS.LOTTO,
+                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                    function: 'withdrawAmount',
+                                    DEBUG: true,
+                                    res_type: 'uint256',
+                                }"
+                        />
                 </div>
                 <div class="flex-column  n-flat mx-2 pa-2">
                     <h4 class="tx-ls-3 my-2 tx-center">ACT ON PROPOSAL </h4>
@@ -455,6 +467,12 @@
                     setRequester: {                        
                         "0": {placeholder:"",label:`value: CURRENT_NETWORK.LOTTO_ADDRESS`,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
                     },
+                    withdrawAmount: {                        
+                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        
+                        "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
+                        "2": {placeholder:"voter address",label:`value: "",`,value: "", type: "address" },
+                    },
                     wonAmount: {                        
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                         
@@ -553,6 +571,7 @@
             this.form.getVoterAmountOfVotes["1"].value = this.first_acc.address
             this.form.getVoterVoteIndex["1"].value = this.first_acc.address
             this.form.getVoteResult["2"].value = this.first_acc.address
+            this.form.withdrawAmount["2"].value = this.first_acc.address
         },
         methods: {
             async connectWallet() {
@@ -573,11 +592,13 @@
                 this.form.getVoteScratchedNumber ["0"].value = this.form.proposalIndexRead
                 this.form.wonAmount ["0"].value = this.form.proposalIndexRead
                 this.form.getVoterAmountOfVotes ["0"].value = this.form.proposalIndexRead
+                this.form.withdrawAmount["0"].value = this.form.proposalIndexRead
             },
             setVotePos() {
                 this.form.wonAmount["1"].value = this.form.votePos
                 this.form.getVoteScratchedNumber["1"].value = this.form.votePos
                 this.form.getVoteRedeemd["1"].value = this.form.votePos
+                this.form.withdrawAmount["1"].value = this.form.votePos
             },
             setProposalIndexInAct() {
                 this.form.voteOnProposal ["0"].value = this.form.proposalIndexAct
