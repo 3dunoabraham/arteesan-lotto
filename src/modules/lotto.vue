@@ -344,20 +344,38 @@
                                 function: 'voteOnProposal',
                             }"
                     />
-                    <div class="flex-column ">
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
-                            :props="
-                                {
-                                    title: 'getVoteResult',
-                                    form_args: form.getVoteResult,
-                                    abi: ABIS.LOTTO,
-                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                    function: 'getVoteResult',
-                                    DEBUG: true,
-                                    res_type: 'uint',
-                                    advanced: true,
-                                }"
-                        />
+                    <div class="flex-column n-flat">
+                        <div class="flex-column ">
+                            make_multicall
+                            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                                :props="
+                                    {
+                                        title: 'getVoteResultMulticall',
+                                        form_args: form.getVoteResultMulticall,
+                                        abi: ABIS.LOTTO,
+                                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                        function: 'getVoteResult',
+                                        DEBUG: true,
+                                        res_type: 'uint',
+                                        advanced: true,
+                                        make_multicall: true,
+                                    }"
+                            />
+                        </div>
+                        <div class="flex-column ">
+                            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                                :props="
+                                    {
+                                        title: 'getVoteResult',
+                                        form_args: form.getVoteResult,
+                                        abi: ABIS.LOTTO,
+                                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                        function: 'getVoteResult',
+                                        DEBUG: true,
+                                        res_type: 'uint',
+                                    }"
+                            />
+                        </div>
                     </div>
 
                     <hr class="w-50 opacity-10">
@@ -414,6 +432,12 @@
     import txCard from "../components/tx-card.vue";
 
     import { ABIS, CURRENT_NETWORK } from '../store/constants';
+
+    import {
+      Multicall,
+    } from 'ethereum-multicall';
+    import { ethers } from 'ethers';
+
 
     export default {
         name: 'lotto',     
@@ -500,6 +524,13 @@
                         
                         "2": {placeholder:"",label:`value: "",`,value: "", type: "address" },
                     },
+                    getVoteResultMulticall: {                        
+                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        
+                        "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "range:uint" },
+                        
+                        "2": {placeholder:"",label:`value: "",`,value: "", type: "address" },
+                    },
                     getVoterVoteIndex: {                        
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                         // 
@@ -558,6 +589,7 @@
             LANG()                  { return this.$store.getters.LANG },
             accs_length()           { return this.$store.getters.accs_length },
             first_acc()             { return this.$store.getters.first_acc },
+
             
         },
         mounted()
@@ -571,9 +603,82 @@
             this.form.getVoterAmountOfVotes["1"].value = this.first_acc.address
             this.form.getVoterVoteIndex["1"].value = this.first_acc.address
             this.form.getVoteResult["2"].value = this.first_acc.address
+            this.form.getVoteResultMulticall["2"].value = this.first_acc.address
             this.form.withdrawAmount["2"].value = this.first_acc.address
         },
         methods: {
+            rangeGetVoteResult()
+            {
+                return []
+            },
+            async makeMultiCall()
+            {
+
+                let provider = ethers.getDefaultProvider();
+
+                // you can use any ethers provider context here this example is
+                // just shows passing in a default provider, ethers hold providers in
+                // other context like wallet, signer etc all can be passed in as well.
+                const multicall = new Multicall({ ethersProvider: provider, tryAggregate: true });
+
+                const contractCallContext = [
+                    {
+                        reference: 'testContract',
+                        contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
+                        abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
+                        calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
+                    },
+                    {
+                        reference: 'testContract2',
+                        contractAddress: '0x66BF8e2E890eA0392e158e77C6381b34E0771318',
+                        abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256', name: "path", "type": "address[]" }] } ],
+                        calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }]
+                    }
+                ];
+
+                const results = await multicall.call(contractCallContext);
+                console.log(results);
+
+                // results:
+                // {
+                //   results: {
+                //       testContract: {
+                //           originalContractCallContext:  {
+                //             reference: 'testContract',
+                //             contractAddress: '0x6795b15f3b16Cf8fB3E56499bbC07F6261e9b0C3',
+                //             abi: [ { name: 'foo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256' }] } ],
+                //             calls: [{ reference: 'fooCall', methodName: 'foo', methodParameters: [42] }]
+                //           },
+                //           callsReturnContext: [{
+                //               returnValues: [{ amounts: BigNumber }],
+                //               decoded: true,
+                //               reference: 'fooCall',
+                //               methodName: 'foo',
+                //               methodParameters: [42],
+                //               success: true
+                //           }]
+                //       },
+                //       testContract2: {
+                //           originalContractCallContext:  {
+                //             reference: 'testContract2',
+                //             contractAddress: '0x66BF8e2E890eA0392e158e77C6381b34E0771318',
+                //             abi: [ { name: 'fooTwo', type: 'function', inputs: [ { name: 'example', type: 'uint256' } ], outputs: [ { name: 'amounts', type: 'uint256[]' ] } ],
+                //             calls: [{ reference: 'fooTwoCall', methodName: 'fooTwo', methodParameters: [42] }]
+                //           },
+                //           callsReturnContext: [{
+                //               returnValues: [{ amounts: [BigNumber, BigNumber, BigNumber] }],
+                //               decoded: true,
+                //               reference: 'fooCall',
+                //               methodName: 'foo',
+                //               methodParameters: [42],
+                //               success: true
+                //           }]
+                //       }
+                //   },
+                //   blockNumber: 10994677
+                // }
+
+            },
             async connectWallet() {
                 await this.$store.dispatch("connectWallet")
                 // this.$refs.exchange.getTradeData(true)
@@ -603,6 +708,7 @@
             setProposalIndexInAct() {
                 this.form.voteOnProposal ["0"].value = this.form.proposalIndexAct
                 this.form.getVoteResult ["0"].value = this.form.proposalIndexAct
+                this.form.getVoteResultMulticall ["0"].value = this.form.proposalIndexAct
 
                 this.form.withdrawFromProposal ["0"].value = this.form.proposalIndexAct
 

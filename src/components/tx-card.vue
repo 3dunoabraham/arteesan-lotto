@@ -63,6 +63,7 @@
                         {{shortAddressSpaced(props.form_args[arg].value)}}
                     </div>
                     <div class="flex" v-if="true">
+                        <b v-if="props.form_args[arg].type.substr(0,5) == 'range'" class="tx-xs "> R: </b>
                         <div v-if="togglers.advanced && props.form_args[arg].label" class="tx-xs "> {{props.form_args[arg].label}} </div>
                         <input type="text" v-model="props.form_args[arg].value"
                             style="width: 80px" 
@@ -124,6 +125,10 @@
     import { parseDecimals, ERROR_HELPER, shortAddress, shortAddressSpaced } from '../store/helpers';
     import newItem from "../components/new-item.vue";
     import farmItem from "../components/farm-item.vue";
+
+    import {
+      Multicall,
+    } from 'ethereum-multicall';
 
 	export default {   
         name: 'tx-maker',     
@@ -263,6 +268,26 @@
             shortAddressSpaced,
             parseDecimals,
 
+
+            parseMultiArg(_arg, _index, _ref = [])
+            {
+                console.log("parseMultiArg",_arg, _index, )
+                let newArgs = []
+
+                if (_arg.type.split(":")[1] == "uint")
+                {
+                    let initIndex = parseInt(_arg.value.split(",")[0])
+                    let maxIndex = parseInt(_arg.value.split(",")[1])
+                    for (var i = initIndex - 1; i < maxIndex; i++)
+                    {
+                        console.log("initIndex", initIndex, i)
+                        newArgs.push(i + 1)
+                    }
+                }
+
+                return newArgs
+            },
+
             toggleShowLess()
             {
                 // console.log("this.togglers.show_more", this.togglers.show_more)
@@ -292,16 +317,20 @@
             },
             async execute()
             {
+                let txArgs = this._parsedArgs
+                if (this.props.make_multicall) return this.executeMulticall(txArgs)
+
                 if (this.loading) return
                 this.loading = true
+
 
                 try
                 {
                     if (this.props.call_only)
                     {
-                        this.theResult = await this.call()
+                        this.theResult = await this.call(txArgs)
                     } else {
-                        this.theResult = await this.tx()
+                        this.theResult = await this.tx(txArgs)
                     }
                 } catch (error)
                 {
@@ -311,7 +340,50 @@
 
                 this.loading = false
             },
-            async tx()
+            async executeMulticall(_args)
+            {
+                console.log("executeMulticall")
+
+                if (this.loading) return
+                this.loading = true
+
+                this._formArgKeys
+                let rangeVariable = 0
+                // let newArgs = [...this._parsedArgs]
+
+                for (var i = 0; i < this._formArgKeys.length; i++)
+                {
+                    console.log("looking for  range")
+                    if (this.form.args[i].type.substr(0,5) == "range")
+                    {
+                        console.log("found range")
+                        // rangeVariable = i
+                        let argList = this.parseMultiArg(this.form.args[i], i)
+                        console.log("argList")
+                        console.log(argList)
+                        this.loading = false
+                        // newArgs[i] = theNewArg
+
+                        try
+                        {
+                            if (this.props.call_only)
+                            {
+                                // this.theResult = await this.call(newArgs)
+                            } else {
+                                this.theResult = await this.multiTx(_args, i, argList)
+
+                            }
+                        } catch (error)
+                        {
+                            console.log("catched executing (error)")
+                            if (this.props.DEBUG) { console.log(error) }
+                        }
+                    }
+                }
+
+                this.loading = false
+            },
+            async tx(_args)
             {
                 if (!this.first_acc) return
 
@@ -327,7 +399,7 @@
 
                         // console.log ("this._parsedArgs")
                         // console.log (this._parsedArgs)
-                        let aTx = await theContract[this.form.functionName].apply(this, this._parsedArgs)
+                        let aTx = await theContract[this.form.functionName].apply(this, _args)
                         let aResult = await aTx.wait()
                         resolve(aResult)
                     } catch (error)
@@ -336,7 +408,88 @@
                     }
                 })
             },
-            async call()
+            async multiTx(_args, index, _ref = [])
+            {
+                if (!this.first_acc) return
+
+                let firstAddress = this.first_acc.address
+                const BLOCKCHAIN = this.$store.getters.newProvider
+                const USER_WALLET = await BLOCKCHAIN.getSigner()
+                // console.log("contractAddress",  this.form.contractAddress)
+                const theContract = new Contract(this.form.contractAddress, this.form.contractAbi, USER_WALLET)
+
+
+                const multicall = new Multicall({
+                    multicallCustomContractAddress: '0x275617327c958bD06b5D6b871E7f491D76113dd8',
+                    ethersProvider: BLOCKCHAIN,
+                    tryAggregate: true
+                });
+                let contractCallContext = [
+                    {
+                        reference: 'testContract',
+                        contractAddress: this.form.contractAddress,
+                        abi: this.form.contractAbi,
+                        calls: []
+                    }
+                ]
+
+                // console.log("args", _args);
+                for (var i = 0; i < _ref.length; i++)
+                {
+                    let newArgs = [..._args]
+                    newArgs[index] = _ref[i]
+                    contractCallContext[0].calls.push(
+                        {
+                            reference: 'fooCall',
+                            methodName: this.form.functionName,
+                            methodParameters: newArgs ,
+                        }
+                    )
+                }
+
+                // console.log("multiTx args", _args, contractCallContext);
+                // return
+
+                console.log("await multicall.call(contractCallContext", contractCallContext);
+                const results = await multicall.call(contractCallContext);
+                console.log("results", results);
+                console.log("results.testContract", results.results["testContract"]);
+                let mappedResult = results.results["testContract"].callsReturnContext.map(item => {
+                    let altResType = this.props.res_type
+                    if (altResType == "uint256")
+                    {
+                        return parseDecimals(parseFloat(ethers.utils.formatEther(item.returnValues[0])))
+                    }
+                    if (altResType == "uint")
+                    {
+                        return parseInt(10**18*parseFloat(ethers.utils.formatEther(item.returnValues[0]).toString()))
+                    }
+                    if (altResType == "address")
+                    {
+                        return item.returnValues[0]
+                    }
+                    return item.returnValues[0]
+                })
+                console.log("mapped results", mappedResult)
+
+                return
+
+                return new Promise(async (resolve, reject) => {
+                    try {
+                        let response = {}
+
+                        // console.log ("this._parsedArgs")
+                        // console.log (this._parsedArgs)
+                        let aTx = await theContract[this.form.functionName].apply(this, _args)
+                        let aResult = await aTx.wait()
+                        resolve(aResult)
+                    } catch (error)
+                    {
+                        reject(error)
+                    }
+                })
+            },
+            async call(_args)
             {
                 if (!this.first_acc) return
 
@@ -349,8 +502,8 @@
 
                 return new Promise(async (resolve, reject) => {
                     try {
-                        if (this.props.DEBUG) { console.log(`calling ${this.form.functionName} | args:`, this._parsedArgs) }
-                        let aTx = await theContract[this.form.functionName].apply(this, this._parsedArgs)
+                        if (this.props.DEBUG) { console.log(`calling ${this.form.functionName} | args:`, _args) }
+                        let aTx = await theContract[this.form.functionName].apply(this, _args)
                         resolve(aTx)
                     } catch (error)
                     {
