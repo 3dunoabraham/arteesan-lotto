@@ -368,6 +368,7 @@
                         {
                             if (this.props.call_only)
                             {
+                                this.theResult = await this.multiTx(_args, i, argList)
                                 // this.theResult = await this.call(newArgs)
                             } else {
                                 this.theResult = await this.multiTx(_args, i, argList)
@@ -456,6 +457,7 @@
                 console.log("results.testContract", results.results["testContract"]);
                 let mappedResult = results.results["testContract"].callsReturnContext.map(item => {
                     let altResType = this.props.res_type
+                    console.log("altResType", altResType)
                     if (altResType == "uint256")
                     {
                         return parseDecimals(parseFloat(ethers.utils.formatEther(item.returnValues[0])))
