@@ -51,6 +51,7 @@
                                     abi: ABIS.DAO,
                                     address: CURRENT_NETWORK.DAO_ADDRESS,
                                     function: 'createProposal',
+                                    DEBUG: true,
                                 }"
                         />
                         <!-- <tx-card  class=" flex-column pa-2 border-r-15 " 
@@ -390,6 +391,20 @@
                                     }"
                             />
                         </div>
+                        <div class="flex-column ">
+                            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                                :props="
+                                    {
+                                        title: 'withdrawAll',
+                                        form_args: form.withdrawAll,
+                                        abi: ABIS.LOTTO,
+                                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                        function: 'withdrawAll',
+                                        DEBUG: true,
+                                        res_type: 'uint',
+                                    }"
+                            />
+                        </div>
                     </div>
 
                     <hr class="w-50 opacity-10">
@@ -469,7 +484,10 @@
                     proposalIndexRead: "",
                     votePos: "",
 
-                    createProposal: {"0": { placeholder: "min. votes", value: "", type: "uint" }, },
+                    createProposal: {
+                        "0": { placeholder: "min. votes", value: "", type: "uint" },
+                        "1": { placeholder: "minutes", value: "", type: "uint" },
+                    },
 
                     approveCard: {
                         "0": {placeholder:"",label:`value: CURRENT_NETWORK.CONTROLLER_ADDRESS`,value: CURRENT_NETWORK.CONTROLLER_ADDRESS, }, 
@@ -530,6 +548,13 @@
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                         
                         "1": {placeholder:"",label:`value: "",`,value: "", type: "address" },
+                    },
+                    withdrawAll: {                        
+                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        
+                        "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
+                        
+                        "2": {placeholder:"",label:`value: "",`,value: "", type: "address" },
                     },
                     getVoteResult: {                        
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
@@ -624,6 +649,7 @@
             this.form.getVoterAmountOfVotes["1"].value = this.first_acc.address
             this.form.getVoterVoteIndex["1"].value = this.first_acc.address
             this.form.getVoteResult["2"].value = this.first_acc.address
+            this.form.withdrawAll["2"].value = this.first_acc.address
             this.form.getVoteResultMulticall["2"].value = this.first_acc.address
             this.form.withdrawAmount["2"].value = this.first_acc.address
         },
@@ -731,6 +757,8 @@
             setProposalIndexInAct() {
                 this.form.voteOnProposal ["0"].value = this.form.proposalIndexAct
                 this.form.getVoteResult ["0"].value = this.form.proposalIndexAct
+                this.form.withdrawAll ["0"].value = this.form.proposalIndexAct
+                
                 this.form.getVoteResultMulticall ["0"].value = this.form.proposalIndexAct
 
                 this.form.withdrawFromProposal ["0"].value = this.form.proposalIndexAct
