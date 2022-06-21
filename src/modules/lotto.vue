@@ -311,6 +311,20 @@
                         <tx-card  class=" flex-column pa-2 border-r-15 " 
                             :props="
                                 {
+                                    title: 'getWonAmountMulticall',
+                                    form_args: form.getWonAmountMulticall,
+                                    abi: ABIS.LOTTO,
+                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                    function: 'getWonAmount',
+                                    DEBUG: true,
+                                    res_type: 'uint256',
+                                    call_only: true,
+                                    make_multicall: true,
+                                }"
+                        />
+                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                            :props="
+                                {
                                     title: 'withdrawAmount',
                                     form_args: form.withdrawAmount,
                                     abi: ABIS.LOTTO,
@@ -531,6 +545,13 @@
                         
                         "2": {placeholder:"",label:`value: "",`,value: "", type: "address" },
                     },
+                    getWonAmountMulticall: {                        
+                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        
+                        "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "range:uint" },
+                        
+                        // "2": {placeholder:"",label:`value: "",`,value: "", type: "address" },
+                    },
                     getVoterVoteIndex: {                        
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                         // 
@@ -696,11 +717,13 @@
                 this.form.getVoteRedeemd ["0"].value = this.form.proposalIndexRead
                 this.form.getVoteScratchedNumber ["0"].value = this.form.proposalIndexRead
                 this.form.wonAmount ["0"].value = this.form.proposalIndexRead
+                this.form.getWonAmountMulticall ["0"].value = this.form.proposalIndexRead
                 this.form.getVoterAmountOfVotes ["0"].value = this.form.proposalIndexRead
                 this.form.withdrawAmount["0"].value = this.form.proposalIndexRead
             },
             setVotePos() {
                 this.form.wonAmount["1"].value = this.form.votePos
+                this.form.getWonAmountMulticall["1"].value = this.form.votePos
                 this.form.getVoteScratchedNumber["1"].value = this.form.votePos
                 this.form.getVoteRedeemd["1"].value = this.form.votePos
                 this.form.withdrawAmount["1"].value = this.form.votePos
