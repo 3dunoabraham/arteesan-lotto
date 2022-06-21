@@ -569,6 +569,7 @@
                         "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
                         
                         "2": {placeholder:"",label:`value: "",`,value: "", type: "address" },
+                        "3": {placeholder:"vote distance",label:`value: "",`,value: "", type: "uint" },
                     },
                     getVoteResult: {                        
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
