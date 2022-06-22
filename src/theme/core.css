@@ -336,11 +336,13 @@
 @media only screen and (max-width: 1280px) { .show-xl { display: none !important } }
 
 /* From Extra Small to Small */
-@media only screen and (min-width: 0769px) { .show-xs_sm { display: none !important } }
+@media only screen and (min-width: 0577px) { .show-xs_sm { display: none !important } }
+/* From Extra Small to Small */
+@media only screen and (min-width: 0769px) { .show-xs_md { display: none !important } }
 /* From Extra Small to Medium */
-@media only screen and (min-width: 0993px) { .show-xs_md { display: none !important } }
+@media only screen and (min-width: 0993px) { .show-xs_lg { display: none !important } }
 /* From Extra Small to Large */
-@media only screen and (min-width: 1281px) { .show-xs_lg { display: none !important } }
+@media only screen and (min-width: 1281px) { .show-xs_xl { display: none !important } }
 
 /* From Small to Medium */
 @media only screen and (max-width: 0576px) { .show-sm_md { display: none !important } }

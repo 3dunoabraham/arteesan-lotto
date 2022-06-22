@@ -10,6 +10,7 @@ const store = createStore({
     return {
       LANG,
       main_togglers: {},
+      currentPseudoPage: "lottery",
       darkMode: true,
       englishMode: true,
 
@@ -78,6 +79,10 @@ const store = createStore({
 
     setDarkMode(state, mode) {
       state.darkMode = mode
+    },
+
+    setCurrentPseudoPage(state, _page) {
+      state.currentPseudoPage = _page
     },
     setEnglishMode(state, mode) {
       state.englishMode = mode
@@ -1624,6 +1629,9 @@ console.log(". . .3/4. trading TOKEN -> TOKEN")
 
     dark_mode(state) {
       return state.darkMode
+    },
+    current_page(state) {
+      return state.currentPseudoPage
     },
     english_mode(state) {
       return state.englishMode

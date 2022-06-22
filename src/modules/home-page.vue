@@ -1,7 +1,7 @@
 <template>
     <div>
                 
-            <div class="flex-1 tx-center letter-s-3 opacity-25 nooverflow" >
+            <div class="flex-1 tx-center letter-s-3 opacity-25 nooverflow" v-if="!accs_length">
                 <h1>Web3 <br> {{LANG.appDesc}} <br> (Vue)</h1>
             </div>
         <div class="flex-column flex-lg2x-row">
@@ -15,33 +15,39 @@
                 </span>
             </div>
             <div v-if="accs_length">
-                <div class="n-inset border-r-50 ma-8 pa-4">
-                    <h1 class="mt-0 tx-center">Exchange </h1>
-                    <h6 class="my-0 tx-center ">
-                        <a href="https://github.com/arteesanio/OpenFarm-WebDApp-V1" target="_blank" class="tx-primary">
-                            Webb Dapp Github
-                        </a>
-                    </h6>
-                    <h6 class="my-0 tx-center">
-                        <a href="https://github.com/arteesanio/OpenFarm-Bank-Contracts" target="_blank" class="tx-primary">
-                            Bank Contracts Github
-                        </a>
-                    </h6>
-                    <exchange ref="exchange"/>
-                </div>
-                <div class="n-inset border-r-50 ma-8 pa-4">
-                    <h1 class="mt-0 tx-center">Roulette </h1>
-                    <roulette v-if="accs_length" />
-                </div>
-                <div class="n-inset border-r-50 ma-8 pa-4 ">
-                    <h1 class="mt-0 tx-center">Lotto </h1>
-                    <h6 class="my-0 tx-center ">
-                        <a href="https://github.com/arteesanio/OpenFarm-Lotto-Contracts" target="_blank" class="tx-primary">
-                            Contracts Github
-                        </a>
-                    </h6>
-                    <lotto v-if="accs_length" />
-                </div>
+                <template v-if="current_page == 'exchange'">
+                    <div class="n-inset border-r-50 ma-8 pa-4">
+                        <h1 class="mt-0 tx-center">Exchange </h1>
+                        <h6 class="my-0 tx-center ">
+                            <a href="https://github.com/arteesanio/OpenFarm-WebDApp-V1" target="_blank" class="tx-primary">
+                                Webb Dapp Github
+                            </a>
+                        </h6>
+                        <h6 class="my-0 tx-center">
+                            <a href="https://github.com/arteesanio/OpenFarm-Bank-Contracts" target="_blank" class="tx-primary">
+                                Bank Contracts Github
+                            </a>
+                        </h6>
+                        <exchange ref="exchange"/>
+                    </div>
+                </template>
+                <template v-if="current_page == 'roulette'">
+                    <div class="n-inset border-r-50 ma-8 pa-4">
+                        <h1 class="mt-0 tx-center">Roulette </h1>
+                        <roulette v-if="accs_length" />
+                    </div>
+                </template>
+                <template v-if="current_page == 'lottery'">
+                    <div class="n-inset border-r-50 ma-8 pa-4 ">
+                        <h1 class="mt-0 tx-center">Lotto </h1>
+                        <h6 class="my-0 tx-center ">
+                            <a href="https://github.com/arteesanio/OpenFarm-Lotto-Contracts" target="_blank" class="tx-primary">
+                                Contracts Github
+                            </a>
+                        </h6>
+                        <lotto v-if="accs_length" />
+                    </div>
+                </template>
             </div>
             
         </div>
@@ -95,6 +101,7 @@
         computed: {
             LANG()                  { return this.$store.getters.LANG },
             accs_length()           { return this.$store.getters.accs_length },
+            current_page()         { return this.$store.getters.current_page },
             
             articles() {
                 return this.$store.getters.articles;
