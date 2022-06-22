@@ -8,6 +8,7 @@ export const LANG = {
 		liquiditys: "Liquidity",
 		manage: "Manage",
 		to: "to",
+		or: "Or",
 		add: "Add",
 		buy: "Buy",
 		sell: "Sell",
@@ -31,6 +32,7 @@ export const LANG = {
 		comingSoon: "Coming Soon",
 		farmLevel: "Farm Level",
 		welcome: "Welcome",
+		signup: "Register",
 	
 		connect: "Connect",
 		wallet: "Wallet",
@@ -64,6 +66,7 @@ export const LANG = {
 		liquiditys: "Cupones",
 		manage: "Gestionar",
 		to: "recibir",
+		or: "O",
 		trade: "Vender",
 		for: "por",
 		add: "Añadir",
@@ -87,9 +90,10 @@ export const LANG = {
 		comingSoon: "Próximamente",
 		farmLevel: "Nivel de Fertilidad",
 		welcome: "Bienvenido",
+		signup: "Registrate",
 	
-		connect: "Conectar",
-		wallet: "Cartera",
+		connect: "Ingresa",
+		wallet: "a tu Cuenta",
 		seeMore: "Ver Mas",
 
 		exchange: "Casa de Cambio",

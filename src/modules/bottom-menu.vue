@@ -5,27 +5,27 @@
             </div>
             <div class="flex-row flex-lg2x-column flex-align-start">
                 <a :class="[current_page == 'exchange' ? 'tx-success' : '']"
-                    class="nodeco letter-s-3 noborder n-tx tx-md n-flat clickable flex-column"
+                    class="nodeco letter-s-3 noborder n-tx  n-flat clickable flex-column"
                     @click="setPage('exchange')"
                 >
                     <span class="px-5 pb-4 pt-3 opacity-hover-50 flex-column">
-                        <i class="fas fa-external-link-alt"></i> <small class="tx-xs">Exchange</small>
+                        <!-- <i class="fas fa-external-link-alt"></i> --> <small class="tx-xs">Exchange</small>
                     </span>
                 </a>
                 <a :class="[current_page == 'roulette' ? 'tx-success' : '']"
-                    class="nodeco letter-s-3 noborder n-tx tx-md n-flat clickable flex-column"
+                    class="nodeco letter-s-3 noborder n-tx  n-flat clickable flex-column"
                     @click="setPage('roulette')"
                 >
                     <span class="px-5 pb-4 pt-3 opacity-hover-50 flex-column">
-                        <i class="fas fa-external-link-alt"></i> <small class="tx-xs">Roulette</small>
+                        <!-- <i class="fas fa-external-link-alt"></i> --> <small class="tx-xs">Roulette</small>
                     </span>
                 </a>
                 <a :class="[current_page == 'lottery' ? 'tx-success' : '']"
-                    class="nodeco letter-s-3 noborder n-tx tx-md n-flat clickable flex-column"
+                    class="nodeco letter-s-3 noborder n-tx  n-flat clickable flex-column"
                     @click="setPage('lottery')"
                 >
                     <span class="px-5 pb-4 pt-3 opacity-hover-50 flex-column">
-                        <i class="fas fa-external-link-alt"></i> <small class="tx-xs">Lottery</small>
+                        <!-- <i class="fas fa-external-link-alt"></i> --> <small class="tx-xs">Lottery</small>
                     </span>
                 </a>
             </div>
