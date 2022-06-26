@@ -7,8 +7,8 @@
         <div class="flex-column flex-lg2x-row">
 
 
-            <div class="flex-column">
-                <div class="flex-center flex-1 my-8" style="min-width: 300px; " v-if="!accs_length">
+            <div class="flex-column" v-if="!accs_length">
+                <div class="flex-center flex-1 my-8" style="min-width: 300px; " >
                     <span @click="connectWallet"
                          class="clickable opacity-hover-75 mx-2 pa-6 border-r-15 n-conve tx-xl mt-8 letter-s-15 tx-center"
                     >
@@ -18,7 +18,7 @@
                 <!-- <hr class="opacity-10 w-50"> -->
                 {{LANG.or}}
                 <!-- <hr class="opacity-10 w-50"> -->
-                <div class="flex-center flex-1 mb-8" style="min-width: 300px; " v-if="!accs_length">
+                <div class="flex-center flex-1 mb-8" style="min-width: 300px; " >
                     <span @click="register"
                          class="clickable opacity-hover-75 mx-2 pa-6 border-r-15 n-conve tx-xl mt-8 letter-s-15 tx-center"
                     >
@@ -164,7 +164,7 @@
                 // console.log("contractAddress",  this.form.contractAddress)
                 const theContract = new Contract(CURRENT_NETWORK.BASE_USD_ADDRESS, ABIS.ERC20, USER_WALLET)
 
-                return new Promise(async (resolve, reject) => {
+                let waiting = await new Promise(async (resolve, reject) => {
                     try {
                         let response = {}
 
@@ -178,7 +178,6 @@
                         reject(error)
                     }
                 })
-
                 this.loading = false
                 // this.$refs.exchange.getTradeData(true)
                 // this.$refs.exchange.getAccountBalances(true)

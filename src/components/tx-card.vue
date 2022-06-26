@@ -329,22 +329,27 @@
                 if (this.loading) return
                 this.loading = true
 
-
-                try
-                {
-                    if (this.props.call_only)
+                let result = await new Promise(async (resolve, reject) => {
+                    try
                     {
-                        this.theResult = await this.call(txArgs)
-                    } else {
-                        this.theResult = await this.tx(txArgs)
+                        if (this.props.call_only)
+                        {
+                            this.theResult = await this.call(txArgs)
+                        } else {
+                            this.theResult = await this.tx(txArgs)
+                        }
+                        resolve(this.theResult)
+                    } catch (error)
+                    {
+                        console.log("catched executing (error)")
+                        if (this.props.DEBUG) { console.log(error) }
+                            reject(error)
                     }
-                } catch (error)
-                {
-                    console.log("catched executing (error)")
-                    if (this.props.DEBUG) { console.log(error) }
-                }
+                })
 
                 this.loading = false
+                
+                return result
             },
             async executeMulticall(_args)
             {

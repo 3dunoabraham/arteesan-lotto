@@ -5,7 +5,21 @@
             <div class="flex-column ">
                 <div class="flex-column n-flat mx-2 pa-2">
                     <h4 class="tx-ls-3 my-2 tx-center">DAO </h4>
-                    <tx-card  class=" flex-column pa-2 border-r-15 " 
+                    <!-- dai_balance_of: {{values.dai_balance_of}} -->
+                    <tx-card ref="DAIBalanceOf"  class=" flex-column pa-2 border-r-15 " 
+                        :props="
+                            {
+                                title: 'DAI balanceOf',
+                                form_args: form.DAIBalanceOf,
+                                abi: ABIS.ERC20,
+                                address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                function: 'balanceOf',
+                                res_type: 'uint256',
+                                button_only: true,
+                                call_only: true,
+                            }"
+                    /> 
+                    <tx-card v-if="values.dai_dao_allowance != '666.666'" class=" flex-column pa-2 border-r-15 " 
                         :props="
                             {
                                 title: 'Add DAI Allowance to target',
@@ -16,7 +30,19 @@
                                 res_type: 'uint256',
                             }"
                     />
-                    <tx-card  class=" flex-column pa-2 border-r-15 " 
+                    <tx-card v-if="values.dai_dao_allowance != '666.666'" class=" flex-column pa-2 border-r-15 " 
+                        :props="
+                            {
+                                title: 'Add FULL DAI Allowance to target',
+                                form_args: form.addFullTargetAllowance,
+                                abi: ABIS.ERC20,
+                                address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                function: 'approve',
+                                res_type: 'uint256',
+                            }"
+                    />
+                    <!-- dai_dao_allowance: {{values.dai_dao_allowance}} -->
+                    <tx-card v-show="false"  ref="targetAllowance"  class=" flex-column pa-2 border-r-15 " 
                         :props="
                             {
                                 title: 'DAI Allowance to TargetContract',
@@ -126,7 +152,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex-column flex-lg2x-row">
+            <div class="flex-column flex-lg2x-row" v-if="values.dai_dao_allowance > 0">
                 <div class="flex-column n-flat mx-2 pa-2">
                     <h4 class="tx-ls-3 my-2 tx-center">READ PROPOSAL </h4>
 
@@ -509,6 +535,10 @@
                 ABIS,
 
                 loading: false,
+                values: {
+                    dai_balance_of: null,
+                    dai_dao_allowance: null,
+                },
                 form: {
                     proposalIndexAct: "",
                     proposalIndexRead: "",
@@ -658,6 +688,11 @@
                         
                         "1": {placeholder:"amount",label:`value: '',`,value: '', type: "uint256" },
                     },
+                    addFullTargetAllowance: {
+                        "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                        
+                        "1": {placeholder:"amount",label:`value: '',`,value: '', type: "uint256" },
+                    },
                     voteOnProposal: {
                         "0": {placeholder:"index",label:`value: "",`,value: "", type: "uint" },
                         
@@ -680,15 +715,15 @@
             accs_length()           { return this.$store.getters.accs_length },
             first_acc()             { return this.$store.getters.first_acc },
 
-            
         },
-        mounted()
+        async mounted()
         {
             this.form.registeredFunds["0"].value = this.first_acc.address
             this.form.targetAllowance["0"].value = this.first_acc.address
             this.form.lastResultOf["0"].value = this.first_acc.address
             // this.form.targetAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             // this.form.addRouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
+            this.form.addFullTargetAllowance["1"].value = "1157920892373161954235709850086879078532"
             this.form.DAIBalanceOf["0"].value = this.first_acc.address
             this.form.getVoterAmountOfVotes["1"].value = this.first_acc.address
             this.form.getVoterVoteIndex["1"].value = this.first_acc.address
@@ -696,6 +731,11 @@
             this.form.withdrawAll["2"].value = this.first_acc.address
             this.form.getVoteResultMulticall["2"].value = this.first_acc.address
             this.form.withdrawAmount["2"].value = this.first_acc.address
+
+            await this.$refs.DAIBalanceOf.execute()
+            this.values.dai_balance_of = this.$refs.DAIBalanceOf._parsedResult
+            await this.$refs.targetAllowance.execute()
+            this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
         },
         methods: {
             rangeGetVoteResult()
