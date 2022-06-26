@@ -248,7 +248,13 @@
                 {
                     if (this.props.DEBUG)
                     {
-                        console.log("timestamp", ethers.utils.formatEther(altResult), parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString())))
+                        console.table(
+                            {
+                                timestamp: ethers.utils.formatEther(altResult),
+                                int: parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString())),
+                                res: new Date(1000*parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString()))).toLocaleString("en-US"),
+                            }
+                        )
                     }
                     return new Date(1000*parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString()))).toLocaleString("en-US")
                 }

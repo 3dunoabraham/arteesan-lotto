@@ -51,6 +51,7 @@
                                     abi: ABIS.DAO,
                                     address: CURRENT_NETWORK.DAO_ADDRESS,
                                     function: 'createProposal',
+                                    advanced: true,
                                     DEBUG: true,
                                 }"
                         />
@@ -148,6 +149,8 @@
                                 function: 'proposals',
                                 res_type: 'struct.deadline.timestamp',
                                 call_only: true,
+                                DEBUG: true,
+                                advanced: true,
                             }"
                     />
                     <hr class="w-50 opacity-10">
@@ -320,6 +323,19 @@
                                     function: 'getWonAmount',
                                     DEBUG: true,
                                     res_type: 'uint256',
+                                    call_only: true,
+                                }"
+                        />
+                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                            :props="
+                                {
+                                    title: 'getWinner',
+                                    form_args: form.getWinner,
+                                    abi: ABIS.LOTTO,
+                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                    function: 'getWinner',
+                                    DEBUG: true,
+                                    res_type: 'uint',
                                     call_only: true,
                                 }"
                         />
@@ -543,6 +559,11 @@
                         "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
                         "2": {placeholder:"voter address",label:`value: "",`,value: "", type: "address" },
                     },
+                    getWinner: {                        
+                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        
+                        "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
+                    },
                     wonAmount: {                        
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                         
@@ -641,6 +662,7 @@
                         "0": {placeholder:"index",label:`value: "",`,value: "", type: "uint" },
                         
                         "1": {placeholder:"vote amount",label:`value: '',`,value: '', type: "uint" },
+                        "2": {placeholder:"ref",label:`value: "",`,value: "", type: "address" },
                     },
                     DAIBalanceOf: {
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "address" },
@@ -765,13 +787,15 @@
                 this.form.getVoteRedeemd ["0"].value = this.form.proposalIndexRead
                 this.form.getVoteScratchedNumberMulticall ["0"].value = this.form.proposalIndexRead
                 this.form.getVoteScratchedNumber ["0"].value = this.form.proposalIndexRead
-                this.form.wonAmount ["0"].value = this.form.proposalIndexRead
+                this.form.wonAmount["0"].value = this.form.proposalIndexRead
+                this.form.getWinner["0"].value = this.form.proposalIndexRead
                 this.form.getWonAmountMulticall ["0"].value = this.form.proposalIndexRead
                 this.form.getVoterAmountOfVotes ["0"].value = this.form.proposalIndexRead
                 this.form.withdrawAmount["0"].value = this.form.proposalIndexRead
             },
             setVotePos() {
                 this.form.wonAmount["1"].value = this.form.votePos
+                this.form.getWinner["1"].value = this.form.votePos
                 // this.form.getWonAmountMulticall["1"].value = this.form.votePos
                 // this.form.getVoteScratchedNumberMulticall["1"].value = this.form.votePos
                 this.form.getVoteScratchedNumber["1"].value = this.form.votePos
