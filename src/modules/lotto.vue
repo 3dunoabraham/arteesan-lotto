@@ -6,7 +6,7 @@
                 <div class="flex-column n-flat mx-2 pa-2">
                     <h4 class="tx-ls-3 my-2 tx-center">DAO </h4>
                     <!-- dai_balance_of: {{values.dai_balance_of}} -->
-                    <tx-card ref="DAIBalanceOf"  class=" flex-column pa-2 border-r-15 " 
+                    <tx-card ref="DAIBalanceOf"  class=" flex-column  " 
                         :props="
                             {
                                 title: 'DAI balanceOf',
@@ -19,10 +19,10 @@
                                 call_only: true,
                             }"
                     /> 
-                    <tx-card v-if="values.dai_dao_allowance < 999999999" class=" flex-column pa-2 border-r-15 " 
+                    <tx-card  class=" flex-column  " 
                         :props="
                             {
-                                title: 'Add DAI Allowance to target',
+                                title: 'set DAI Allowance to target',
                                 form_args: form.addTargetAllowance,
                                 abi: ABIS.ERC20,
                                 address: CURRENT_NETWORK.BASE_USD_ADDRESS,
@@ -30,7 +30,12 @@
                                 res_type: 'uint256',
                             }"
                     />
-                    <tx-card v-if="values.dai_dao_allowance < 999999999" class=" flex-column pa-2 border-r-15 " 
+                    <div @click="execute_addFullTargetAllowance"
+                        class="n-flat pa-2 clickable"
+                    >
+                        addFullTargetAllowance
+                    </div>
+                    <tx-card v-show="false" ref="addFullTargetAllowance" v-if="values.dai_dao_allowance < 999999999" class=" " 
                         :props="
                             {
                                 title: 'Add FULL DAI Allowance to target',
@@ -39,10 +44,11 @@
                                 address: CURRENT_NETWORK.BASE_USD_ADDRESS,
                                 function: 'approve',
                                 res_type: 'uint256',
+                                button_only: true,
                             }"
                     />
                     <!-- dai_dao_allowance: {{values.dai_dao_allowance}} -->
-                    <tx-card v-show="false"  ref="targetAllowance"  class=" flex-column pa-2 border-r-15 " 
+                    <tx-card   ref="targetAllowance"  class=" flex-column  " 
                         :props="
                             {
                                 title: 'DAI Allowance to TargetContract',
@@ -55,7 +61,7 @@
                                 call_only: true,
                             }"
                     />
-                    <tx-card  class=" flex-column pa-2 border-r-15 " 
+                    <tx-card  class=" flex-column  " 
                         :props="
                             {
                                 title: 'proposalCount',
@@ -69,7 +75,7 @@
                             }"
                     />
                     <div class="flex-wrap ">
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'make a proposal',
@@ -81,7 +87,7 @@
                                     DEBUG: true,
                                 }"
                         />
-                        <!-- <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <!-- <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'get votes',
@@ -97,7 +103,7 @@
                     <h4 class="tx-ls-3 my-2 tx-center">CONTRACT </h4>
                     <hr class="w-50 opacity-10">
                     <div class="flex-row">
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 's_randomWords',
@@ -112,7 +118,7 @@
                         />
                     </div>
                     <div class="flex-wrap ">
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'get Requester',
@@ -125,7 +131,7 @@
                                     call_only: true,
                                 }"
                         />
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'set Requester',
@@ -138,7 +144,7 @@
                     </div>
                     <hr class="w-50 opacity-10">
                     <div class="flex-wrap ">
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'transferOwnership to dao',
@@ -165,7 +171,7 @@
                             set
                         </div>
                     </div>
-                    <tx-card  class=" flex-column pa-2 border-r-15 " 
+                    <tx-card  class=" flex-column  " 
                         :props="
                             {
                                 title: 'getDeadline ',
@@ -181,7 +187,7 @@
                     />
                     <hr class="w-50 opacity-10">
                     <div class="flex-row">
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'amountOf tokens ',
@@ -194,7 +200,7 @@
                                 }"
                         />
                         /
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'tokens required',
@@ -208,7 +214,7 @@
                         />
                     </div>
                     <div class="flex-row">
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'get randomResult  ',
@@ -220,7 +226,7 @@
                                     call_only: true,
                                 }"
                         />
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'get randomRequests',
@@ -234,7 +240,7 @@
                         />
                     </div>
                     <div class="flex-row">
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'amountOf votes ',
@@ -247,7 +253,7 @@
                                 }"
                         />
                         /
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'amountOfvotes required',
@@ -261,7 +267,7 @@
                         />
                     </div>
                     <div class="flex-row">
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'user vote index',
@@ -275,7 +281,7 @@
                                     advanced: true,
                                 }"
                         />
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'user votes',
@@ -299,7 +305,7 @@
                             set
                         </div>
                     </div>
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'getVoteRedeemd',
@@ -312,7 +318,7 @@
                                     call_only: true,
                                 }"
                         />
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'getVoteScratchedNumber',
@@ -325,7 +331,7 @@
                                     call_only: true,
                                 }"
                         />
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'getVoteScratchedNumberMulticall',
@@ -339,7 +345,7 @@
                                     make_multicall: true,
                                 }"
                         />
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'wonAmount',
@@ -352,7 +358,7 @@
                                     call_only: true,
                                 }"
                         />
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'getWinner',
@@ -365,7 +371,7 @@
                                     call_only: true,
                                 }"
                         />
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'getWonAmountMulticall',
@@ -379,7 +385,7 @@
                                     make_multicall: true,
                                 }"
                         />
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'withdrawAmount',
@@ -405,7 +411,7 @@
                     </div>
                     <hr class="w-50 opacity-10">
 
-                    <tx-card  class=" flex-column pa-2 border-r-15 " 
+                    <tx-card  class=" flex-column  " 
                         :props="
                             {
                                 title: 'voteOnProposal',
@@ -418,7 +424,7 @@
                     <div class="flex-column n-flat">
                         <div class="flex-column ">
                             make_multicall
-                            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                            <tx-card  class=" flex-column  " 
                                 :props="
                                     {
                                         title: 'getVoteResultMulticall',
@@ -434,7 +440,7 @@
                             />
                         </div>
                         <div class="flex-column ">
-                            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                            <tx-card  class=" flex-column  " 
                                 :props="
                                     {
                                         title: 'getVoteResult',
@@ -448,7 +454,7 @@
                             />
                         </div>
                         <div class="flex-column ">
-                            <tx-card  class=" flex-column pa-2 border-r-15 " 
+                            <tx-card  class=" flex-column  " 
                                 :props="
                                     {
                                         title: 'withdrawAll',
@@ -464,7 +470,7 @@
                     </div>
 
                     <hr class="w-50 opacity-10">
-                    <tx-card  class=" flex-column pa-2 border-r-15 " 
+                    <tx-card  class=" flex-column  " 
                         :props="
                             {
                                 title: 'withdrawFrom failed Proposal',
@@ -477,7 +483,7 @@
                     <hr class="w-50 opacity-10">
 
                     <div class="flex-wrap ">
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'execute proposal',
@@ -487,7 +493,7 @@
                                     function: 'executeProposal',
                                 }"
                         />
-                        <tx-card  class=" flex-column pa-2 border-r-15 " 
+                        <tx-card  class=" flex-column  " 
                             :props="
                                 {
                                     title: 'requestResolveRound',
@@ -498,7 +504,7 @@
                                 }"
                         />
                     </div>
-                    <tx-card  class=" flex-column pa-2 border-r-15 " 
+                    <tx-card  class=" flex-column  " 
                         :props="
                             {
                                 title: 'resolveBet',
@@ -691,7 +697,7 @@
                     addFullTargetAllowance: {
                         "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
                         
-                        "1": {placeholder:"amount",label:`value: '',`,value: '', type: "uint256" },
+                        "1": {placeholder:"amount",label:`value: '',`,value: '9999999999', type: "uint256" },
                     },
                     voteOnProposal: {
                         "0": {placeholder:"index",label:`value: "",`,value: "", type: "uint" },
@@ -723,7 +729,6 @@
             this.form.lastResultOf["0"].value = this.first_acc.address
             // this.form.targetAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             // this.form.addRouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
-            this.form.addFullTargetAllowance["1"].value = "999999999999"
             this.form.DAIBalanceOf["0"].value = this.first_acc.address
             this.form.getVoterAmountOfVotes["1"].value = this.first_acc.address
             this.form.getVoterVoteIndex["1"].value = this.first_acc.address
@@ -854,6 +859,13 @@
                 this.form.executeProposal ["0"].value = this.form.proposalIndexAct
                 this.form.requestResolveRound ["0"].value = this.form.proposalIndexAct
                 this.form.resolveBet ["0"].value = this.form.proposalIndexAct
+            },
+
+            async execute_addFullTargetAllowance()
+            {
+                await this.$refs.addFullTargetAllowance.execute()
+                await this.$refs.targetAllowance.execute()
+                this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
             },
         },
     }

@@ -76,15 +76,18 @@
             </div>
         </div>
 
-        <div v-if="togglers.show_more" class=" pa-2 mt-1 border-r-5">
+        <div v-if="togglers.show_more || !props.advanced && !togglers.show_more && props.button_only && !props.call_only " class=" pa-2 mt-1 border-r-5">
 
             <div class="pa-2 ma-2 mb-0 tx-sm flex" :class="[_valid ? 'n-flat opacity-hover-75 clickable border-r-15' : 'border-r-5 noclick nocursor n-flat-disabled']" @click="execute">
                 <div v-if="loading">
                     <div v-if="props.call_only">
                         <i class="fas fa-cloud-download-alt hover-hover " :class="[!_valid ? 'opacity-75 tx-error' : 'n-tx-s tx-success']"></i>
                     </div>
-                    <div v-if="!props.call_only">
+                    <div v-if="!props.call_only" class="flex-column">
                         <i class="fas fa-file-signature shake-shake tx-secondary"></i>
+                        <span v-if="!props.advanced && !togglers.show_more && props.button_only" class="tx-xs">
+                            {{props.title}}
+                        </span>
                     </div>
                 </div>
                 <div v-if="!loading">
@@ -348,7 +351,7 @@
                 })
 
                 this.loading = false
-                
+
                 return result
             },
             async executeMulticall(_args)
