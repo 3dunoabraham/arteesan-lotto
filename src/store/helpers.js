@@ -187,7 +187,7 @@ export const parseDecimals = (x) => {
         x.toString() == "1.157920892373162e+59"
       )
      )
-    { return 666.666 }
+    { return 9999999999 }
   if (x == 0) return 0
   if (x < 0.000001)
   {

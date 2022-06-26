@@ -19,7 +19,7 @@
                                 call_only: true,
                             }"
                     /> 
-                    <tx-card v-if="values.dai_dao_allowance != '666.666'" class=" flex-column pa-2 border-r-15 " 
+                    <tx-card v-if="values.dai_dao_allowance < 999999999" class=" flex-column pa-2 border-r-15 " 
                         :props="
                             {
                                 title: 'Add DAI Allowance to target',
@@ -30,7 +30,7 @@
                                 res_type: 'uint256',
                             }"
                     />
-                    <tx-card v-if="values.dai_dao_allowance != '666.666'" class=" flex-column pa-2 border-r-15 " 
+                    <tx-card v-if="values.dai_dao_allowance < 999999999" class=" flex-column pa-2 border-r-15 " 
                         :props="
                             {
                                 title: 'Add FULL DAI Allowance to target',
@@ -723,7 +723,7 @@
             this.form.lastResultOf["0"].value = this.first_acc.address
             // this.form.targetAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
             // this.form.addRouletteAllowance["1"].value = '0xfab5299d486725319aae4d02ee48500affa2d418'
-            this.form.addFullTargetAllowance["1"].value = "1157920892373161954235709850086879078532"
+            this.form.addFullTargetAllowance["1"].value = "999999999999"
             this.form.DAIBalanceOf["0"].value = this.first_acc.address
             this.form.getVoterAmountOfVotes["1"].value = this.first_acc.address
             this.form.getVoterVoteIndex["1"].value = this.first_acc.address

@@ -58,11 +58,11 @@
                   <input type="text" name="" v-model="form.lpInput" class="n-inset n-tx flex-1 pa-2">
               </div> -->
               <div class="flex-between w-100 pa-2">
-                  <div v-if="farm.allowance != 666.666" @click="farm_approve(index)" class="clickable tx-sm opacity-hover-50 n-flat pa-2 border-r-15">
+                  <div v-if="farm.allowance >= 999999999" @click="farm_approve(index)" class="clickable tx-sm opacity-hover-50 n-flat pa-2 border-r-15">
                     <i v-if="loadings.approve" class="tx-success fas fa-circle-notch spin-spin"></i>
                     {{LANG.approve}}
                   </div>
-                  <div v-if="farm.allowance == 666.666" @click="farm_disapprove(index)" class="clickable tx-xs opacity-hover-50 n-flat pa-2 mr-2 border-r-15">
+                  <div v-if="farm.allowance >= 999999999" @click="farm_disapprove(index)" class="clickable tx-xs opacity-hover-50 n-flat pa-2 mr-2 border-r-15">
                     <i v-if="loadings.approve" class="tx-success fas fa-circle-notch spin-spin"></i>
                     {{LANG.disapprove}}
                   </div>

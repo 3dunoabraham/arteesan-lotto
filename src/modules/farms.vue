@@ -79,7 +79,7 @@
                                             <input type="text" name="" v-model="form.poolLpInputs[index]" class="n-inset n-tx flex-1 pa-2">
                                         </div>
                                         <div class="flex-between w-100 pa-2">
-                                            <div v-if="pool.allowance != 666.666" @click="farm_approve(index)" class="clickable tx-sm opacity-hover-50 n-flat pa-2">
+                                            <div v-if="pool.allowance < 999999999" @click="farm_approve(index)" class="clickable tx-sm opacity-hover-50 n-flat pa-2">
                                                 Approve
                                             </div>
                                             <div @click="farm_add(index)" class="border-r-15 clickable tx-xs opacity-hover-75 n-flat pa-2">{{LANG.add}}</div>
