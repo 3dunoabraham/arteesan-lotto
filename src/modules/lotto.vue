@@ -5,6 +5,20 @@
             <div class="flex-column ">
                 <div class="flex-column n-flat mx-2 pa-2">
                     <h4 class="tx-ls-3 my-2 tx-center">DAO </h4>
+                    
+                    <div class="flex-wrap ">
+                        <tx-card  class=" flex-column  " 
+                            :props="
+                                {
+                                    title: 'make a proposal',
+                                    form_args: form.createProposal,
+                                    abi: ABIS.DAO,
+                                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                                    function: 'createProposal',
+                                }"
+                        />
+                    </div>
+                    <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div>
                     <!-- dai_balance_of: {{values.dai_balance_of}} -->
                     <tx-card ref="DAIBalanceOf"  class=" flex-column  " 
                         :props="
@@ -19,23 +33,12 @@
                                 call_only: true,
                             }"
                     /> 
-                    <tx-card  class=" flex-column  " 
-                        :props="
-                            {
-                                title: 'set DAI Allowance to target',
-                                form_args: form.addTargetAllowance,
-                                abi: ABIS.ERC20,
-                                address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                function: 'approve',
-                                res_type: 'uint256',
-                            }"
-                    />
-                    <div @click="execute_addFullTargetAllowance"
-                        class="n-flat pa-2 clickable"
+                    <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
+                        class="n-flat pa-2 clickable opacity-hover-50"
                     >
-                        addFullTargetAllowance
+                        {{LANG.signup}}
                     </div>
-                    <tx-card v-show="false" ref="addFullTargetAllowance" v-if="values.dai_dao_allowance < 999999999" class=" " 
+                    <tx-card v-show="false" ref="addFullTargetAllowance" class=" " 
                         :props="
                             {
                                 title: 'Add FULL DAI Allowance to target',
@@ -47,56 +50,66 @@
                                 button_only: true,
                             }"
                     />
-                    <!-- dai_dao_allowance: {{values.dai_dao_allowance}} -->
-                    <tx-card   ref="targetAllowance"  class=" flex-column  " 
-                        :props="
-                            {
-                                title: 'DAI Allowance to TargetContract',
-                                form_args: form.targetAllowance,
-                                abi: ABIS.ERC20,
-                                address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                function: 'allowance',
-                                res_type: 'uint256',
-                                button_only: true,
-                                call_only: true,
-                            }"
-                    />
-                    <tx-card  class=" flex-column  " 
-                        :props="
-                            {
-                                title: 'proposalCount',
-                                form_args: {},
-                                abi: ABIS.DAO,
-                                address: CURRENT_NETWORK.DAO_ADDRESS,
-                                function: 'numProposals',
-                                res_type: 'uint',
-                                button_only: true,
-                                call_only: true,
-                            }"
-                    />
-                    <div class="flex-wrap ">
-                        <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 'make a proposal',
-                                    form_args: form.createProposal,
-                                    abi: ABIS.DAO,
-                                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                                    function: 'createProposal',
-                                    advanced: true,
-                                    DEBUG: true,
-                                }"
-                        />
-                        <!-- <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 'get votes',
-                                    form_args: form.createProposal,
-                                    abi: ['function createProposal(uint256 _amount) returns (uint256)'],
-                                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                                    function: 'createProposal',
-                                }"
-                        /> -->
+                    <div class="  flex-column tx-sm w-100">
+                        <div class="w-100 flex-between tx-sm">
+                            <!-- <div></div> -->
+                            <!-- <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div> -->
+                            
+                            <div @click="trigger_daiBalanceOfAndAllowance"
+                            :class="[togglers.dao_advanced ? 'n-inset' : 'n-flat']"
+                                class=" clickable pa-2 opacity-hover-50"
+                            >
+                                <i :class="[loadings.daiBalanceOfAndAllowance ? 'spin-nback' : 'fa-redo']" class="fas fa-circle-notch"></i>
+                                <!-- <i class="fa fa-minus"></i> -->
+                            </div>
+                            <div @click="togglers.dao_advanced = !togglers.dao_advanced"
+                            :class="[togglers.dao_advanced ? 'n-inset' : 'n-flat']"
+                                class=" clickable pa-2 opacity-hover-50"
+                            >
+                                <i :class="[togglers.dao_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
+                                <!-- <i class="fa fa-minus"></i> -->
+                            </div>
+                        </div>
+                        <div class="flex-column " v-show="togglers.dao_advanced">
+                            
+                            <tx-card   ref="targetAllowance"  class=" flex-column  " 
+                                :props="
+                                    {
+                                        title: 'DAI Allowance to TargetContract',
+                                        form_args: form.targetAllowance,
+                                        abi: ABIS.ERC20,
+                                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                        function: 'allowance',
+                                        res_type: 'uint256',
+                                        button_only: true,
+                                        call_only: true,
+                                    }"
+                            />
+                            <tx-card  class=" flex-column  " 
+                                :props="
+                                    {
+                                        title: 'set DAI Allowance to target',
+                                        form_args: form.addTargetAllowance,
+                                        abi: ABIS.ERC20,
+                                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                        function: 'approve',
+                                        res_type: 'uint256',
+                                    }"
+                            />
+                            <tx-card  class=" flex-column  " 
+                                :props="
+                                    {
+                                        title: 'proposalCount',
+                                        form_args: {},
+                                        abi: ABIS.DAO,
+                                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                                        function: 'numProposals',
+                                        res_type: 'uint',
+                                        button_only: true,
+                                        call_only: true,
+                                    }"
+                            />
+                        </div>
                     </div>
                 </div>
                 <div class="flex-column n-flat mx-2 pa-2">
@@ -545,6 +558,12 @@
                     dai_balance_of: null,
                     dai_dao_allowance: null,
                 },
+                loadings: {
+                    daiBalanceOfAndAllowance: false,
+                },
+                togglers: {
+                    dao_advanced: false,
+                },
                 form: {
                     proposalIndexAct: "",
                     proposalIndexRead: "",
@@ -737,12 +756,26 @@
             this.form.getVoteResultMulticall["2"].value = this.first_acc.address
             this.form.withdrawAmount["2"].value = this.first_acc.address
 
-            await this.$refs.DAIBalanceOf.execute()
-            this.values.dai_balance_of = this.$refs.DAIBalanceOf._parsedResult
-            await this.$refs.targetAllowance.execute()
-            this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
+            await this.trigger_daiBalanceOfAndAllowance()
+            
         },
         methods: {
+            trigger_daiBalanceOfAndAllowance()
+            {
+                if (this.loadings.daiBalanceOfAndAllowance) return
+
+                return new Promise(async (resolve,reject) =>
+                {
+                    this.loadings.daiBalanceOfAndAllowance = true
+                    await this.$refs.DAIBalanceOf.execute()
+                    this.values.dai_balance_of = this.$refs.DAIBalanceOf._parsedResult
+                    await this.$refs.targetAllowance.execute()
+                    this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
+                    this.loadings.daiBalanceOfAndAllowance = false
+
+                    resolve(true)
+                })
+            },
             rangeGetVoteResult()
             {
                 return []
