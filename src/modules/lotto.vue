@@ -322,7 +322,7 @@
                     <template v-if="values.dai_dao_allowance > 0" >
 
                         <div class="  flex-column tx-sm w-100">
-                            <tx-card  class=" flex-column tx-xl " 
+                            <tx-card  class=" flex-column tx-xl mb-3" 
                                 :props="
                                     {
                                         title: 'Buy Ticket',
@@ -517,7 +517,7 @@
                         </div>
                         <div class="flex-column " v-show="togglers.dao_advanced">
                             
-                            <tx-card   ref="targetAllowance"  class=" flex-column  " 
+                            <tx-card v-show="false"  ref="targetAllowance"  class=" flex-column  " 
                                 :props="
                                     {
                                         title: 'DAI Allowance to TargetContract',
@@ -530,10 +530,10 @@
                                         call_only: true,
                                     }"
                             />
-                            <tx-card  class=" flex-column  " 
+                            <tx-card  class=" flex-column  mt-3" 
                                 :props="
                                     {
-                                        title: 'set DAI Allowance to target',
+                                        title: 'Sign Up to Smart Contract',
                                         form_args: form.addTargetAllowance,
                                         abi: ABIS.ERC20,
                                         address: CURRENT_NETWORK.BASE_USD_ADDRESS,
@@ -541,6 +541,20 @@
                                         res_type: 'uint256',
                                     }"
                             />
+                            <div v-if="values.dai_dao_allowance > 0">
+                                <div class="flex-wrap ">
+                                    <tx-card  class=" flex-column  mt-3" 
+                                        :props="
+                                            {
+                                                title: 'Make a proposal',
+                                                form_args: form.createProposal,
+                                                abi: ABIS.DAO,
+                                                address: CURRENT_NETWORK.DAO_ADDRESS,
+                                                function: 'createProposal',
+                                            }"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -579,18 +593,6 @@
                 <div class="flex-column n-flat mx-2 pa-2" v-if="false">  <!--CONTRACT -->
                     <h4 class="tx-ls-3 my-2 tx-center">CONTRACT </h4>
                     <hr class="w-50 opacity-10">
-                    <div class="flex-wrap ">
-                        <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 'make a proposal',
-                                    form_args: form.createProposal,
-                                    abi: ABIS.DAO,
-                                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                                    function: 'createProposal',
-                                }"
-                        />
-                    </div>
                     <div class="flex-row">
                         <tx-card  class=" flex-column  " 
                             :props="
@@ -693,8 +695,8 @@
                     votePos: "",
 
                     createProposal: {
-                        "0": { placeholder: "min. votes", value: "", type: "uint" },
-                        "1": { placeholder: "minutes", value: "", type: "uint" },
+                        "0": { placeholder: "Votes", value: "", type: "uint" },
+                        "1": { placeholder: "Deadline", value: "", type: "uint" },
                     },
 
                     approveCard: {
