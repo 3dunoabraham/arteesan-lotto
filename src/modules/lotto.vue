@@ -2,177 +2,8 @@
         
     <div class="flex-column ">
         <div class="flex-column flex-xl2x-row">
-            <div class="flex-column ">
-                <div class="flex-column n-flat mx-2 pa-2">
-                    <h4 class="tx-ls-3 my-2 tx-center">DAO </h4>
-                    
-                    <div class="flex-wrap ">
-                        <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 'make a proposal',
-                                    form_args: form.createProposal,
-                                    abi: ABIS.DAO,
-                                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                                    function: 'createProposal',
-                                }"
-                        />
-                    </div>
-                    <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div>
-                    <!-- dai_balance_of: {{values.dai_balance_of}} -->
-                    <tx-card ref="DAIBalanceOf"  class=" flex-column  " 
-                        :props="
-                            {
-                                title: 'DAI balanceOf',
-                                form_args: form.DAIBalanceOf,
-                                abi: ABIS.ERC20,
-                                address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                function: 'balanceOf',
-                                res_type: 'uint256',
-                                button_only: true,
-                                call_only: true,
-                            }"
-                    /> 
-                    <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
-                        class="n-flat pa-2 clickable opacity-hover-50"
-                    >
-                        {{LANG.signup}}
-                    </div>
-                    <tx-card v-show="false" ref="addFullTargetAllowance" class=" " 
-                        :props="
-                            {
-                                title: 'Add FULL DAI Allowance to target',
-                                form_args: form.addFullTargetAllowance,
-                                abi: ABIS.ERC20,
-                                address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                function: 'approve',
-                                res_type: 'uint256',
-                                button_only: true,
-                            }"
-                    />
-                    <div class="  flex-column tx-sm w-100">
-                        <div class="w-100 flex-between tx-sm">
-                            <!-- <div></div> -->
-                            <!-- <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div> -->
-                            
-                            <div @click="trigger_daiBalanceOfAndAllowance"
-                            :class="[togglers.dao_advanced ? 'n-inset' : 'n-flat']"
-                                class=" clickable pa-2 opacity-hover-50"
-                            >
-                                <i :class="[loadings.daiBalanceOfAndAllowance ? 'spin-nback' : 'fa-redo']" class="fas fa-circle-notch"></i>
-                                <!-- <i class="fa fa-minus"></i> -->
-                            </div>
-                            <div @click="togglers.dao_advanced = !togglers.dao_advanced"
-                            :class="[togglers.dao_advanced ? 'n-inset' : 'n-flat']"
-                                class=" clickable pa-2 opacity-hover-50"
-                            >
-                                <i :class="[togglers.dao_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
-                                <!-- <i class="fa fa-minus"></i> -->
-                            </div>
-                        </div>
-                        <div class="flex-column " v-show="togglers.dao_advanced">
-                            
-                            <tx-card   ref="targetAllowance"  class=" flex-column  " 
-                                :props="
-                                    {
-                                        title: 'DAI Allowance to TargetContract',
-                                        form_args: form.targetAllowance,
-                                        abi: ABIS.ERC20,
-                                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                        function: 'allowance',
-                                        res_type: 'uint256',
-                                        button_only: true,
-                                        call_only: true,
-                                    }"
-                            />
-                            <tx-card  class=" flex-column  " 
-                                :props="
-                                    {
-                                        title: 'set DAI Allowance to target',
-                                        form_args: form.addTargetAllowance,
-                                        abi: ABIS.ERC20,
-                                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                        function: 'approve',
-                                        res_type: 'uint256',
-                                    }"
-                            />
-                            <tx-card  class=" flex-column  " 
-                                :props="
-                                    {
-                                        title: 'proposalCount',
-                                        form_args: {},
-                                        abi: ABIS.DAO,
-                                        address: CURRENT_NETWORK.DAO_ADDRESS,
-                                        function: 'numProposals',
-                                        res_type: 'uint',
-                                        button_only: true,
-                                        call_only: true,
-                                    }"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-column n-flat mx-2 pa-2">
-                    <h4 class="tx-ls-3 my-2 tx-center">CONTRACT </h4>
-                    <hr class="w-50 opacity-10">
-                    <div class="flex-row">
-                        <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 's_randomWords',
-                                    form_args: form.randomWords,
-                                    abi: ABIS.RESOLVER,
-                                    address: CURRENT_NETWORK.RESOLVER_ADDRESS,
-                                    function: 's_randomWords',
-                                    res_type: 'word',
-                                    DEBUG: true,
-                                    call_only: true,
-                                }"
-                        />
-                    </div>
-                    <div class="flex-wrap ">
-                        <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 'get Requester',
-                                    form_args: {},
-                                    abi: ABIS.RESOLVER,
-                                    address: CURRENT_NETWORK.RESOLVER_ADDRESS,
-                                    function: 'requester',
-                                    res_type: 'address',
-                                    button_only: true,
-                                    call_only: true,
-                                }"
-                        />
-                        <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 'set Requester',
-                                    form_args: form.setRequester,
-                                    abi: ABIS.RESOLVER,
-                                    address: CURRENT_NETWORK.RESOLVER_ADDRESS,
-                                    function: 'setRequester',
-                                }"
-                        />
-                    </div>
-                    <hr class="w-50 opacity-10">
-                    <div class="flex-wrap ">
-                        <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 'transferOwnership to dao',
-                                    form_args: form.transferOwnership,
-                                    abi: ABIS.LOTTO,
-                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                    function: 'transferOwnership',
-                                    res_type: 'uint256',
-                                }"
-                        />
-                    </div>
-                </div>
-            </div>
             <div class="flex-column flex-lg2x-row" >
-                <div class="flex-column n-flat mx-2 pa-2" >
+                <div class="flex-column n-flat mx-2 pa-2" >  <!-- READ PROPOSAL -->
                     <h4 class="tx-ls-3 my-2 tx-center">READ PROPOSAL </h4>
                     <div v-if="values.dai_dao_allowance > 0">
                         <small class="tx-xs mb-1 tx-ls-1">setProposalIndexInRead</small>
@@ -413,7 +244,7 @@
                     </div>
                 </div>
 
-                <div class="flex-column  n-flat mx-2 pa-2" >
+                <div class="flex-column  n-flat mx-2 pa-2" > <!-- ACT ON PROPOSAL -->
                     <h4 class="tx-ls-3 my-2 tx-center">ACT ON PROPOSAL </h4>
                     <div v-if="values.dai_dao_allowance > 0">
                         <small class="tx-xs mb-1 tx-ls-1">setProposalIndexInAct</small>
@@ -533,6 +364,208 @@
                     </div>
                 </div>
             </div>
+            <div class="flex-column ">
+                <div class="flex-column n-flat mx-2 pa-2">  <!--DAO -->
+                    <h4 class="tx-ls-3 my-2 tx-center">{{shortAddress(first_acc.address)}} </h4>
+                    
+                    <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div>
+                    <span class="mb-3">{{values.dai_balance_of}} DAI</span>
+                    <tx-card ref="DAIBalanceOf" v-show="false" class=" flex-column  " 
+                        :props="
+                            {
+                                title: 'DAI',
+                                form_args: form.DAIBalanceOf,
+                                abi: ABIS.ERC20,
+                                address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                function: 'balanceOf',
+                                res_type: 'uint256',
+                                button_only: true,
+                                call_only: true,
+                            }"
+                    /> 
+                    <hr class="w-50 opacity-10">
+                    <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
+                        class="n-flat pa-2 clickable opacity-hover-50"
+                    >
+                        {{LANG.signup}}
+                    </div>
+                    <tx-card v-show="false" ref="addFullTargetAllowance" class=" " 
+                        :props="
+                            {
+                                title: 'Add FULL DAI Allowance to target',
+                                form_args: form.addFullTargetAllowance,
+                                abi: ABIS.ERC20,
+                                address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                function: 'approve',
+                                res_type: 'uint256',
+                                button_only: true,
+                            }"
+                    />
+                    <div class="  flex-column tx-sm w-100">
+                        <div class="w-100 flex-between tx-sm">
+                            <!-- <div></div> -->
+                            <!-- <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div> -->
+                            
+                            <div @click="trigger_daiBalanceOfAndAllowance"
+                            :class="[togglers.dao_advanced ? 'n-inset' : 'n-flat']"
+                                class=" clickable pa-2 opacity-hover-50"
+                            >
+                                <i :class="[loadings.daiBalanceOfAndAllowance ? 'spin-nback' : 'fa-redo']" class="fas fa-circle-notch"></i>
+                                <!-- <i class="fa fa-minus"></i> -->
+                            </div>
+                            <div @click="togglers.dao_advanced = !togglers.dao_advanced"
+                            :class="[togglers.dao_advanced ? 'n-inset' : 'n-flat']"
+                                class=" clickable pa-2 opacity-hover-50"
+                            >
+                                <i :class="[togglers.dao_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
+                                <!-- <i class="fa fa-minus"></i> -->
+                            </div>
+                        </div>
+                        <div class="flex-column " v-show="togglers.dao_advanced">
+                            
+                            <tx-card   ref="targetAllowance"  class=" flex-column  " 
+                                :props="
+                                    {
+                                        title: 'DAI Allowance to TargetContract',
+                                        form_args: form.targetAllowance,
+                                        abi: ABIS.ERC20,
+                                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                        function: 'allowance',
+                                        res_type: 'uint256',
+                                        button_only: true,
+                                        call_only: true,
+                                    }"
+                            />
+                            <tx-card  class=" flex-column  " 
+                                :props="
+                                    {
+                                        title: 'set DAI Allowance to target',
+                                        form_args: form.addTargetAllowance,
+                                        abi: ABIS.ERC20,
+                                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                        function: 'approve',
+                                        res_type: 'uint256',
+                                    }"
+                            />
+                            <tx-card  class=" flex-column  " 
+                                :props="
+                                    {
+                                        title: 'proposalCount',
+                                        form_args: {},
+                                        abi: ABIS.DAO,
+                                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                                        function: 'numProposals',
+                                        res_type: 'uint',
+                                        button_only: true,
+                                        call_only: true,
+                                    }"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-column n-flat mx-2 pa-2" >
+                    <div class="flex-column tx-xs px-2" >
+                        <div class="" style="min-width: 190px">
+                            <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank" class="tx-lg py-2 n-tx flex-between w-100">
+                                <i class="fa fa-file "></i>
+                                Transaction history
+                            </a>
+                        </div>
+                        <div class="" style="min-width: 190px">
+                            <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank" class="tx-lg py-2 n-tx flex-between w-100">
+                                <i class="fa fa-book "></i>
+                                Rules of the game
+                            </a>
+                        </div>
+                        <div class="" style="min-width: 190px">
+                            <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank" class="tx-lg py-2 n-tx flex-between w-100">
+                                <i class="fas fa-headset "></i>
+                                Contact us
+                            </a>
+                        </div>
+                        <div class="" style="min-width: 190px">
+                            <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank" class="tx-lg py-2 n-tx flex-between w-100">
+                                <i class="fas fa-sign-out-alt "></i>
+                                Logout
+                            </a>
+                        </div>
+
+                    </div>
+                    <!-- <hr class="w-50 opacity-10"> -->
+                    <div class="flex-row">
+                    </div>
+                </div>
+                <div class="flex-column n-flat mx-2 pa-2" v-if="false">  <!--CONTRACT -->
+                    <h4 class="tx-ls-3 my-2 tx-center">CONTRACT </h4>
+                    <hr class="w-50 opacity-10">
+                    <div class="flex-wrap ">
+                        <tx-card  class=" flex-column  " 
+                            :props="
+                                {
+                                    title: 'make a proposal',
+                                    form_args: form.createProposal,
+                                    abi: ABIS.DAO,
+                                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                                    function: 'createProposal',
+                                }"
+                        />
+                    </div>
+                    <div class="flex-row">
+                        <tx-card  class=" flex-column  " 
+                            :props="
+                                {
+                                    title: 's_randomWords',
+                                    form_args: form.randomWords,
+                                    abi: ABIS.RESOLVER,
+                                    address: CURRENT_NETWORK.RESOLVER_ADDRESS,
+                                    function: 's_randomWords',
+                                    res_type: 'word',
+                                    DEBUG: true,
+                                    call_only: true,
+                                }"
+                        />
+                    </div>
+                    <div class="flex-column ">
+                        <tx-card  class=" flex-column  " 
+                            :props="
+                                {
+                                    title: 'get Requester',
+                                    form_args: {},
+                                    abi: ABIS.RESOLVER,
+                                    address: CURRENT_NETWORK.RESOLVER_ADDRESS,
+                                    function: 'requester',
+                                    res_type: 'address',
+                                    button_only: true,
+                                    call_only: true,
+                                }"
+                        />
+                        <tx-card  class=" flex-column  " 
+                            :props="
+                                {
+                                    title: 'set Requester',
+                                    form_args: form.setRequester,
+                                    abi: ABIS.RESOLVER,
+                                    address: CURRENT_NETWORK.RESOLVER_ADDRESS,
+                                    function: 'setRequester',
+                                }"
+                        />
+                    </div>
+                    <hr class="w-50 opacity-10">
+                    <div class="flex-wrap ">
+                        <tx-card  class=" flex-column  " 
+                            :props="
+                                {
+                                    title: 'transferOwnership to dao',
+                                    form_args: form.transferOwnership,
+                                    abi: ABIS.LOTTO,
+                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                    function: 'transferOwnership',
+                                    res_type: 'uint256',
+                                }"
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -540,6 +573,7 @@
     import txCard from "../components/tx-card.vue";
 
     import { ABIS, CURRENT_NETWORK } from '../store/constants';
+    import { parseDecimals, ERROR_HELPER, shortAddress, shortAddressSpaced } from '../store/helpers';
 
     import {
       Multicall,
@@ -764,6 +798,7 @@
             
         },
         methods: {
+            shortAddress,
             trigger_daiBalanceOfAndAllowance()
             {
                 if (this.loadings.daiBalanceOfAndAllowance) return

@@ -58,19 +58,6 @@
                             </a>
                         </h6>
                         <lotto v-if="accs_length" />
-
-                        <!-- <tx-card  class=" flex-column pa-2 border-r-15 " 
-                            ref="registerCard"
-                            :props="
-                                {
-                                    title: 'Add DAI Allowance to target',
-                                    form_args: form.addTargetAllowance,
-                                    abi: ABIS.ERC20,
-                                    address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                    function: 'approve',
-                                    res_type: 'uint256',
-                                }"
-                        /> -->
                     </div>
                 </template>
             </div>
