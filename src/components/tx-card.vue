@@ -31,10 +31,16 @@
 
             <div v-if="!props.abi || !props.address || !props.function" class="flex-wrap mt-3  pa-2 mt-1 border-r-5">
                 <div class="flex-center">
-                    <input v-if="!props.abi" style="max-width: 40px;" type="text" v-model="form.contractAbi"       class=" tx-primary n-inset noborder pa-1 ma-3" placeholder="abi">
-                    <input v-if="!props.address" style="width: 120px" type="text" v-model="form.contractAddress"   class=" tx-primary n-inset noborder pa-1 " placeholder="address">
+                    <input v-if="!props.abi" type="text" v-model="form.contractAbi"       
+                        class=" tx-primary n-inset noborder pa-1 ma-3" placeholder="abi" style="max-width: 40px;"
+                    >
+                    <input v-if="!props.address" type="text" v-model="form.contractAddress"   
+                        class=" tx-primary n-inset noborder pa-1 " placeholder="address" style="width: 120px"
+                    >
                 </div>
-                <input v-if="!props.function" style="width: 80px" type="text" v-model="form.functionName"      class=" tx-primary n-inset noborder pa-1 " placeholder="function">
+                <input v-if="!props.function" type="text" v-model="form.functionName"      
+                    class=" tx-primary n-inset noborder pa-1 " placeholder="function" style="width: 80px"
+                >
             </div>
 
         </div>

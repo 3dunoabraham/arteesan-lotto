@@ -32,7 +32,7 @@ export const LANG = {
 		comingSoon: "Coming Soon",
 		farmLevel: "Farm Level",
 		welcome: "Welcome",
-		signup: "Register",
+		signup: "Sign Up",
 	
 		connect: "Connect",
 		wallet: "Wallet",
