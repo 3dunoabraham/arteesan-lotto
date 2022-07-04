@@ -33,6 +33,7 @@ export const LANG = {
 		farmLevel: "Farm Level",
 		welcome: "Welcome",
 		signup: "Sign Up",
+		prizePool: "Prize Pool",
 	
 		connect: "Connect",
 		wallet: "Wallet",
@@ -91,6 +92,7 @@ export const LANG = {
 		farmLevel: "Nivel de Fertilidad",
 		welcome: "Bienvenido",
 		signup: "Registrate",
+		prizePool: "Recompensa",
 	
 		connect: "Ingresa",
 		wallet: "a tu Cuenta",
