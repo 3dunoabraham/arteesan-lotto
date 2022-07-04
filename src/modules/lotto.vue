@@ -5,11 +5,14 @@
             <div class="flex-column flex-lg2x-row" >
                 <div class="flex-column n-flat mx-2 pa-2" >  <!-- Prize Pool -->
                     <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
-                    <div v-if="loadings.currentRoundAndLastTicket"><i class="fas fa-circle-notch spin-nback"></i></div>
+                    <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
+                        <i class="fas fa-circle-notch spin-nback"></i>
+                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
+                    </div>
                     <h1  class=" flex-column  tx-success" v-if="values.prize_pool">
                         ${{values.prize_pool * 0.2}} 
                     </h1>
-                    <div class="tx-xs opacity-50 w-100 flex-column" v-if="values.dai_dao_allowance > 0">
+                    <div class="tx-xs opacity-50 w-100 flex-column" >
                         <span></span>
                         {{values.deadline}}
                         <tx-card v-show="false" class=" flex-column  " 
@@ -56,7 +59,7 @@
                             ref="lastTicketNumber"
                             :props="
                                 {
-                                    title: 'Last Ticket Bought',
+                                    title: LANG.lastTicketBought,
                                     form_args: form.getProposalPropertyAmountVotes,
                                     abi: ABIS.DAO,
                                     address: CURRENT_NETWORK.DAO_ADDRESS,
@@ -66,6 +69,8 @@
                                     call_only: true,
                                 }"
                         />
+                    </div>
+                    <div class="tx-xs opacity-50 w-100 flex-column" v-if="values.dai_dao_allowance > 0">
                     </div>
                     <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
                         class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3"
@@ -105,6 +110,19 @@
                                     call_only: true,
                                 }"
                         />
+                                <tx-card  class=" flex-column  " v-show="false" 
+                                    ref="prizePool"
+                                    :props="
+                                        {
+                                            title: 'amountOf tokens ',
+                                            form_args: form.getProposalPropertyAmount,
+                                            abi: ABIS.DAO,
+                                            address: CURRENT_NETWORK.DAO_ADDRESS,
+                                            function: 'proposals',
+                                            res_type: 'struct.amountOfTokens.uint256',
+                                            call_only: true,
+                                        }"
+                                />
                         <div v-if="values.dai_dao_allowance > 0">
                             <!-- <small class="tx-xs mb-1 tx-ls-1">setProposalIndexInRead</small> -->
                             <div class="flex-row nowrap">
@@ -118,7 +136,6 @@
                             <hr class="w-50 opacity-10">
                             <div class="flex-row">
                                 <tx-card  class=" flex-column  " 
-                            ref="prizePool"
                                     :props="
                                         {
                                             title: 'amountOf tokens ',
@@ -333,10 +350,13 @@
                 </div>
 
                 <div class="flex-column  n-flat mx-2 pa-2" > <!-- Buy Ticket -->
-                    <h5 class="tx-ls-5 my-2 tx-center opacity-50">OPEN LOTTO </h5>
-                    <hr class="w-100 opacity-10 ">
+                    <!-- <h5 class="tx-ls-5 my-2 tx-center opacity-50">OPEN LOTTO </h5>
+                    <hr class="w-100 opacity-10 "> -->
 
-                    <div v-if="loadings.currentRoundAndLastTicket"><i class="fas fa-circle-notch spin-nback"></i></div>
+                    <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
+                        <i class="fas fa-circle-notch spin-nback"></i>
+                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
+                    </div>
                     <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
                         class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3"
                     >
@@ -346,10 +366,10 @@
                     <template v-if="values.dai_dao_allowance > 0" >
 
                         <div class="  flex-column tx-sm w-100">
-                            <tx-card  class=" flex-column tx-xl mb-3" 
+                            <tx-card  class=" flex-column tx-xl  px-8 py-2" 
                                 :props="
                                     {
-                                        title: 'Buy Ticket',
+                                        title: LANG.buyTicket,
                                         form_args: form.voteOnProposal,
                                         abi: ABIS.DAO,
                                         address: CURRENT_NETWORK.DAO_ADDRESS,
@@ -490,7 +510,12 @@
                 <div class="flex-column n-flat mx-2 pa-2">  <!--DAO -->
                     <h4 class="tx-ls-3 my-2 tx-center">{{shortAddress(first_acc.address)}} </h4>
                     
-                    <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div>
+                    <!-- <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div> -->
+
+                    <div v-if="loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
+                        <i class="fas fa-circle-notch spin-nback"></i>
+                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.walletInfo}}</span>
+                    </div>
                     <span class="">{{values.dai_balance_of}} DAI</span>
                     <hr class="w-100 opacity-10">
                     <tx-card ref="DAIBalanceOf" v-show="false" class=" flex-column  " 
