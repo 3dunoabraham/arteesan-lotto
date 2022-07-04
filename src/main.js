@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-import './theme/index.css'
-import './theme/core.css';
+import './css/theme.css'
+import './css/core.css';
 
 import store from './store';
 

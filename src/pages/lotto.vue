@@ -3,7 +3,7 @@
     <div class="flex-column ">
         <div class="flex-column flex-xl2x-row">
             <div class="flex-column flex-lg2x-row" >
-                <div class="flex-column n-flat mx-2 pa-2" >  <!-- Prize Pool -->
+                <div class="flex-column n-flat border-r-15 mx-2 pa-2" >  <!-- Prize Pool -->
                     <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
                     <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
                         <i class="fas fa-circle-notch spin-nback"></i>
@@ -73,7 +73,7 @@
                     <div class="tx-xs opacity-50 w-100 flex-column" v-if="values.dai_dao_allowance > 0">
                     </div>
                     <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
-                        class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3"
+                        class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3 border-r-25"
                     >
                         <!-- register -->
                         {{LANG.signup}} 
@@ -84,14 +84,14 @@
                         
                         <!-- <div @click="trigger_currentRoundAndLastTicket"
                         :class="[togglers.buy_advanced ? 'n-inset' : 'n-flat']"
-                            class=" clickable pa-2 opacity-hover-50"
+                            class=" clickable pa-2 opacity-hover-50 border-r-50"
                         >
                             <i :class="[loadings.daiBalanceOfAndAllowance ? 'spin-nback' : 'fa-redo']" class="fas fa-circle-notch"></i>
                         </div> -->
                         <div></div>
                         <div @click="togglers.buy_advanced = !togglers.buy_advanced"
                         :class="[togglers.buy_advanced ? 'n-inset' : 'n-flat']"
-                            class=" clickable pa-2 opacity-hover-50"
+                            class=" clickable pa-2 opacity-hover-50 border-r-50"
                         >
                             <i :class="[togglers.buy_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
                             <!-- <i class="fa fa-minus"></i> -->
@@ -349,16 +349,19 @@
                     </div>
                 </div>
 
-                <div class="flex-column  n-flat mx-2 pa-2" > <!-- Buy Ticket -->
+                <div class="flex-column  n-flat border-r-25 mx-2 pa-2 mt-5" > <!-- Buy Ticket -->
                     <!-- <h5 class="tx-ls-5 my-2 tx-center opacity-50">OPEN LOTTO </h5>
                     <hr class="w-100 opacity-10 "> -->
+
+                    <h5 class="tx-ls-5 my-2 tx-center opacity-50"> {{LANG.buyTicket.toUpperCase() }} </h5>
+                    <hr class="w-100 opacity-10 ">
 
                     <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
                         <i class="fas fa-circle-notch spin-nback"></i>
                         <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
                     </div>
                     <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
-                        class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3"
+                        class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3 border-r-25"
                     >
                         <!-- register -->
                         {{LANG.signup}} 
@@ -383,14 +386,14 @@
                                 
                                 <!-- <div @click="trigger_currentRoundAndLastTicket"
                                 :class="[togglers.buy_advanced ? 'n-inset' : 'n-flat']"
-                                    class=" clickable pa-2 opacity-hover-50"
+                                    class=" clickable pa-2 opacity-hover-50 border-r-50"
                                 >
                                     <i :class="[loadings.daiBalanceOfAndAllowance ? 'spin-nback' : 'fa-redo']" class="fas fa-circle-notch"></i>
                                 </div> -->
                                 <div></div>
                                 <div @click="togglers.buy_advanced = !togglers.buy_advanced"
                                 :class="[togglers.buy_advanced ? 'n-inset' : 'n-flat']"
-                                    class=" clickable pa-2 opacity-hover-50"
+                                    class=" clickable pa-2 opacity-hover-50 border-r-50"
                                 >
                                     <i :class="[togglers.buy_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
                                     <!-- <i class="fa fa-minus"></i> -->
@@ -506,8 +509,9 @@
                     </template>
                 </div>
             </div>
-            <div class="flex-column ">
-                <div class="flex-column n-flat mx-2 pa-2">  <!--DAO -->
+            <div class="flex-column mt-5">
+                <div class="flex-column n-flat border-r-25 mx-2 pa-4" style="transform: translateY(15px);">  <!--DAO -->
+                    <h6 class="tx-ls-1 opacity-50  my-0 tx-center">{{LANG.myAccount}} </h6>
                     <h4 class="tx-ls-3 my-2 tx-center">{{shortAddress(first_acc.address)}} </h4>
                     
                     <!-- <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div> -->
@@ -551,14 +555,14 @@
                             
                             <div @click="trigger_daiBalanceOfAndAllowance"
                             :class="[togglers.dao_advanced ? 'n-inset' : 'n-flat']"
-                                class=" clickable pa-2 opacity-hover-50"
+                                class=" clickable pa-2 opacity-hover-50 border-r-50"
                             >
                                 <i :class="[loadings.daiBalanceOfAndAllowance ? 'spin-nback' : 'fa-redo']" class="fas fa-circle-notch"></i>
                                 <!-- <i class="fa fa-minus"></i> -->
                             </div>
                             <div @click="togglers.dao_advanced = !togglers.dao_advanced"
                             :class="[togglers.dao_advanced ? 'n-inset' : 'n-flat']"
-                                class=" clickable pa-2 opacity-hover-50"
+                                class=" clickable pa-2 opacity-hover-50 border-r-50"
                             >
                                 <i :class="[togglers.dao_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
                                 <!-- <i class="fa fa-minus"></i> -->
@@ -607,28 +611,36 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex-column n-flat mx-2 pa-2" >
+                <div class="flex-column n-inset border-r-50 mx-2 pa-6" >
                     <div class="flex-column tx-xs px-2" >
-                        <div class="" style="min-width: 190px">
-                            <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank" class="tx-lg py-2 n-tx flex-between w-100">
+                        <div class="tx-sm" style="min-width: 170px">
+                            <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
+                                class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
+                            >
                                 <i class="fa fa-file "></i>
                                 Transaction history
                             </a>
                         </div>
-                        <div class="" style="min-width: 190px">
-                            <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank" class="tx-lg py-2 n-tx flex-between w-100">
+                        <div class="tx-sm" style="min-width: 170px">
+                            <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
+                                class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
+                            >
                                 <i class="fa fa-book "></i>
                                 Rules of the game
                             </a>
                         </div>
-                        <div class="" style="min-width: 190px">
-                            <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank" class="tx-lg py-2 n-tx flex-between w-100">
+                        <div class="tx-sm" style="min-width: 170px">
+                            <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
+                                class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
+                            >
                                 <i class="fas fa-headset "></i>
                                 Contact us
                             </a>
                         </div>
-                        <div class="" style="min-width: 190px">
-                            <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank" class="tx-lg py-2 n-tx flex-between w-100">
+                        <div class="tx-sm" style="min-width: 170px">
+                            <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
+                                class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
+                            >
                                 <i class="fas fa-sign-out-alt "></i>
                                 Logout
                             </a>
@@ -702,16 +714,15 @@
     </div>
 </template>
 <script>
-    import txCard from "../components/tx-card.vue";
-
-    import { ABIS, CURRENT_NETWORK } from '../store/constants';
-    import { parseDecimals, ERROR_HELPER, shortAddress, shortAddressSpaced } from '../store/helpers';
-
     import {
       Multicall,
     } from 'ethereum-multicall';
     import { ethers } from 'ethers';
 
+    import { ABIS, CURRENT_NETWORK } from '../store/constants';
+    import { parseDecimals, ERROR_HELPER, shortAddress, shortAddressSpaced } from '../store/helpers';
+    
+    import txCard from "../components/tx-card.vue";
 
     export default {
         name: 'lotto',     

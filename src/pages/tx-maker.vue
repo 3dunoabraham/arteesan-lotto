@@ -101,8 +101,10 @@
 </template>
 <script>
     import { ethers, Contract }  from 'ethers';
+    
     import { ABIS, CURRENT_NETWORK } from '../store/constants';
     import { parseDecimals, ERROR_HELPER, shortAddress } from '../store/helpers';
+
     import newItem from "../components/new-item.vue";
     import farmItem from "../components/farm-item.vue";
 

@@ -50,9 +50,9 @@
                     </div>
                 </template>
                 <template v-if="current_page == 'lottery'">
-                    <div class="n-inset border-r-50 ma-8 pa-4 ">
+                    <div class="n-inset border-r-50 ma-8 pa-6 pb-8 ">
                         <h1 class="mt-0 tx-center">Lotto </h1>
-                        <h6 class="my-0 tx-center ">
+                        <h6 class=" tx-center ">
                             <a href="https://github.com/arteesanio/OpenFarm-Lotto-Contracts" target="_blank" class="tx-primary">
                                 Contracts Github
                             </a>
@@ -71,17 +71,17 @@
     </div>
 </template>
 <script>
+    import { ethers, Contract }  from 'ethers';
+    import { ABIS, CURRENT_NETWORK } from '../store/constants';
+
+    import exchange from "./exchange.vue";
+    import txMaker from "./tx-maker.vue";
+    import roulette from "./roulette.vue";
+    import lotto from "./lotto.vue";
+    
     import infispinner from "../components/infispinner.vue";
     import newItem from "../components/new-item.vue";
     import txCard from "../components/tx-card.vue";
-    
-    import exchange from "./exchange.vue";
-    import txMaker from "./tx-maker.vue";
-    import roulette from "../modules/roulette.vue";
-    import lotto from "../modules/lotto.vue";
-
-    import { ABIS, CURRENT_NETWORK } from '../store/constants';
-    import { ethers, Contract }  from 'ethers';
 
     export default {
         name: 'home-page',     

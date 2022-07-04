@@ -220,11 +220,13 @@
 </template>
 <script>
 	import { parseDecimals, ERROR_HELPER } from '../store/helpers';
-    import tokenInput from "../components/token-input.vue";
+
     import settings from "../modules/settings.vue";
     import liquidity from "../modules/liquidity.vue";
     import markets from "../modules/markets.vue";
     import farms from "../modules/farms.vue";
+    
+    import tokenInput from "../components/token-input.vue";
 
 	export default {   
 		data() {

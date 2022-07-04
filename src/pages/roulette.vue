@@ -144,9 +144,9 @@
     </div>
 </template>
 <script>
-    import txCard from "../components/tx-card.vue";
-
     import { ABIS, CURRENT_NETWORK } from '../store/constants';
+    
+    import txCard from "../components/tx-card.vue";
 
     export default {
         name: 'roulette',     
