@@ -6,10 +6,67 @@
                 <div class="flex-column n-flat mx-2 pa-2" >  <!-- Prize Pool -->
                     <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
                     <div v-if="loadings.currentRoundAndLastTicket"><i class="fas fa-circle-notch spin-nback"></i></div>
-                    <h1  class="mb-0 flex-column  tx-success" v-if="values.prize_pool">
-                        ${{values.prize_pool}} 
+                    <h1  class=" flex-column  tx-success" v-if="values.prize_pool">
+                        ${{values.prize_pool * 0.2}} 
                     </h1>
+                    <div class="tx-xs opacity-50 w-100 flex-column" v-if="values.dai_dao_allowance > 0">
+                        <span></span>
+                        {{values.deadline}}
+                        <tx-card v-show="false" class=" flex-column  " 
+                            ref="deadline"
+                            :props="
+                                {
+                                    title: 'getDeadline ',
+                                    form_args: form.getProposalPropertyDeadline,
+                                    abi: ABIS.DAO,
+                                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                                    function: 'proposals',
+                                    res_type: 'struct.deadline.timestamp',
+                                    call_only: true,
+                                }"
+                        />
+                    </div>
                     <hr class="w-100 opacity-10 ">
+
+                    <div class="flex flex-align-start">
+                        <div  class=" flex-column tx-sm  " >
+                            <span class="tx-xs">Current Round</span>
+                            <span class="tx-xl">{{values.current_round - 1}}</span>
+                        </div>
+                        <div style="height: 70px; width: 2px; background: white; display: block;"
+                            class="mx-3 mb-3 opacity-10" 
+                        >
+                        </div>
+                        <tx-card v-show="false"  class=" flex-column  " 
+                        ref="currentRound"
+                            :props="
+                                {
+                                    title: 'Current Round',
+                                    form_args: {},
+                                    abi: ABIS.DAO,
+                                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                                    function: 'numProposals',
+                                    res_type: 'uint',
+                                    button_only: true,
+                                    call_only: true,
+                                }"
+                        />
+
+                        <tx-card  class=" flex-column  mb-5" 
+                            ref="lastTicketNumber"
+                            :props="
+                                {
+                                    title: 'Last Ticket Bought',
+                                    form_args: form.getProposalPropertyAmountVotes,
+                                    abi: ABIS.DAO,
+                                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                                    function: 'proposals',
+                                    res_type: 'struct.amountOfVotes.uint',
+                                    button_only: true,
+                                    call_only: true,
+                                }"
+                        />
+                    </div>
                     <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
                         class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3"
                     >
@@ -37,7 +94,6 @@
                     </div>
                     <div class="flex-column " v-show="togglers.buy_advanced">
                         <tx-card  class=" flex-column " v-show="false" 
-                            ref="prizePool"
                             :props="
                                 {
                                     title: 'tokens required',
@@ -59,23 +115,10 @@
                                     set
                                 </div>
                             </div>
-                            <tx-card  class=" flex-column  " 
-                                :props="
-                                    {
-                                        title: 'getDeadline ',
-                                        form_args: form.getProposalPropertyDeadline,
-                                        abi: ABIS.DAO,
-                                        address: CURRENT_NETWORK.DAO_ADDRESS,
-                                        function: 'proposals',
-                                        res_type: 'struct.deadline.timestamp',
-                                        call_only: true,
-                                        DEBUG: true,
-                                        advanced: true,
-                                    }"
-                            />
                             <hr class="w-50 opacity-10">
                             <div class="flex-row">
                                 <tx-card  class=" flex-column  " 
+                            ref="prizePool"
                                     :props="
                                         {
                                             title: 'amountOf tokens ',
@@ -294,45 +337,6 @@
                     <hr class="w-100 opacity-10 ">
 
                     <div v-if="loadings.currentRoundAndLastTicket"><i class="fas fa-circle-notch spin-nback"></i></div>
-                    <div class="flex flex-align-start">
-                        <div  class=" flex-column tx-sm  " >
-                            <span class="tx-xs">Current Round</span>
-                            <span class="tx-xl">{{values.current_round - 1}}</span>
-                        </div>
-                        <div style="height: 70px; width: 2px; background: white; display: block;"
-                            class="mx-3 mb-3 opacity-10" 
-                        >
-                        </div>
-                        <tx-card v-show="false"  class=" flex-column  " 
-                        ref="currentRound"
-                            :props="
-                                {
-                                    title: 'Current Round',
-                                    form_args: {},
-                                    abi: ABIS.DAO,
-                                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                                    function: 'numProposals',
-                                    res_type: 'uint',
-                                    button_only: true,
-                                    call_only: true,
-                                }"
-                        />
-
-                        <tx-card  class=" flex-column  mb-5" 
-                            ref="lastTicketNumber"
-                            :props="
-                                {
-                                    title: 'Last Ticket Number',
-                                    form_args: form.getProposalPropertyAmountVotes,
-                                    abi: ABIS.DAO,
-                                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                                    function: 'proposals',
-                                    res_type: 'struct.amountOfVotes.uint',
-                                    button_only: true,
-                                    call_only: true,
-                                }"
-                        />
-                    </div>
                     <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
                         class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3"
                     >
@@ -382,9 +386,9 @@
                                     </div>
                                 </div>
                                 <hr class="w-50 opacity-10">
-                                <div class="flex-column n-flat">
+                                <div class="flex-column">
                                     <div class="flex-column ">
-                                        make_multicall
+                                        <!-- make_multicall -->
                                         <tx-card  class=" flex-column  " 
                                             :props="
                                                 {
@@ -553,7 +557,7 @@
                             <tx-card  class=" flex-column  mt-3" 
                                 :props="
                                     {
-                                        title: 'Sign Up to Smart Contract',
+                                        title: 'Sign Smart Contract',
                                         form_args: form.addTargetAllowance,
                                         abi: ABIS.ERC20,
                                         address: CURRENT_NETWORK.BASE_USD_ADDRESS,
@@ -700,6 +704,7 @@
                     dai_dao_allowance: null,
                     current_round: null,
                     prize_pool: null,
+                    deadline: null,
                 },
                 loadings: {
                     daiBalanceOfAndAllowance: false,
@@ -907,6 +912,7 @@
 
         },
         methods: {
+
             shortAddress,
             trigger_currentRoundAndLastTicket()
             {
@@ -922,9 +928,13 @@
                     this.form.getProposalPropertyAmountVotes["0"].value = (parseInt(this.values.current_round) - 1)+""
                     await this.$refs.lastTicketNumber.execute()
 
-                    this.form.amountOfTokensRequired["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    this.form.getProposalPropertyAmount["0"].value = (parseInt(this.values.current_round) - 1)+""
                     await this.$refs.prizePool.execute()
                     this.values.prize_pool = this.$refs.prizePool._parsedResult
+
+                    this.form.getProposalPropertyDeadline["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    await this.$refs.deadline.execute()
+                    this.values.deadline = this.$refs.deadline._parsedResult
 
                     this.loadings.currentRoundAndLastTicket = false
 

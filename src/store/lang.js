@@ -35,8 +35,8 @@ export const LANG = {
 		signup: "Sign Up",
 		prizePool: "Prize Pool",
 	
-		connect: "Connect",
-		wallet: "Wallet",
+		connect: "Enter",
+		wallet: "",
 		seeMore: "See More",
 
 		exchange: "Bureau de Change",
@@ -92,10 +92,10 @@ export const LANG = {
 		farmLevel: "Nivel de Fertilidad",
 		welcome: "Bienvenido",
 		signup: "Registrate",
-		prizePool: "Recompensa",
+		prizePool: "Premio Maximo",
 	
-		connect: "Ingresa",
-		wallet: "a tu Cuenta",
+		connect: "Entrar",
+		wallet: "",
 		seeMore: "Ver Mas",
 
 		exchange: "Casa de Cambio",

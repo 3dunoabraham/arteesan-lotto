@@ -261,11 +261,14 @@
                             {
                                 timestamp: ethers.utils.formatEther(altResult),
                                 int: parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString())),
-                                res: new Date(1000*parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString()))).toLocaleString("en-US"),
+
+                                res: this.formatDate(new Date(1000*parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString())))),
+                                // res: new Date(1000*parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString()))).toLocaleString("en-US"),
                             }
                         )
                     }
-                    return new Date(1000*parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString()))).toLocaleString("en-US")
+                    let resssult = this.formatDate(new Date(1000*parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString()))))
+                    return `${resssult[5]} ${resssult[2]}, ${resssult[3]}:${resssult[4]} - ${resssult[6]} ${resssult[0]}`
                 }
 
                 return altResult
@@ -283,6 +286,20 @@
             shortAddressSpaced,
             parseDecimals,
 
+            formatDate(date = new Date()) {
+              return [
+                date.getFullYear(),
+                this.padTo2Digits(date.getMonth() + 1),
+                this.padTo2Digits(date.getDate()),
+                this.padTo2Digits(date.getHours()),
+                this.padTo2Digits(date.getMinutes()),
+                ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][date.getDay()],
+                ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][date.getMonth()],
+              ];
+            },
+            padTo2Digits(num) {
+              return num.toString().padStart(2, '0');
+            },
 
             parseMultiArg(_arg, _index, _ref = [])
             {

@@ -16,15 +16,15 @@
                     </span>
                 </div>
                 <!-- <hr class="opacity-10 w-50"> -->
-                {{LANG.or}}
+                <!-- {{LANG.or}} -->
                 <!-- <hr class="opacity-10 w-50"> -->
-                <div class="flex-center flex-1 mb-8" style="min-width: 300px; " >
+                <!-- <div class="flex-center flex-1 mb-8" style="min-width: 300px; " >
                     <span @click="register"
                          class="clickable opacity-hover-75 mx-2 pa-6 border-r-15 n-conve tx-xl mt-8 letter-s-15 tx-center"
                     >
                         {{LANG.signup}}
                     </span>
-                </div>
+                </div> -->
             </div>
             <div v-if="accs_length" >
                 <template v-if="current_page == 'exchange'">
@@ -130,7 +130,13 @@
         },
         mounted()
         {
-
+            document.addEventListener("keydown", (e) => {
+                if (e.keyCode == 13 && this.accs_length == 0)
+                {
+                    console.log("connecting wallet")
+                    this.connectWallet()
+                }
+            })
         },
         methods: {
             async connectWallet() {
