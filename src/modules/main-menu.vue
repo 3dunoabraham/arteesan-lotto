@@ -87,7 +87,7 @@
                     </span>
                 </a>
             </div>
-            <div class="flex tx-sm" style="position: absolute; left: 52%; transform: translateX(-50%);">
+            <div class="flex tx-xs" style="position: absolute; left: 52%; transform: translateX(-50%);">
                 <social-media />
             </div>
             <div class="flex-column-r flex-md2x-row flex-align-start">

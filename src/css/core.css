@@ -13,6 +13,11 @@
 .hover-nhover { animation: hovernback 2s;  animation-iteration-count: infinite }
 @keyframes hovernback { 0%{ transform: translateY(0px); } 50% { transform: translateY(9px); } 100% { transform: translateY(0px); } }
 
+.pos-relative {
+	position: relative;
+}
+
+
 .flex { display: flex }
 .flex-center { display: flex; justify-content: center; align-items: center }
 .flex-row { display: flex; flex-direction: row; justify-content: center; align-items: center }

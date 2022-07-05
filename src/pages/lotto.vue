@@ -2,7 +2,7 @@
         
     <div class="flex-column " >
         <div id="award" style="position: absolute; top: 0; left: 0"></div>
-        <div class="py-4" > </div>
+        <div class="py-8" > </div>
         <div class="flex-column flex-lg2x-row pt-8">
             <div class="flex-column flex-md2x-row" >
                 <div class="flex-column n-flat border-r-15 mx-2 pa-2"  >  <!-- Prize Pool -->
@@ -40,7 +40,7 @@
                             <span class="tx-xl">{{values.current_round - 1}}</span>
                         </div>
                         <div style="height: 70px; width: 2px; background: white; display: block;"
-                            id="store"
+                            
                             class="mx-3 mb-3 opacity-10" 
                         >
                         </div>
@@ -352,8 +352,10 @@
                         </div>
                     </div>
                 </div>
-                <div style="height: 150px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
-                <div class="flex-column  n-flat border-r-25 mx-2 pa-2" id="user"> <!-- Buy Ticket -->
+                <div id="store"></div>
+
+                <div style="height: 200px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
+                <div class="flex-column  n-flat border-r-25 mx-2 pa-2" > <!-- Buy Ticket -->
                     <!-- <h5 class="tx-ls-5 my-2 tx-center opacity-50">OPEN LOTTO </h5>
                     <hr class="w-100 opacity-10 "> -->
 
@@ -514,10 +516,10 @@
                 </div>
             </div>
             <!-- <div class="show-xs_md my-8"></div> -->
-
-            <div style="height: 150px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
+            <div id="user"></div>
+            <div style="height: 200px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
             <div class="flex-column"> <!--DAO -->
-                <div class="flex-column n-flat border-r-25 mx-2 pa-4" style="z-index: 3" >  
+                <div class="flex-column n-flat border-r-25 mx-2 pa-4" style="z-index: 1" >  
                     <h6 class="tx-ls-1 opacity-50  my-0 tx-center">{{LANG.myAccount}} </h6>
                     <h4 class="tx-ls-3 my-2 tx-center">{{shortAddress(first_acc.address)}} </h4>
                     
@@ -718,17 +720,17 @@
                 </div>
             </div>
         </div>
-        <div class="flex-column w-100" style="position: fixed; top: 80px; background: linear-gradient(0deg, #00000000 0%, #00000033 80%, #00000000 100%)">
+        <div class="flex-column w-100" style="z-index: 3; position: fixed; top: 80px; background: linear-gradient(0deg, #00000000 0%, #00000033 80%, #00000000 100%)">
             <h1 class="n-inset px-4 py-2 mt-0 tx-center mb-0 n-tx-s border-r-t-15 show-xs_md">Lotto </h1>
             <!-- <h6 class=" tx-center my-0">
                 <a href="https://github.com/arteesanio/OpenFarm-Lotto-Contracts" target="_blank" class="tx-primary">
                     Contracts Github
                 </a>
             </h6> -->
-            <div class="flex-center  show-xs_md">
-                <a style="z-index: 999" href="#award" class="n-flat n-tx px-4 py-2 border-r-l-15"> <i class="fa fa-award"></i></a>
-                <a style="z-index: 999" href="#store" class="n-flat n-tx px-4 py-2 "> <i class="fa fa-store"></i></a>
-                <a style="z-index: 999" href="#user" class="n-flat n-tx px-4 py-2 border-r-r-15"> <i class="fa fa-user"></i></a>
+            <div class="flex-center  show-xs_md" >
+                <a  href="#award" class="n-flat pos-relative  n-tx px-4 py-2 border-r-l-15"> <i class="fa fa-award"></i></a>
+                <a  href="#store" class="n-flat pos-relative  n-tx px-4 py-2 "> <i class="fa fa-store"></i></a>
+                <a  href="#user" class="n-flat  pos-relative n-tx px-4 py-2 border-r-r-15"> <i class="fa fa-user"></i></a>
             </div>
             <!-- asd -->
         </div>
