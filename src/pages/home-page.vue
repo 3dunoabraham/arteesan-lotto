@@ -67,6 +67,18 @@
             <infispinner />
         </div>
 
+        <div class="py-8 my-4"></div>
+        <footer class="flex-between ">
+            <div></div>
+            <!-- <div class="n-flat border-r-100p px-2 py-1 ma-4" style="transform: rotate(90deg);"><i class="fa fa-dollar-sign opacity-25 spin-nback tx-secondary"></i></div> -->
+            <div class="flex-column">
+                <div class="n-inset w-100 tx-center py-2 border-r-t-15 tx-ls-3" style="transform: translateY(5px);">arteesan</div>
+                <div class="flex-row"> <social-media /> </div>
+            </div>
+            <div></div>
+        </footer>
+        <div class="py-4"></div>
+
 
     </div>
 </template>
@@ -82,11 +94,13 @@
     import infispinner from "../components/infispinner.vue";
     import newItem from "../components/new-item.vue";
     import txCard from "../components/tx-card.vue";
+    import socialMedia from '../components/social-media.vue';
 
     export default {
         name: 'home-page',     
         components: {
             infispinner,
+            socialMedia, 
 
             exchange,
             roulette,

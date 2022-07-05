@@ -3,8 +3,8 @@
     <div class="flex-column " >
         <div id="award" style="position: absolute; top: 0; left: 0"></div>
         <div class="py-4" > </div>
-        <div class="flex-column flex-xl2x-row pt-8">
-            <div class="flex-column flex-lg2x-row" >
+        <div class="flex-column flex-lg2x-row pt-8">
+            <div class="flex-column flex-md2x-row" >
                 <div class="flex-column n-flat border-r-15 mx-2 pa-2"  >  <!-- Prize Pool -->
                     <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
                     <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
@@ -32,6 +32,7 @@
                         />
                     </div>
                     <hr class="w-100 opacity-10 ">
+
 
                     <div class="flex flex-align-start">
                         <div  class=" flex-column tx-sm  " >
@@ -351,8 +352,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="show-xs_md my-8"></div>
-                <div class="flex-column  n-flat border-r-25 mx-2 pa-2 mt-5" id="user"> <!-- Buy Ticket -->
+                <div style="height: 150px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
+                <div class="flex-column  n-flat border-r-25 mx-2 pa-2" id="user"> <!-- Buy Ticket -->
                     <!-- <h5 class="tx-ls-5 my-2 tx-center opacity-50">OPEN LOTTO </h5>
                     <hr class="w-100 opacity-10 "> -->
 
@@ -512,9 +513,11 @@
                     </template>
                 </div>
             </div>
-            <div class="show-xs_md my-8"></div>
-            <div class="flex-column mt-5"> <!--DAO -->
-                <div class="flex-column n-flat border-r-25 mx-2 pa-4" style="transform: translateY(15px);">  
+            <!-- <div class="show-xs_md my-8"></div> -->
+
+            <div style="height: 150px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
+            <div class="flex-column"> <!--DAO -->
+                <div class="flex-column n-flat border-r-25 mx-2 pa-4" style="z-index: 3" >  
                     <h6 class="tx-ls-1 opacity-50  my-0 tx-center">{{LANG.myAccount}} </h6>
                     <h4 class="tx-ls-3 my-2 tx-center">{{shortAddress(first_acc.address)}} </h4>
                     
@@ -615,7 +618,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex-column n-inset border-r-50 mx-2 pa-6" >
+                <div class="flex-column n-inset border-r-50 mx-2 pa-6" style="transform: translateY(-15px);">
                     <div class="flex-column tx-xs px-2" >
                         <div class="tx-sm" style="min-width: 170px">
                             <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
