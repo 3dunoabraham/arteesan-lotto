@@ -12,14 +12,14 @@
                         <!-- <i class="fas fa-external-link-alt"></i> --> <small class="tx-xs">Exchange</small>
                     </span>
                 </a>
-                <a :class="[current_page == 'roulette' ? 'tx-success' : '']"
+                <!-- <a :class="[current_page == 'roulette' ? 'tx-success' : '']"
                     class="nodeco letter-s-3 noborder n-tx  n-flat clickable flex-column"
                     @click="setPage('roulette')"
                 >
                     <span class="px-5 pb-4 pt-3 opacity-hover-50 flex-column">
-                        <!-- <i class="fas fa-external-link-alt"></i> --> <small class="tx-xs">Roulette</small>
+                         <small class="tx-xs">Roulette</small>
                     </span>
-                </a>
+                </a> -->
                 <a :class="[current_page == 'lottery' ? 'tx-success' : '']"
                     class="nodeco letter-s-3 noborder n-tx  n-flat clickable flex-column"
                     @click="setPage('lottery')"

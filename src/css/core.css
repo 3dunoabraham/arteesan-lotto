@@ -103,6 +103,24 @@
 .border-r-25 { border-radius: 25px; }
 .border-r-50 { border-radius: 50px; }
 
+.border-r-l-5 { border-radius: 5px 0 0 5px; }
+.border-r-l-10 { border-radius: 10px 0 0 10px; }
+.border-r-l-15 { border-radius: 15px 0 0 15px; }
+.border-r-l-25 { border-radius: 25px 0 0 25px; }
+.border-r-l-50 { border-radius: 50px 0 0 50px; }
+
+.border-r-r-5 { border-radius: 0 5px 5px 0; }
+.border-r-r-10 { border-radius: 0 10px 10px 0; }
+.border-r-r-15 { border-radius: 0 15px 15px 0; }
+.border-r-r-25 { border-radius: 0 25px 25px 0; }
+.border-r-r-50 { border-radius: 0 50px 50px 0; }
+
+.border-r-t-5 { border-radius: 5px 5px 0 0; }
+.border-r-t-10 { border-radius: 10px 10px 0 0; }
+.border-r-t-15 { border-radius: 15px 15px 0 0; }
+.border-r-t-25 { border-radius: 25px 25px 0 0; }
+.border-r-t-50 { border-radius: 50px 50px 0 0; }
+
 .tx-xxxl {font-size: 4.5em; }
 .tx-xxl {font-size: 3.5em; }
 .tx-xl {font-size: 2.5em; }

@@ -1,9 +1,9 @@
 <template>
     <div style="position: fixed; z-index: 999; background: linear-gradient(180deg,#00000033, #00000000)" class="w-100">
-        <div class="flex-between flex-align-start "> 
-            <div class="flex show-xs_sm">
-                <social-media />
-            </div>
+
+
+
+        <div class="flex-between flex-align-start show-md_x"> 
             <div class="flex show-md_x">
                 <!-- <a class="nodeco letter-s-3 noborder n-tx tx-lg n-conve clickable flex-center mx-3"
                     href="https://t.me/"  target="_blank"
@@ -25,14 +25,17 @@
                     </span>
                 </a>
             </div>
-            <div class="flex show-md_x" style="position: absolute; left: 50%; transform: translateX(-50%);">
+            <div class="flex ">
                 <social-media />
             </div>
-            <div class="flex">
-                <button class="noborder n-tx tx-md n-conca clickable flex-center border-r-15 mt-3 mr-3"
+            <!-- <div class="flex show-md_x" style="position: absolute; left: 50%; transform: translateX(-50%);">
+                <social-media />
+            </div> -->
+            <div class="flex-column-r flex-md2x-row flex-align-start">
+                <button class="noborder n-tx tx-sm n-conca clickable flex-center border-r-15 mt-3 mr-3"
                     @click="changeNightMode"
                 >
-                    <span class="pa-4 opacity-hover-50">
+                    <span class="pa-3 opacity-hover-50">
                         <i class="fas fa-moon icon-moon" v-if="dark_mode" ></i>
                         <i class="fas fa-sun icon-sun" v-else ></i>
                     </span>
@@ -41,12 +44,73 @@
                     @click="changeEnglishMode"
                     style="border-radius: 0 0 0 40px"
                 >
-                    <span class="pa-4 opacity-hover-50">
+                    <span class="pa-2 py-4  opacity-hover-50">
                         <i class="fas fa-globe" v-if="english_mode" > <span> EN</span></i>
                         <i class="fas fa-globe-americas" v-else > <span> ES</span></i>
                     </span>
                 </button>
             </div>
+        </div>
+
+
+
+
+        <div @click="toggleMenu"
+            style=""
+            class="show-xs_md flex-between flex-align-start clickable b-flat"
+            :class="[togglers.menu ? 'n-conca' : 'n-conve']"
+        >  
+            <div class="px-5 pb-4 pt-3 flex-center">
+                <i class="mr-2 fas tx-lg" :class="[!togglers.menu ? 'fa-bars' : 'fa-times']"></i>
+                <span class="tx-ls-3 pl-1"></span>
+            </div>
+        </div>
+        <div class="flex-between flex-align-start n-inset py-2 px-2 show-xs_md " v-show="togglers.menu"> 
+            <div class="flex ">
+                <!-- <a class="nodeco letter-s-3 noborder n-tx tx-lg n-conve clickable flex-center mx-3"
+                    href="https://t.me/"  target="_blank"
+                    style="border-radius: 0 0 30px 30px"
+                >
+                    <span class="px-3 pb-4 pt-3 opacity-hover-50">
+                        <i class="fab fa-telegram"></i>
+                    </span>
+                </a> -->
+                <a class="nodeco letter-s-3 noborder n-tx tx-md n-flat clickable flex-column"
+                    href="https://gamearteesan.gitbook.io/arteesan/"  target="_blank"
+                    style="border-radius: 0 30px 30px 0"
+                >
+                    <!-- <img src="res/aaa.png" class="nocursor noclick"
+                        style=" width: 50px; height: 50px"
+                    > -->
+                    <span class="px-5 pb-4 pt-3 opacity-hover-50 tx-sm">
+                        Docs
+                    </span>
+                </a>
+            </div>
+            <div class="flex tx-sm" style="position: absolute; left: 52%; transform: translateX(-50%);">
+                <social-media />
+            </div>
+            <div class="flex-column-r flex-md2x-row flex-align-start">
+                <button class="noborder n-tx tx-sm n-conca clickable flex-center border-r-15 mt-3 mr-3"
+                    @click="changeNightMode"
+                >
+                    <span class="pa-3 opacity-hover-50">
+                        <i class="fas fa-moon icon-moon" v-if="dark_mode" ></i>
+                        <i class="fas fa-sun icon-sun" v-else ></i>
+                    </span>
+                </button>
+                <button class="noborder n-tx tx-md n-conca clickable flex-center"
+                    @click="changeEnglishMode"
+                    style="border-radius: 0 0 0 40px"
+                >
+                    <span class="pa-2 py-4  opacity-hover-50">
+                        <i class="fas fa-globe" v-if="english_mode" > <span> EN</span></i>
+                        <i class="fas fa-globe-americas" v-else > <span> ES</span></i>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="flex-between flex-align-start n-flat py-2 show-xs_md" v-show="togglers.menu"> 
         </div>
     </div>
 </template>
@@ -56,6 +120,14 @@
         name: 'main-menu',    
         components: {
             socialMedia, 
+        },
+        data()
+        {
+            return {
+                togglers: {
+                    menu: false,
+                },
+            }
         },
         computed: {
 	        dark_mode()            { return this.$store.getters.dark_mode },
@@ -73,6 +145,9 @@
             if (englishMode != null) { this.$store.dispatch("setEnglishMode", englishMode) }
         },
         methods: {
+            toggleMenu() {
+                this.togglers.menu = !this.togglers.menu
+            },
             changeNightMode() {
                 let newMode = !this.dark_mode
                 localStorage.setItem("darkMode", JSON.stringify(newMode));

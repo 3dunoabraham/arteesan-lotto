@@ -7,7 +7,7 @@
         <div class="flex-column flex-lg2x-row">
 
 
-            <div class="flex-column" v-if="!accs_length">
+            <div class="flex-column mt-8 pt-8" v-if="!accs_length">
                 <div class="flex-center flex-1 my-8" style="min-width: 300px; " >
                     <span @click="connectWallet"
                          class="clickable opacity-hover-75 mx-2 pa-6 border-r-15 n-conve tx-xl mt-8 letter-s-15 tx-center"
@@ -26,9 +26,9 @@
                     </span>
                 </div> -->
             </div>
-            <div v-if="accs_length" >
+            <div v-if="accs_length">
                 <template v-if="current_page == 'exchange'">
-                    <div class="n-inset border-r-50 ma-8 pa-4">
+                    <div class=" py-8">
                         <h1 class="mt-0 tx-center">Exchange </h1>
                         <h6 class="my-0 tx-center ">
                             <a href="https://github.com/arteesanio/OpenFarm-WebDApp-V1" target="_blank" class="tx-primary">
@@ -44,19 +44,19 @@
                     </div>
                 </template>
                 <template v-if="current_page == 'roulette'">
-                    <div class="n-inset border-r-50 ma-8 pa-4">
+                    <div class=" py-8">
                         <h1 class="mt-0 tx-center">Roulette </h1>
                         <roulette v-if="accs_length" />
                     </div>
                 </template>
                 <template v-if="current_page == 'lottery'">
-                    <div class="n-inset border-r-50 ma-8 pa-6 pb-8 ">
-                        <h1 class="mt-0 tx-center">Lotto </h1>
-                        <h6 class=" tx-center ">
+                    <div class=" py-8">
+                        <!-- <h1 class="mt-0 tx-center">Lotto </h1> -->
+                        <!-- <h6 class=" tx-center ">
                             <a href="https://github.com/arteesanio/OpenFarm-Lotto-Contracts" target="_blank" class="tx-primary">
                                 Contracts Github
                             </a>
-                        </h6>
+                        </h6> -->
                         <lotto v-if="accs_length" />
                     </div>
                 </template>

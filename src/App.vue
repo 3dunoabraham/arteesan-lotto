@@ -11,12 +11,13 @@
             <h1>Please, install or login Metamask.</h1>
         </div>
 
-        <bottom-menu v-if="accs_length" />
+        <!-- <bottom-menu v-if="accs_length" /> -->
 
     </div>
 </template>
 <script>
-    import homePage from "./modules/home-page.vue";
+    import homePage from "./pages/home-page.vue";
+    
     import mainMenu from "./modules/main-menu.vue";
     import bottomMenu from "./modules/bottom-menu.vue";
 
