@@ -73,6 +73,23 @@
                                     call_only: true,
                                 }"
                         />
+
+                        <tx-card  class=" flex-column  " 
+                            v-show="false"
+                            ref="accountVoteIndex"
+                            :props="
+                                {
+                                    title: 'user vote index',
+                                    form_args: form.getVoterVoteIndex,
+                                    abi: ABIS.DAO,
+                                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                                    function: 'getVoterVoteIndex',
+                                    DEBUG: true,
+                                    call_only: true,
+                                    res_type: 'uint',
+                                    advanced: true,
+                                }"
+                        />
                     </div>
                     <div class="tx-xs opacity-50 w-100 flex-column" v-if="values.dai_dao_allowance > 0">
                     </div>
@@ -360,6 +377,7 @@
                     <hr class="w-100 opacity-10 "> -->
 
                     <h5 class="tx-ls-5 my-2 tx-center opacity-50"> {{LANG.buyTicket.toUpperCase() }} </h5>
+                    
                     <hr class="w-100 opacity-10 ">
 
                     <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
@@ -372,146 +390,157 @@
                         <!-- register -->
                         {{LANG.signup}} 
                     </div>
-                    <template v-if="values.dai_dao_allowance > 0" >
+                    <template v-if="!!values.accountVoteIndex">
+                        <div v-if="values.accountVoteIndex == 1" class="flex-column">
+                            <span class="tx-xs">Ticket Number: </span>
+                            <span class="tx-xl">1</span>
+                        </div>
+                        <div v-if="values.accountVoteIndex > 1" class="flex-column">
+                            <span class="tx-xs">Ticket Pack Number: </span>
+                            <span class="tx-xl">{{values.accountVoteIndex}}</span>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <template v-if="values.dai_dao_allowance > 0" >
 
-                        <div class="  flex-column tx-sm w-100">
-                            <tx-card  class=" flex-column tx-xl  px-8 py-2" 
-                                :props="
-                                    {
-                                        title: LANG.buyTicket,
-                                        form_args: form.voteOnProposal,
-                                        abi: ABIS.DAO,
-                                        address: CURRENT_NETWORK.DAO_ADDRESS,
-                                        function: 'voteOnProposal',
-                                    }"
-                            />
-
-                            <div class="w-100 flex-between tx-sm">
-                                
-                                <!-- <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div> -->
-                                
-                                <!-- <div @click="trigger_currentRoundAndLastTicket"
-                                :class="[togglers.buy_advanced ? 'n-inset' : 'n-flat']"
-                                    class=" clickable pa-2 opacity-hover-50 border-r-50"
-                                >
-                                    <i :class="[loadings.daiBalanceOfAndAllowance ? 'spin-nback' : 'fa-redo']" class="fas fa-circle-notch"></i>
-                                </div> -->
-                                <div></div>
-                                <div @click="togglers.buy_advanced = !togglers.buy_advanced"
-                                :class="[togglers.buy_advanced ? 'n-inset' : 'n-flat']"
-                                    class=" clickable pa-2 opacity-hover-50 border-r-50"
-                                >
-                                    <i :class="[togglers.buy_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
-                                    <!-- <i class="fa fa-minus"></i> -->
-                                </div>
-                            </div>
-                            <div class="flex-column " v-show="togglers.buy_advanced">
-                                <div class="flex-row nowrap">
-                                    <input type="text" name="" v-model="form.proposalIndexAct" class="n-flat noborder pa-2 n-tx" style="width: 60px">
-                                    <div class="clickable n-flat pa-2"
-                                        @click="setProposalIndexInAct"
-                                    >
-                                        set
-                                    </div>
-                                </div>
-                                <hr class="w-50 opacity-10">
-                                <div class="flex-column">
-                                    <div class="flex-column ">
-                                        <!-- make_multicall -->
-                                        <tx-card  class=" flex-column  " 
-                                            :props="
-                                                {
-                                                    title: 'getVoteResultMulticall',
-                                                    form_args: form.getVoteResultMulticall,
-                                                    abi: ABIS.LOTTO,
-                                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                    function: 'getVoteResult',
-                                                    DEBUG: true,
-                                                    res_type: 'uint',
-                                                    advanced: true,
-                                                    make_multicall: true,
-                                                }"
-                                        />
-                                    </div>
-                                    <div class="flex-column ">
-                                        <tx-card  class=" flex-column  " 
-                                            :props="
-                                                {
-                                                    title: 'getVoteResult',
-                                                    form_args: form.getVoteResult,
-                                                    abi: ABIS.LOTTO,
-                                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                    function: 'getVoteResult',
-                                                    DEBUG: true,
-                                                    res_type: 'uint',
-                                                }"
-                                        />
-                                    </div>
-                                    <div class="flex-column ">
-                                        <tx-card  class=" flex-column  " 
-                                            :props="
-                                                {
-                                                    title: 'withdrawAll',
-                                                    form_args: form.withdrawAll,
-                                                    abi: ABIS.LOTTO,
-                                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                    function: 'withdrawAll',
-                                                    DEBUG: true,
-                                                    res_type: 'uint',
-                                                }"
-                                        />
-                                    </div>
-                                </div>
-
-                                <hr class="w-50 opacity-10">
-                                <tx-card  class=" flex-column  " 
+                            <div class="  flex-column tx-sm w-100">
+                                <tx-card  class=" flex-column tx-xl  px-8 py-2" 
                                     :props="
                                         {
-                                            title: 'withdrawFrom failed Proposal',
-                                            form_args: form.withdrawFromProposal,
+                                            title: LANG.buyTicket,
+                                            form_args: form.voteOnProposal,
                                             abi: ABIS.DAO,
                                             address: CURRENT_NETWORK.DAO_ADDRESS,
-                                            function: 'withdrawFromFailedProposal',
+                                            function: 'voteOnProposal',
                                         }"
                                 />
-                                <hr class="w-50 opacity-10">
 
-                                <div class="flex-wrap ">
+                                <div class="w-100 flex-between tx-sm">
+                                    
+                                    <!-- <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div> -->
+                                    
+                                    <!-- <div @click="trigger_currentRoundAndLastTicket"
+                                    :class="[togglers.buy_advanced ? 'n-inset' : 'n-flat']"
+                                        class=" clickable pa-2 opacity-hover-50 border-r-50"
+                                    >
+                                        <i :class="[loadings.daiBalanceOfAndAllowance ? 'spin-nback' : 'fa-redo']" class="fas fa-circle-notch"></i>
+                                    </div> -->
+                                    <div></div>
+                                    <div @click="togglers.buy_advanced = !togglers.buy_advanced"
+                                    :class="[togglers.buy_advanced ? 'n-inset' : 'n-flat']"
+                                        class=" clickable pa-2 opacity-hover-50 border-r-50"
+                                    >
+                                        <i :class="[togglers.buy_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
+                                        <!-- <i class="fa fa-minus"></i> -->
+                                    </div>
+                                </div>
+                                <div class="flex-column " v-show="togglers.buy_advanced">
+                                    <div class="flex-row nowrap">
+                                        <input type="text" name="" v-model="form.proposalIndexAct" class="n-flat noborder pa-2 n-tx" style="width: 60px">
+                                        <div class="clickable n-flat pa-2"
+                                            @click="setProposalIndexInAct"
+                                        >
+                                            set
+                                        </div>
+                                    </div>
+                                    <hr class="w-50 opacity-10">
+                                    <div class="flex-column">
+                                        <div class="flex-column ">
+                                            <!-- make_multicall -->
+                                            <tx-card  class=" flex-column  " 
+                                                :props="
+                                                    {
+                                                        title: 'getVoteResultMulticall',
+                                                        form_args: form.getVoteResultMulticall,
+                                                        abi: ABIS.LOTTO,
+                                                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                                        function: 'getVoteResult',
+                                                        DEBUG: true,
+                                                        res_type: 'uint',
+                                                        advanced: true,
+                                                        make_multicall: true,
+                                                    }"
+                                            />
+                                        </div>
+                                        <div class="flex-column ">
+                                            <tx-card  class=" flex-column  " 
+                                                :props="
+                                                    {
+                                                        title: 'getVoteResult',
+                                                        form_args: form.getVoteResult,
+                                                        abi: ABIS.LOTTO,
+                                                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                                        function: 'getVoteResult',
+                                                        DEBUG: true,
+                                                        res_type: 'uint',
+                                                    }"
+                                            />
+                                        </div>
+                                        <div class="flex-column ">
+                                            <tx-card  class=" flex-column  " 
+                                                :props="
+                                                    {
+                                                        title: 'withdrawAll',
+                                                        form_args: form.withdrawAll,
+                                                        abi: ABIS.LOTTO,
+                                                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                                        function: 'withdrawAll',
+                                                        DEBUG: true,
+                                                        res_type: 'uint',
+                                                    }"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <hr class="w-50 opacity-10">
                                     <tx-card  class=" flex-column  " 
                                         :props="
                                             {
-                                                title: 'execute proposal',
-                                                form_args: form.executeProposal,
+                                                title: 'withdrawFrom failed Proposal',
+                                                form_args: form.withdrawFromProposal,
                                                 abi: ABIS.DAO,
                                                 address: CURRENT_NETWORK.DAO_ADDRESS,
-                                                function: 'executeProposal',
+                                                function: 'withdrawFromFailedProposal',
                                             }"
                                     />
+                                    <hr class="w-50 opacity-10">
+
+                                    <div class="flex-wrap ">
+                                        <tx-card  class=" flex-column  " 
+                                            :props="
+                                                {
+                                                    title: 'execute proposal',
+                                                    form_args: form.executeProposal,
+                                                    abi: ABIS.DAO,
+                                                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                                                    function: 'executeProposal',
+                                                }"
+                                        />
+                                        <tx-card  class=" flex-column  " 
+                                            :props="
+                                                {
+                                                    title: 'requestResolveRound',
+                                                    form_args: form.requestResolveRound,
+                                                    abi: ABIS.LOTTO,
+                                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                                    function: 'requestResolveRound',
+                                                }"
+                                        />
+                                    </div>
                                     <tx-card  class=" flex-column  " 
                                         :props="
                                             {
-                                                title: 'requestResolveRound',
-                                                form_args: form.requestResolveRound,
+                                                title: 'resolveBet',
+                                                form_args: form.resolveBet,
                                                 abi: ABIS.LOTTO,
                                                 address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                function: 'requestResolveRound',
+                                                function: 'resolveBet',
                                             }"
                                     />
                                 </div>
-                                <tx-card  class=" flex-column  " 
-                                    :props="
-                                        {
-                                            title: 'resolveBet',
-                                            form_args: form.resolveBet,
-                                            abi: ABIS.LOTTO,
-                                            address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                            function: 'resolveBet',
-                                        }"
-                                />
                             </div>
-                        </div>
-
-
+                            no ticket yet
+                        </template>
                     </template>
                 </div>
             </div>
@@ -763,6 +792,7 @@
                     dai_dao_allowance: null,
                     current_round: null,
                     prize_pool: null,
+                    accountVoteIndex: null,
                     deadline: null,
                 },
                 loadings: {
@@ -994,6 +1024,15 @@
                     this.form.getProposalPropertyDeadline["0"].value = (parseInt(this.values.current_round) - 1)+""
                     await this.$refs.deadline.execute()
                     this.values.deadline = this.$refs.deadline._parsedResult
+
+                    this.form.getVoterVoteIndex["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    try {
+                        await this.$refs.accountVoteIndex.execute()
+                        this.values.accountVoteIndex = this.$refs.accountVoteIndex._parsedResult
+                    } catch (error) {
+                        this.values.accountVoteIndex = 0
+                    }
+                    
 
                     this.loadings.currentRoundAndLastTicket = false
 
