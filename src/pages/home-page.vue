@@ -62,12 +62,12 @@
                 </template>
             </div>
         </div>
-        <div v-if="accs_length" class="" style="height: 100px"> </div>
+        <div v-if="accs_length" class="" style="height: 50px"> </div>
         <div class="w-100 flex-center" v-if="loading">
             <infispinner />
         </div>
 
-        <div class="py-8 my-4"></div>
+        <div class="py-4 my-4 show-xs_lg"></div>
         <footer class="flex-between ">
             <div></div>
             <!-- <div class="n-flat border-r-100p px-2 py-1 ma-4" style="transform: rotate(90deg);"><i class="fa fa-dollar-sign opacity-25 spin-nback tx-secondary"></i></div> -->

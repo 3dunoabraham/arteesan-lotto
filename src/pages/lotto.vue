@@ -5,14 +5,14 @@
         <div class="py-8" > </div>
         <div class="flex-column flex-lg2x-row pt-8">
             <div class="flex-column flex-md2x-row" >
-                <div class="flex-column n-flat border-r-15 mx-2 pa-2"  >  <!-- Prize Pool -->
+                <div class="flex-column n-flat border-r-15 mx-2 pa-2 px-4"  >  <!-- Prize Pool -->
                     <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
                     <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
                         <i class="fas fa-circle-notch spin-nback"></i>
                         <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
                     </div>
                     <h1  class=" flex-column  tx-success" v-if="values.prize_pool">
-                        ${{values.prize_pool * 0.2}} 
+                        ${{parseDecimals(values.prize_pool * 0.2)}} 
                     </h1>
                     <div class="tx-xs opacity-50 w-100 flex-column" >
                         <span >{{values.deadline}}</span>
@@ -372,11 +372,11 @@
                 <div id="store"></div>
 
                 <div style="height: 200px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
-                <div class="flex-column  n-flat border-r-25 mx-2 pa-2" > <!-- Buy Ticket -->
+                <div class="flex-column  n-flat border-r-25 mx-8 pa-2 " > <!-- Buy Ticket -->
                     <!-- <h5 class="tx-ls-5 my-2 tx-center opacity-50">OPEN LOTTO </h5>
                     <hr class="w-100 opacity-10 "> -->
 
-                    <h5 class="tx-ls-5 my-2 tx-center opacity-50"> {{LANG.buyTicket.toUpperCase() }} </h5>
+                    <h5 class="tx-ls-5 my-2 tx-center opacity-50"> {{LANG.myTicket.toUpperCase() }} </h5>
                     
                     <hr class="w-100 opacity-10 ">
 
@@ -542,6 +542,12 @@
                             no ticket yet
                         </template>
                     </template>
+                    <div class="flex-column  n-inset my-4 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
+                        Results:
+                        <div class="opacity-50 tx-xs my-5">
+                            Not Done
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- <div class="show-xs_md my-8"></div> -->
@@ -1001,7 +1007,7 @@
 
         },
         methods: {
-
+            parseDecimals,
             shortAddress,
             trigger_currentRoundAndLastTicket()
             {
@@ -1019,7 +1025,7 @@
 
                     this.form.getProposalPropertyAmount["0"].value = (parseInt(this.values.current_round) - 1)+""
                     await this.$refs.prizePool.execute()
-                    this.values.prize_pool = this.$refs.prizePool._parsedResult
+                    this.values.prize_pool = parseDecimals(parseFloat(this.$refs.prizePool._parsedResult))
 
                     this.form.getProposalPropertyDeadline["0"].value = (parseInt(this.values.current_round) - 1)+""
                     await this.$refs.deadline.execute()
