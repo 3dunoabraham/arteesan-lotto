@@ -59,6 +59,7 @@
                                 }"
                         />
 
+
                         <tx-card  class=" flex-column  mb-5" 
                             ref="lastTicketNumber"
                             :props="
@@ -390,6 +391,22 @@
                         <!-- register -->
                         {{LANG.signup}} 
                     </div>
+
+                                <tx-card  class=" flex-column  " 
+                                    v-show="false"
+                                    ref="ticketLength"
+                                    :props="
+                                        {
+                                            title: 'user votes',
+                                            form_args: form.getVoterAmountOfVotes,
+                                            abi: ABIS.DAO,
+                                            address: CURRENT_NETWORK.DAO_ADDRESS,
+                                            function: 'getVoterAmountOfVotes',
+                                            DEBUG: true,
+                                            res_type: 'uint',
+                                            call_only: true,
+                                        }"
+                                />
                     <template v-if="!!values.accountVoteIndex">
                         <div v-if="values.accountVoteIndex == 1" class="flex-column">
                             <span class="tx-xs">Ticket Number: </span>
@@ -398,6 +415,10 @@
                         <div v-if="values.accountVoteIndex > 1" class="flex-column">
                             <span class="tx-xs">Ticket Pack Number: </span>
                             <span class="tx-xl">{{values.accountVoteIndex}}</span>
+                        </div>
+                        <div v-if="values.accountVoteLength > 0" class="flex-column">
+                            <span class="tx-xs">Ticket Length: </span>
+                            <span class="tx-xl">{{values.accountVoteLength}}</span>
                         </div>
                     </template>
                     <template v-else>
@@ -539,11 +560,12 @@
                                     />
                                 </div>
                             </div>
-                            no ticket yet
+                            <span class="opacity-50 tx-xs">no ticket yet</span>
                         </template>
                     </template>
                     <div class="flex-column  n-inset my-4 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
                         Results:
+
                         <div class="opacity-50 tx-xs my-5">
                             Not Done
                         </div>
@@ -800,6 +822,7 @@
                     prize_pool: null,
                     accountVoteIndex: null,
                     deadline: null,
+                    accountVoteLength: null,
                 },
                 loadings: {
                     daiBalanceOfAndAllowance: false,
@@ -1031,13 +1054,19 @@
                     await this.$refs.deadline.execute()
                     this.values.deadline = this.$refs.deadline._parsedResult
 
-                    this.form.getVoterVoteIndex["0"].value = (parseInt(this.values.current_round) - 1)+""
                     try {
+                        this.form.getVoterVoteIndex["0"].value = (parseInt(this.values.current_round) - 1)+""
                         await this.$refs.accountVoteIndex.execute()
                         this.values.accountVoteIndex = this.$refs.accountVoteIndex._parsedResult
+
+                        this.form.getVoterAmountOfVotes["0"].value = (parseInt(this.values.current_round) - 1)+""
+                        await this.$refs.ticketLength.execute()
+                        this.values.accountVoteLength = this.$refs.ticketLength._parsedResult
                     } catch (error) {
                         this.values.accountVoteIndex = 0
                     }
+
+                    // ticketLength
                     
 
                     this.loadings.currentRoundAndLastTicket = false
