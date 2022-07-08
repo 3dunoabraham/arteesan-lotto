@@ -34,6 +34,15 @@ body {
   --success-color-light-2: #66FF66;
 }
 
+.dark-theme  { 
+  /*background: url(./../../public/res/5952124.jpg)  no-repeat center center fixed !important;  
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;*/
+}
+
 .light-theme.n-tx,
 .light-theme .n-tx {    color: #555555; }
 .light-theme.n-tx-s,
