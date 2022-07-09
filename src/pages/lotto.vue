@@ -1287,10 +1287,14 @@
             {
                 if (this.loadings.signup) return
                 this.loadings.signup = true
-
-                await this.$refs.addFullTargetAllowance.execute()
-                await this.$refs.targetAllowance.execute()
-                this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
+            
+                try {
+                    await this.$refs.addFullTargetAllowance.execute()
+                    await this.$refs.targetAllowance.execute()
+                    this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
+                } catch (error) {
+                    console.log("failed call")
+                }
 
                 this.loadings.signup = false
             },
@@ -1299,10 +1303,14 @@
                 if (this.loadings.signup) return
                 this.loadings.signup = true
 
-                this.form.addFullTargetAllowance ["1"].value = "0"
-                await this.$refs.addFullTargetAllowance.execute()
-                await this.$refs.targetAllowance.execute()
-                this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
+                try {
+                    this.form.addFullTargetAllowance ["1"].value = "0"
+                    await this.$refs.addFullTargetAllowance.execute()
+                    await this.$refs.targetAllowance.execute()
+                    this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
+                } catch (error) {
+                    console.log("failed call")
+                }
 
                 this.loadings.signup = false
             },
