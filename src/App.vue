@@ -33,6 +33,10 @@
             <h1>Please, install or login Metamask.</h1>
         </div>
 
+        <div style="height: 80px" class="show-xs_md"> </div>
+
+
+
         <!-- <bottom-menu v-if="accs_length" /> -->
 
 <!--          <template v-if="dark_mode">

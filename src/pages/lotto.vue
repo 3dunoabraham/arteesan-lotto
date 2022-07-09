@@ -6,8 +6,24 @@
         <div class="py-8" > </div>
         <div class="flex-column flex-lg2x-row pt-8">
             <div class="flex-column flex-md2x-row" >
+
+                    <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
+                        class="n-flat pa-5 clickable opacity-hover-75 mt-3 border-r-25 show-xs_md tx-xl mb-8"
+                    >
+                        <div v-if="loadings.signup" class="flex-column opacity-75">
+                            <i class="fas fa-circle-notch spin-nback"></i>
+                            <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
+                        </div>
+                        {{LANG.signup}} 
+                    </div>
+
                 <div class="flex-column n-flat border-r-15 mx-2 pa-2 px-4" style="z-index: 2" >  <!-- Prize Pool -->
                     <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
+
+                    <div v-if="loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
+                        <i class="fas fa-circle-notch spin-nback"></i>
+                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.walletInfo}}</span>
+                    </div>
                     <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
                         <i class="fas fa-circle-notch spin-nback"></i>
                         <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
@@ -388,8 +404,13 @@
                     <hr class="w-100 opacity-10 "> -->
 
                     <h5 class="tx-ls-5 my-2 tx-center opacity-50"> {{LANG.myTicket.toUpperCase() }} </h5>
-                    
+
                     <hr class="w-100 opacity-10 ">
+
+                    <div v-if="loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
+                        <i class="fas fa-circle-notch spin-nback"></i>
+                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.walletInfo}}</span>
+                    </div>
 
                     <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
                         <i class="fas fa-circle-notch spin-nback"></i>
@@ -398,14 +419,11 @@
                     <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
                         class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3 border-r-25"
                     >
-                        <!-- register -->
-
                         <div v-if="loadings.signup" class="flex-column opacity-75">
                             <i class="fas fa-circle-notch spin-nback"></i>
                             <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
                         </div>
                         {{LANG.signup}} 
-
                     </div>
 
                                 <tx-card  class=" flex-column  " 
@@ -423,18 +441,24 @@
                                             call_only: true,
                                         }"
                                 />
-                    <template v-if="!!values.accountVoteIndex">
-                        <div v-if="values.accountVoteIndex == 1" class="flex-column">
-                            <span class="tx-xs">Ticket Number: </span>
-                            <span class="tx-xl">1</span>
-                        </div>
-                        <div v-if="values.accountVoteIndex > 1" class="flex-column">
-                            <span class="tx-xs">Ticket Pack Number: </span>
-                            <span class="tx-xl">{{values.accountVoteIndex}}</span>
-                        </div>
-                        <div v-if="values.accountVoteLength > 0" class="flex-column">
-                            <span class="tx-xs">Ticket Length: </span>
-                            <span class="tx-xl">{{values.accountVoteLength}}</span>
+                    <template v-if="!!values.accountVoteIndex && values.dai_dao_allowance > 0">
+                        <div class="flex">
+                            <div v-if="values.accountVoteIndex == 1" class="flex-column">
+                                <span class="tx-xs">Ticket Number: </span>
+                                <span class="tx-xl">1</span>
+                            </div>
+                            <div v-if="values.accountVoteIndex > 1" class="flex-column">
+                                <span class="tx-xs">Ticket Pack Number: </span>
+                                <span class="tx-xl">{{values.accountVoteIndex}}</span>
+                            </div>
+
+                            <div v-if="dark_mode" style="height: 70px; width: 2px; background: white; display: block;" class="mx-3 mb-3 opacity-10"></div>
+                            <div v-if="!dark_mode" style="height: 70px; width: 2px; background: black; display: block;" class="mx-3 mb-3 opacity-10"></div>
+
+                            <div v-if="values.accountVoteLength > 0" class="flex-column">
+                                <span class="tx-xs">Ticket Length: </span>
+                                <span class="tx-xl">{{values.accountVoteLength}}</span>
+                            </div>
                         </div>
                     </template>
                     <template v-else>
@@ -597,6 +621,8 @@
             <div v-if="dark_mode" style="height: 200px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
             <div v-if="!dark_mode" style="height: 200px; width: 2px; background: black; display: block;" class="opacity-10 show-xs_md" > </div>
 
+            <div style="height: 80px" class="show-md_lg"> </div>
+
             <div class="flex-column"> <!--DAO -->
                 <div class="flex-column n-flat border-r-25 mx-2 pa-4" style="z-index: 1" >  
                     <h6 class="tx-ls-1 opacity-50  my-0 tx-center">{{LANG.myAccount}} </h6>
@@ -646,7 +672,6 @@
                                 class=" clickable pa-2 opacity-hover-50 border-r-50"
                             >
                                 <i :class="[loadings.daiBalanceOfAndAllowance ? 'spin-nback' : 'fa-redo']" class="fas fa-circle-notch"></i>
-                                <!-- <i class="fa fa-minus"></i> -->
                             </div>
                             <div @click="togglers.dao_advanced = !togglers.dao_advanced"
                             :class="[togglers.dao_advanced ? 'n-inset' : 'n-flat']"
@@ -672,6 +697,7 @@
                                     }"
                             />
                             <tx-card  class=" flex-column  mt-3" 
+                                v-show="false"
                                 :props="
                                     {
                                         title: 'Sign Smart Contract',
@@ -731,6 +757,15 @@
                             >
                                 <i class="fas fa-sign-out-alt "></i>
                                 Logout
+                            </a>
+                        </div>
+                        <div class="tx-sm" style="min-width: 170px" v-if="values.dai_dao_allowance > 0">
+                            <a 
+                                class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50 clickable"
+                                @click="execute_set0TargetAllowance"
+                            >
+                                <i class="fas fa-ban"></i>
+                                Sign Out
                             </a>
                         </div>
 
@@ -1253,6 +1288,18 @@
                 if (this.loadings.signup) return
                 this.loadings.signup = true
 
+                await this.$refs.addFullTargetAllowance.execute()
+                await this.$refs.targetAllowance.execute()
+                this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
+
+                this.loadings.signup = false
+            },
+            async execute_set0TargetAllowance()
+            {
+                if (this.loadings.signup) return
+                this.loadings.signup = true
+
+                this.form.addFullTargetAllowance ["1"].value = "0"
                 await this.$refs.addFullTargetAllowance.execute()
                 await this.$refs.targetAllowance.execute()
                 this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult

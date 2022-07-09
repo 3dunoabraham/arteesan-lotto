@@ -66,7 +66,7 @@
         <div class="w-100 flex-center" v-if="loading">
             <infispinner />
         </div>
-
+        <div style="height: 80px" class="show-lg_x"> </div>
         <div class="py-4 my-4 show-xs_lg"></div>
         <footer class="flex-between ">
             <div></div>
