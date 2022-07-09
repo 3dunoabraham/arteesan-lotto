@@ -566,13 +566,16 @@
                             <span class="opacity-50 tx-xs">no ticket yet</span>
                         </template>
                     </template>
-                    <div class="flex-column  n-inset my-4 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
-                        Results:
 
-                        <div class="opacity-50 tx-xs my-5">
-                            Not Done
+                    <template v-if="values.dai_dao_allowance > 0" >
+                        <div class="flex-column  n-inset my-4 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
+                            Results:
+
+                            <div class="opacity-50 tx-xs my-5">
+                                Not Done
+                            </div>
                         </div>
-                    </div>
+                    </template>
                 </div>
             </div>
             <!-- <div class="show-xs_md my-8"></div> -->
@@ -1027,6 +1030,12 @@
         },
         async mounted()
         {
+            var url_string = window.location.href
+            var url = new URL(url_string);
+            console.log(url_string, url);
+            var c = url.searchParams.get("round");
+            console.log(c);
+
             this.form.registeredFunds["0"].value = this.first_acc.address
             this.form.targetAllowance["0"].value = this.first_acc.address
             this.form.lastResultOf["0"].value = this.first_acc.address
