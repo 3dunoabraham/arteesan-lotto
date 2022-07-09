@@ -35,7 +35,7 @@
 
         <!-- <bottom-menu v-if="accs_length" /> -->
 
-         <template v-if="dark_mode">
+<!--          <template v-if="dark_mode">
             <div style=" width: 100%">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#282b2f" fill-opacity="1" d="M0,192L120,213.3C240,235,480,277,720,282.7C960,288,1200,256,1320,240L1440,224L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path></svg>
             </div>
@@ -44,7 +44,7 @@
             <div style=" width: 100%">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#d6d6d6" fill-opacity="1" d="M0,192L120,213.3C240,235,480,277,720,282.7C960,288,1200,256,1320,240L1440,224L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path></svg>
             </div>
-        </template> 
+        </template>  -->
 
     </div>
 </template>
