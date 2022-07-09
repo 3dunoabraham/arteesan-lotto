@@ -26,7 +26,7 @@
                 </a>
             </div>
             <div class="flex ">
-                <social-media />
+                <!-- <social-media /> -->
             </div>
             <!-- <div class="flex show-md_x" style="position: absolute; left: 50%; transform: translateX(-50%);">
                 <social-media />
