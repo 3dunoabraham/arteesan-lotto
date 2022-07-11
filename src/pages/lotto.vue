@@ -255,16 +255,22 @@
                         <template v-if="values.dai_dao_allowance > 0" >
 
                             <div v-if="!values.accountVoteIndex" class="  flex-column tx-sm w-100" >
-                                <tx-card  class=" flex-column tx-xl  px-8 py-2" 
-                                    :props="
-                                        {
-                                            title: LANG.buyTicket,
-                                            form_args: form.voteOnProposal,
-                                            abi: ABIS.DAO,
-                                            address: CURRENT_NETWORK.DAO_ADDRESS,
-                                            function: 'voteOnProposal',
-                                        }"
-                                />
+                                <div class="opacity-50 tx-xs my-5" v-if="!!values.val_randomResultBlock">
+
+                                    <tx-card  class=" flex-column tx-xl  px-8 py-2" 
+                                        :props="
+                                            {
+                                                title: LANG.buyTicket,
+                                                form_args: form.voteOnProposal,
+                                                abi: ABIS.DAO,
+                                                address: CURRENT_NETWORK.DAO_ADDRESS,
+                                                function: 'voteOnProposal',
+                                            }"
+                                    />
+                                </div>
+                                <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
+                                    Round Done
+                                </div>
                             </div>
                             <div class="  flex-column tx-sm w-100" >
 
