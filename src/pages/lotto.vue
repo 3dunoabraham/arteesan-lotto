@@ -39,6 +39,19 @@
                     call_only: true,
                 }"
         />
+        
+        <tx-card v-show="false" ref="ref_randomResultBlock"
+            :props="
+                {
+                    title: 'getDeadline ',
+                    form_args: form.form_getProposalPropertyResultBlock,
+                    abi: ABIS.LOTTO,
+                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                    function: 'gameRounds',
+                    res_type: 'struct.randomResultBlock.uint',
+                    call_only: true,
+                }"
+        />
         <tx-card v-show="false" ref="currentRound"
             :props="
                 {
@@ -269,7 +282,12 @@
                             <div class="flex-column  n-inset my-4 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
                                 Results:
 
-                                <div class="opacity-50 tx-xs my-5">
+                                
+                                <div class="opacity-50 tx-xs my-5" v-if="!!values.val_randomResultBlock">
+                                    <span class="tx-sm">Block: <br> {{values.val_randomResultBlock}}</span>
+                                </div>
+
+                                <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
                                     Not Done
                                 </div>
                             </div>
@@ -919,6 +937,7 @@
                     deadline: null,
                     accountVoteLength: null,
                     val_getVoterRefAmount: null,
+                    val_randomResultBlock: null,
                 },
                 loadings: {
                     daiBalanceOfAndAllowance: false,
@@ -1065,6 +1084,9 @@
                     getProposalPropertyDeadline: {                        
                         "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
                     },
+                    form_getProposalPropertyResultBlock: {                        
+                        "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                    },
                     getProposalPropertyAmount: {                        
                         "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
                     },
@@ -1178,6 +1200,11 @@
                         this.form.form_getVoterRefAmount["0"].value = (parseInt(this.values.current_round) - 1)+""
                         await this.$refs.ref_getVoterRefAmount.execute()
                         this.values.val_getVoterRefAmount = this.$refs.ref_getVoterRefAmount._parsedResult
+
+                        this.form.form_getProposalPropertyResultBlock["0"].value = (parseInt(this.values.current_round) - 1)+""
+                        await this.$refs.ref_randomResultBlock.execute()
+                        this.values.val_randomResultBlock = this.$refs.ref_randomResultBlock._parsedResult
+                        // randomResultBlock
 
                     } catch (error) {
                         this.values.accountVoteIndex = 0
