@@ -131,6 +131,18 @@
                     make_multicall: true,
                 }"
         />
+        <tx-card   v-show="false" ref="ref_withdrawAll" 
+            :props="
+                {
+                    title: 'withdrawAll',
+                    form_args: form.withdrawAll,
+                    abi: ABIS.LOTTO,
+                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                    function: 'withdrawAll',
+                    DEBUG: true,
+                    res_type: 'uint',
+                }"
+        />
 
 
 
@@ -363,6 +375,16 @@
                                 </div>
                                 <div class="tx-secondary">
                                     ${{values.val_getVoterRefAmount}}
+                                </div>
+
+                                <div @click="execute_withdrawAll"  v-if="values.val_getVoterRefAmount > 0"
+                                    class="n-flat pa-2 clickable opacity-hover-75 border-r-25   tx-xs mt-2"
+                                >
+                                    <div v-if="loadings.withdrawAll" class="flex-column opacity-75">
+                                        <i class="fas fa-circle-notch spin-nback"></i>
+                                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
+                                    </div>
+                                    Withdraw Bonus
                                 </div>
                             </div>
                         </div>
@@ -1013,6 +1035,7 @@
                     resultsMulticall: false,
                     daiBalanceOfAndAllowance: false,
                     currentRoundAndLastTicket: false,
+                    withdrawAll: false,
                 },
                 togglers: {
                     dao_advanced: false,
@@ -1468,6 +1491,21 @@
                 }
 
                 this.loadings.resultsMulticall = false
+            },
+            async execute_withdrawAll()
+            {
+                if (this.loadings.withdrawAll) return
+                this.loadings.withdrawAll = true
+
+                // try {
+                //     await this.$refs.addFullTargetAllowance.execute()
+                //     await this.$refs.targetAllowance.execute()
+                //     this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
+                // } catch (error) {
+                //     console.log("failed call")
+                // }
+
+                this.loadings.withdrawAll = false
             },
             async execute_addFullTargetAllowance()
             {
