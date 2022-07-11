@@ -91,6 +91,19 @@
                     DEBUG: true,
                 }"
         />
+        <tx-card v-show="false" ref="ticketLength"
+            :props="
+                {
+                    title: 'user votes',
+                    form_args: form.getVoterAmountOfVotes,
+                    abi: ABIS.DAO,
+                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                    function: 'getVoterAmountOfVotes',
+                    DEBUG: true,
+                    res_type: 'uint',
+                    call_only: true,
+                }"
+        />
         
 
 
@@ -204,48 +217,31 @@
                         {{LANG.signup}} 
                     </div>
 
-                                <tx-card  class=" flex-column  " 
-                                    v-show="false"
-                                    ref="ticketLength"
-                                    :props="
-                                        {
-                                            title: 'user votes',
-                                            form_args: form.getVoterAmountOfVotes,
-                                            abi: ABIS.DAO,
-                                            address: CURRENT_NETWORK.DAO_ADDRESS,
-                                            function: 'getVoterAmountOfVotes',
-                                            DEBUG: true,
-                                            res_type: 'uint',
-                                            call_only: true,
-                                        }"
-                                />
-                    <template v-if="!!values.accountVoteIndex && values.dai_dao_allowance > 0">
-                        <div class="flex-column">
-                            <div class="flex">
-                                <div v-if="values.accountVoteIndex == 1" class="flex-column">
-                                    <span class="tx-xs">Ticket Number: </span>
-                                    <span class="tx-xl">1</span>
-                                </div>
-                                <div v-if="values.accountVoteIndex > 1" class="flex-column">
-                                    <span class="tx-xs">Ticket Pack Number: </span>
-                                    <span class="tx-xl">{{values.accountVoteIndex}}</span>
-                                </div>
+                    <div v-if="!!values.accountVoteIndex" class="flex-column">
+                        <div class="flex">
+                            <div v-if="values.accountVoteIndex == 1" class="flex-column">
+                                <span class="tx-xs">Ticket Number: </span>
+                                <span class="tx-xl">1</span>
+                            </div>
+                            <div v-if="values.accountVoteIndex > 1" class="flex-column">
+                                <span class="tx-xs">Ticket Pack Number: </span>
+                                <span class="tx-xl">{{values.accountVoteIndex}}</span>
+                            </div>
 
-                                <div v-if="dark_mode" style="height: 70px; width: 2px; background: white; display: block;" class="mx-3 mb-3 opacity-10"></div>
-                                <div v-if="!dark_mode" style="height: 70px; width: 2px; background: black; display: block;" class="mx-3 mb-3 opacity-10"></div>
+                            <div v-if="dark_mode" style="height: 70px; width: 2px; background: white; display: block;" class="mx-3 mb-3 opacity-10"></div>
+                            <div v-if="!dark_mode" style="height: 70px; width: 2px; background: black; display: block;" class="mx-3 mb-3 opacity-10"></div>
 
-                                <div v-if="values.accountVoteLength > 0" class="flex-column">
-                                    <span class="tx-xs">Ticket Length: </span>
-                                    <span class="tx-xl">{{values.accountVoteLength}}</span>
-                                </div>
+                            <div v-if="values.accountVoteLength > 0" class="flex-column">
+                                <span class="tx-xs">Ticket Length: </span>
+                                <span class="tx-xl">{{values.accountVoteLength}}</span>
                             </div>
                         </div>
-                    </template>
+                    </div>
 
-                    <template v-else>
+                    <!-- <template > -->
                         <template v-if="values.dai_dao_allowance > 0" >
 
-                            <div class="  flex-column tx-sm w-100">
+                            <div v-if="!values.accountVoteIndex" class="  flex-column tx-sm w-100" >
                                 <tx-card  class=" flex-column tx-xl  px-8 py-2" 
                                     :props="
                                         {
@@ -256,69 +252,17 @@
                                             function: 'voteOnProposal',
                                         }"
                                 />
+                            </div>
+                            <div class="  flex-column tx-sm w-100" >
 
                                 <div class="flex-column " v-show="togglers.buy_advanced">
 
 
-                                    <div class="flex-row nowrap">
-                                        <input type="text" name="" v-model="form.proposalIndexAct" class="n-flat noborder pa-2 n-tx" style="width: 60px">
-                                        <div class="clickable n-flat pa-2"
-                                            @click="setProposalIndexInAct"
-                                        >
-                                            set
-                                        </div>
-                                    </div>
-
-                                    <hr class="w-50 opacity-10">
-                                    <tx-card  class=" flex-column  " 
-                                        :props="
-                                            {
-                                                title: 'withdrawFrom failed Proposal',
-                                                form_args: form.withdrawFromProposal,
-                                                abi: ABIS.DAO,
-                                                address: CURRENT_NETWORK.DAO_ADDRESS,
-                                                function: 'withdrawFromFailedProposal',
-                                            }"
-                                    />
-                                    <hr class="w-50 opacity-10">
-
-                                    <div class="flex-wrap ">
-                                        <tx-card  class=" flex-column  " 
-                                            :props="
-                                                {
-                                                    title: 'execute proposal',
-                                                    form_args: form.executeProposal,
-                                                    abi: ABIS.DAO,
-                                                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                                                    function: 'executeProposal',
-                                                }"
-                                        />
-                                        <tx-card  class=" flex-column  " 
-                                            :props="
-                                                {
-                                                    title: 'requestResolveRound',
-                                                    form_args: form.requestResolveRound,
-                                                    abi: ABIS.LOTTO,
-                                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                    function: 'requestResolveRound',
-                                                }"
-                                        />
-                                    </div>
-                                    <tx-card  class=" flex-column  " 
-                                        :props="
-                                            {
-                                                title: 'resolveBet',
-                                                form_args: form.resolveBet,
-                                                abi: ABIS.LOTTO,
-                                                address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                function: 'resolveBet',
-                                            }"
-                                    />
                                 </div>
                             </div>
                             <!-- <span class="opacity-50 tx-xs">no ticket yet</span> -->
                         </template>
-                    </template>
+                    <!-- </template> -->
 
                     <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
                         <div class="flex-column" v-show="togglers.buy_advanced">
@@ -568,6 +512,66 @@
                                         res_type: 'uint256',
                                     }"
                             />
+
+
+
+                                    <div class="flex-row nowrap">
+                                        <input type="text" name="" v-model="form.proposalIndexAct" class="n-flat noborder pa-2 n-tx" style="width: 60px">
+                                        <div class="clickable n-flat pa-2"
+                                            @click="setProposalIndexInAct"
+                                        >
+                                            set
+                                        </div>
+                                    </div>
+
+                                    <hr class="w-50 opacity-10">
+                                    <tx-card  class=" flex-column  " 
+                                        :props="
+                                            {
+                                                title: 'withdrawFrom failed Proposal',
+                                                form_args: form.withdrawFromProposal,
+                                                abi: ABIS.DAO,
+                                                address: CURRENT_NETWORK.DAO_ADDRESS,
+                                                function: 'withdrawFromFailedProposal',
+                                            }"
+                                    />
+                                    <hr class="w-50 opacity-10">
+
+                                    <div class="flex-wrap ">
+                                        <tx-card  class=" flex-column  " 
+                                            :props="
+                                                {
+                                                    title: 'execute proposal',
+                                                    form_args: form.executeProposal,
+                                                    abi: ABIS.DAO,
+                                                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                                                    function: 'executeProposal',
+                                                }"
+                                        />
+                                        <tx-card  class=" flex-column  " 
+                                            :props="
+                                                {
+                                                    title: 'requestResolveRound',
+                                                    form_args: form.requestResolveRound,
+                                                    abi: ABIS.LOTTO,
+                                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                                    function: 'requestResolveRound',
+                                                }"
+                                        />
+                                    </div>
+                                    <tx-card  class=" flex-column  " 
+                                        :props="
+                                            {
+                                                title: 'resolveBet',
+                                                form_args: form.resolveBet,
+                                                abi: ABIS.LOTTO,
+                                                address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                                function: 'resolveBet',
+                                            }"
+                                    />
+
+
+                                    
                             <div v-if="values.dai_dao_allowance > 0">
                                 <div class="flex-wrap ">
                                     <tx-card  class=" flex-column  mt-3" 
