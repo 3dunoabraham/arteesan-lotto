@@ -298,25 +298,29 @@
 
                     <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
                         <div class="flex-column" v-show="togglers.buy_advanced">
-                            <div class="flex-column  n-inset my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
+                            <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
                                 Results:
 
                                 
                                 <div class="opacity-50 tx-xs my-2" v-if="!!values.val_randomResultBlock" >
-                                    <span class="tx-sm mb-2 flex-row">Block: {{values.val_randomResultBlock}}</span>
-                                    <!-- ref_getVoteScratchedNumberMulticall -->
+                                    <!-- <span class="tx-sm mb-2 flex-row">Block: {{values.val_randomResultBlock}}</span> -->
 
                                     <div v-if="loadings.resultsMulticall" class="flex-column opacity-75 tx-lg">
                                         <i class="fas fa-circle-notch spin-nback"></i>
                                         <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
                                     </div>
-                                    <div class="flex-row nowrap">
-                                        <!-- <input type="text" name="" v-model="form.form_multiCallResults" class="n-flat noborder pa-2 n-tx" style="width: 60px"> -->
-
+                                    <div class="tx-center">
+                                        Scratch:
+                                        <input type="text" name="" v-model="form.form_multiCallResultsStart" class="n-flat noborder px-2 py-1 tx-right n-tx" style="width: 30px">
                                         <!-- {{form.form_multiCallResultsStart}} -->
-                                        {{form.form_multiCallResultsStart}} , {{form.form_multiCallResultsEnd}}
+                                        ,
+                                        {{form.form_multiCallResultsEnd}}
+                                    </div>
+                                        
+                                    <div class="flex-row nowrap">
+                                        
                                         <input type="range" name="" :max="values.accountVoteIndex + values.accountVoteLength" 
-                                        :min="values.accountVoteIndex"
+                                        :min="form.form_multiCallResultsStart"
                                          v-model="form.form_multiCallResultsEnd" class="n-flat noborder pa-2 n-tx" style="width: 60px">
 
                                         <div class="clickable n-flat pa-2"
@@ -326,18 +330,22 @@
                                         </div>
                                     </div>
                                         <div v-if="Object.keys(values.val_results) == 0" >
-                                            No Winning Tickets Yet
+                                            <div class="py-4 tx-center opacity-50">
+                                                No Winning Tickets Yet
+                                            </div>
                                         </div>
-                                        <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
-                                            
-                                            <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
-                                                <div class="flex-row py-1">
-                                                    <div class="pr-2">
-                                                        <!-- {{index}} -->
-                                                        Ticket:
-                                                    </div>
-                                                    <div>
-                                                        # {{item}}
+                                        <div v-if="Object.keys(values.val_results) != 0" >
+                                            <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
+                                                
+                                                <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
+                                                    <div class="flex-row py-1">
+                                                        <div class="pr-2">
+                                                            <!-- {{index}} -->
+                                                            Ticket:
+                                                        </div>
+                                                        <div>
+                                                            # {{item}}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -350,8 +358,11 @@
                             </div>
 
                             <div class="flex-column " >
-                                <div>
-                                    Ref: ${{values.val_getVoterRefAmount}}
+                                <div class="tx-xs">
+                                    Referral Bonus:
+                                </div>
+                                <div class="tx-secondary">
+                                    ${{values.val_getVoterRefAmount}}
                                 </div>
                             </div>
                         </div>
@@ -1008,6 +1019,7 @@
                     buy_advanced: false,
                 },
                 form: {
+                    form_multiCallResults: "",
                     form_multiCallResultsStart: "",
                     form_multiCallResultsEnd: "",
                     proposalIndexAct: "",
@@ -1430,7 +1442,7 @@
                 this.loadings.resultsMulticall = true
 
                 try {
-                    this.form.form_multiCallResultsStart = this.values.accountVoteIndex
+                    // this.form.form_multiCallResultsStart = this.values.accountVoteIndex
                     // this.form.form_getVoteScratchedNumberMulticall["0"].value = (parseInt(this.values.current_round) - 1)+""
                     this.form.form_getVoteScratchedNumberMulticall["1"].value =
                         `${this.form.form_multiCallResultsStart},${this.form.form_multiCallResultsEnd}`
