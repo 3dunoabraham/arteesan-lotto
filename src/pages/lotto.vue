@@ -117,7 +117,20 @@
                     call_only: true,
                 }"
         />
-        
+        <tx-card v-show="false" ref="ref_getVoteScratchedNumberMulticall" 
+            :props="
+                {
+                    title: 'form_getVoteScratchedNumberMulticall',
+                    form_args: form.form_getVoteScratchedNumberMulticall,
+                    abi: ABIS.LOTTO,
+                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                    function: 'getVoteScratchedNumber',
+                    DEBUG: true,
+                    res_type: 'uint',
+                    call_only: true,
+                    make_multicall: true,
+                }"
+        />
 
 
 
@@ -291,6 +304,15 @@
                                 
                                 <div class="opacity-50 tx-xs my-5" v-if="!!values.val_randomResultBlock">
                                     <span class="tx-sm">Block: <br> {{values.val_randomResultBlock}}</span>
+                                    <!-- ref_getVoteScratchedNumberMulticall -->
+                                    <div class="flex-row nowrap">
+                                        <input type="text" name="" v-model="form.form_multiCallResults" class="n-flat noborder pa-2 n-tx" style="width: 60px">
+                                        <div class="clickable n-flat pa-2"
+                                            @click="getResultsMulticall"
+                                        >
+                                            Get Results
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
@@ -398,11 +420,11 @@
                                                 call_only: true,
                                             }"
                                     />
-                                    <tx-card  class=" flex-column  " 
+                                    <tx-card class=" flex-column  " 
                                         :props="
                                             {
-                                                title: 'getVoteScratchedNumberMulticall',
-                                                form_args: form.getVoteScratchedNumberMulticall,
+                                                title: 'form_getVoteScratchedNumberMulticall',
+                                                form_args: form.form_getVoteScratchedNumberMulticall,
                                                 abi: ABIS.LOTTO,
                                                 address: CURRENT_NETWORK.LOTTO_ADDRESS,
                                                 function: 'getVoteScratchedNumber',
@@ -944,8 +966,11 @@
                     accountVoteLength: null,
                     val_getVoterRefAmount: null,
                     val_randomResultBlock: null,
+
+                    val_results: {},
                 },
                 loadings: {
+                    resultsMulticall: false,
                     daiBalanceOfAndAllowance: false,
                     currentRoundAndLastTicket: false,
                 },
@@ -954,6 +979,7 @@
                     buy_advanced: false,
                 },
                 form: {
+                    form_multiCallResults: "",
                     proposalIndexAct: "",
                     proposalIndexRead: "",
                     votePos: "",
@@ -1055,7 +1081,7 @@
                         
                         "2": {placeholder:"",label:`value: "",`,value: "", type: "address" },
                     },
-                    getVoteScratchedNumberMulticall: {                        
+                    form_getVoteScratchedNumberMulticall: {                        
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                         
                         "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "range:uint" },
@@ -1332,7 +1358,7 @@
                 this.form.getProposalPropertyAmountRequired ["0"].value = this.form.proposalIndexRead
                 this.form.getVoterVoteIndex ["0"].value = this.form.proposalIndexRead
                 this.form.getVoteRedeemd ["0"].value = this.form.proposalIndexRead
-                this.form.getVoteScratchedNumberMulticall ["0"].value = this.form.proposalIndexRead
+                this.form.form_getVoteScratchedNumberMulticall ["0"].value = this.form.proposalIndexRead
                 this.form.getVoteScratchedNumber ["0"].value = this.form.proposalIndexRead
                 this.form.wonAmount["0"].value = this.form.proposalIndexRead
                 this.form.getWinner["0"].value = this.form.proposalIndexRead
@@ -1344,7 +1370,7 @@
                 this.form.wonAmount["1"].value = this.form.votePos
                 this.form.getWinner["1"].value = this.form.votePos
                 // this.form.getWonAmountMulticall["1"].value = this.form.votePos
-                // this.form.getVoteScratchedNumberMulticall["1"].value = this.form.votePos
+                // this.form.form_getVoteScratchedNumberMulticall["1"].value = this.form.votePos
                 this.form.getVoteScratchedNumber["1"].value = this.form.votePos
                 this.form.getVoteRedeemd["1"].value = this.form.votePos
                 this.form.withdrawAmount["1"].value = this.form.votePos
@@ -1363,6 +1389,24 @@
                 this.form.resolveBet ["0"].value = this.form.proposalIndexAct
             },
 
+            async getResultsMulticall()
+            {
+                if (this.loadings.resultsMulticall) return
+                this.loadings.resultsMulticall = true
+
+                try {
+
+                    this.form.form_getVoteScratchedNumberMulticall["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    this.form.form_getVoteScratchedNumberMulticall["1"].value = this.form.form_multiCallResults
+                    await this.$refs.ref_getVoteScratchedNumberMulticall.execute()
+                    // await this.$refs.targetAllowance.execute()
+                    // this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
+                } catch (error) {
+                    console.log("failed call")
+                }
+
+                this.loadings.resultsMulticall = false
+            },
             async execute_addFullTargetAllowance()
             {
                 if (this.loadings.signup) return
