@@ -238,7 +238,13 @@
                 }
                 if (altResType == "uint")
                 {
-                    return parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString()))
+                    // console.log("typeoffffff altResult", typeof altResult, altResult)
+                    if (altResult._isBigNumber)
+                    {
+                        return parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult).toString()))
+                    } else {
+                        return parseInt(10**18*parseFloat(ethers.utils.formatEther(altResult[0]).toString()))
+                    }
                 }
                 if (altResType == "address")
                 {
@@ -384,42 +390,49 @@
                 if (this.loading) return
                 this.loading = true
 
-                this._formArgKeys
-                let rangeVariable = 0
-                // let newArgs = [...this._parsedArgs]
+                // this._formArgKeys
+                let result = await new Promise(async (resolve, reject) => {
 
-                for (var i = 0; i < this._formArgKeys.length; i++)
-                {
-                    console.log("looking for  range")
-                    if (this.form.args[i].type.substr(0,5) == "range")
+                    let rangeVariable = 0
+                    // let newArgs = [...this._parsedArgs]
+
+                    for (var i = 0; i < this._formArgKeys.length; i++)
                     {
-                        console.log("found range")
-                        // rangeVariable = i
-                        let argList = this.parseMultiArg(this.form.args[i], i)
-                        console.log("argList")
-                        console.log(argList)
-                        this.loading = false
-                        // newArgs[i] = theNewArg
-
-                        try
+                        console.log("looking for  range")
+                        if (this.form.args[i].type.substr(0,5) == "range")
                         {
-                            if (this.props.call_only)
+                            console.log("found range")
+                            // rangeVariable = i
+                            let argList = this.parseMultiArg(this.form.args[i], i)
+                            console.log("argList")
+                            console.log(argList)
+                            this.loading = false
+                            // newArgs[i] = theNewArg
+
+                            try
                             {
-                                this.theResult = await this.multiTx(_args, i, argList)
-                                // this.theResult = await this.call(newArgs)
-                            } else {
-                                this.theResult = await this.multiTx(_args, i, argList)
+                                if (this.props.call_only)
+                                {
+                                    this.theResult = await this.multiTx(_args, i, argList)
+                                    // this.theResult = await this.call(newArgs)
+                                } else {
+                                    this.theResult = await this.multiTx(_args, i, argList)
 
+                                }
+                                // console.log("theResult", this.theResult)
+                                resolve(this.theResult)
+                            } catch (error)
+                            {
+                                console.log("catched executing (error)")
+                                if (this.props.DEBUG) { console.log(error) }
                             }
-                        } catch (error)
-                        {
-                            console.log("catched executing (error)")
-                            if (this.props.DEBUG) { console.log(error) }
                         }
                     }
-                }
+                })
 
                 this.loading = false
+
+                return result
             },
             async tx(_args)
             {
@@ -449,84 +462,85 @@
             async multiTx(_args, index, _ref = [])
             {
                 if (!this.first_acc) return
-
-                let firstAddress = this.first_acc.address
-                const BLOCKCHAIN = this.$store.getters.newProvider
-                const USER_WALLET = await BLOCKCHAIN.getSigner()
-                // console.log("contractAddress",  this.form.contractAddress)
-                const theContract = new Contract(this.form.contractAddress, this.form.contractAbi, USER_WALLET)
-
-
-                const multicall = new Multicall({
-                    multicallCustomContractAddress: '0x275617327c958bD06b5D6b871E7f491D76113dd8',
-                    ethersProvider: BLOCKCHAIN,
-                    tryAggregate: true
-                });
-                let contractCallContext = [
-                    {
-                        reference: 'testContract',
-                        contractAddress: this.form.contractAddress,
-                        abi: this.form.contractAbi,
-                        calls: []
-                    }
-                ]
-
-                // console.log("args", _args);
-                for (var i = 0; i < _ref.length; i++)
-                {
-                    let newArgs = [..._args]
-                    newArgs[index] = _ref[i]
-                    contractCallContext[0].calls.push(
-                        {
-                            reference: 'fooCall',
-                            methodName: this.form.functionName,
-                            methodParameters: newArgs ,
-                        }
-                    )
-                }
-
-                // console.log("multiTx args", _args, contractCallContext);
-                // return
-
-                console.log("await multicall.call(contractCallContext", contractCallContext);
-                const results = await multicall.call(contractCallContext);
-                console.log("results", results);
-                console.log("results.testContract", results.results["testContract"]);
-                let mappedResult = results.results["testContract"].callsReturnContext.map(item => {
-                    let altResType = this.props.res_type
-                    console.log("altResType", altResType)
-                    if (altResType == "uint256")
-                    {
-                        return parseDecimals(parseFloat(ethers.utils.formatEther(item.returnValues[0])))
-                    }
-                    if (altResType == "uint")
-                    {
-                        return parseInt(10**18*parseFloat(ethers.utils.formatEther(item.returnValues[0]).toString()))
-                    }
-                    if (altResType == "address")
-                    {
-                        return item.returnValues[0]
-                    }
-                    return item.returnValues[0]
-                })
-                console.log("mapped results", mappedResult)
-
-                return
-
                 return new Promise(async (resolve, reject) => {
-                    try {
-                        let response = {}
 
-                        // console.log ("this._parsedArgs")
-                        // console.log (this._parsedArgs)
-                        let aTx = await theContract[this.form.functionName].apply(this, _args)
-                        let aResult = await aTx.wait()
-                        resolve(aResult)
-                    } catch (error)
+                    let firstAddress = this.first_acc.address
+                    const BLOCKCHAIN = this.$store.getters.newProvider
+                    const USER_WALLET = await BLOCKCHAIN.getSigner()
+                    // console.log("contractAddress",  this.form.contractAddress)
+                    const theContract = new Contract(this.form.contractAddress, this.form.contractAbi, USER_WALLET)
+
+
+                    const multicall = new Multicall({
+                        multicallCustomContractAddress: '0x275617327c958bD06b5D6b871E7f491D76113dd8',
+                        ethersProvider: BLOCKCHAIN,
+                        tryAggregate: true
+                    });
+                    let contractCallContext = [
+                        {
+                            reference: 'testContract',
+                            contractAddress: this.form.contractAddress,
+                            abi: this.form.contractAbi,
+                            calls: []
+                        }
+                    ]
+
+                    // console.log("args", _args);
+                    for (var i = 0; i < _ref.length; i++)
                     {
-                        reject(error)
+                        let newArgs = [..._args]
+                        newArgs[index] = _ref[i]
+                        contractCallContext[0].calls.push(
+                            {
+                                reference: 'fooCall',
+                                methodName: this.form.functionName,
+                                methodParameters: newArgs ,
+                            }
+                        )
                     }
+
+                    // console.log("multiTx args", _args, contractCallContext);
+                    // return
+
+                    console.log("await multicall.call(contractCallContext", contractCallContext);
+                    const results = await multicall.call(contractCallContext);
+                    console.log("results", results);
+                    console.log("results.testContract", results.results["testContract"]);
+                    let mappedResult = results.results["testContract"].callsReturnContext.map(item => {
+                        let altResType = this.props.res_type
+                        // console.log("altResType", altResType)
+                        if (altResType == "uint256")
+                        {
+                            return parseDecimals(parseFloat(ethers.utils.formatEther(item.returnValues[0])))
+                        }
+                        if (altResType == "uint")
+                        {
+                            // console.log("************* ", item.returnValues[0], ethers.utils.formatEther(item.returnValues[0]))
+                            return parseInt(10**18*parseFloat(ethers.utils.formatEther(item.returnValues[0]).toString()))
+                        }
+                        if (altResType == "address")
+                        {
+                            return item.returnValues[0]
+                        }
+                        return item.returnValues[0]
+                    })
+                    console.log("mapped results", mappedResult)
+                    resolve(mappedResult)
+                    return mappedResult
                 })
+
+                // return new Promise(async (resolve, reject) => {
+                //     try {
+                //         let response = {}
+
+                //         let aTx = await theContract[this.form.functionName].apply(this, _args)
+                //         let aResult = await aTx.wait()
+                //         resolve(aResult)
+                //     } catch (error)
+                //     {
+                //         reject(error)
+                //     }
+                // })
             },
             async call(_args)
             {

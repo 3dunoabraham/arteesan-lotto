@@ -298,13 +298,18 @@
 
                     <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
                         <div class="flex-column" v-show="togglers.buy_advanced">
-                            <div class="flex-column  n-inset my-4 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
+                            <div class="flex-column  n-inset my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
                                 Results:
 
                                 
-                                <div class="opacity-50 tx-xs my-5" v-if="!!values.val_randomResultBlock">
-                                    <span class="tx-sm">Block: <br> {{values.val_randomResultBlock}}</span>
+                                <div class="opacity-50 tx-xs my-2" v-if="!!values.val_randomResultBlock" >
+                                    <span class="tx-sm mb-2 flex-row">Block: {{values.val_randomResultBlock}}</span>
                                     <!-- ref_getVoteScratchedNumberMulticall -->
+
+                                    <div v-if="loadings.resultsMulticall" class="flex-column opacity-75 tx-lg">
+                                        <i class="fas fa-circle-notch spin-nback"></i>
+                                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
+                                    </div>
                                     <div class="flex-row nowrap">
                                         <input type="text" name="" v-model="form.form_multiCallResults" class="n-flat noborder pa-2 n-tx" style="width: 60px">
                                         <div class="clickable n-flat pa-2"
@@ -313,6 +318,23 @@
                                             Get Results
                                         </div>
                                     </div>
+                                        <div v-if="Object.keys(values.val_results) == 0" >
+                                            No Winning Tickets Yet
+                                        </div>
+                                        <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
+                                            
+                                            <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
+                                                <div class="flex-row py-1">
+                                                    <div class="pr-2">
+                                                        <!-- {{index}} -->
+                                                        Ticket:
+                                                    </div>
+                                                    <div>
+                                                        # {{item}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
 
                                 <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
@@ -1398,9 +1420,22 @@
 
                     this.form.form_getVoteScratchedNumberMulticall["0"].value = (parseInt(this.values.current_round) - 1)+""
                     this.form.form_getVoteScratchedNumberMulticall["1"].value = this.form.form_multiCallResults
-                    await this.$refs.ref_getVoteScratchedNumberMulticall.execute()
+                    let asd = await this.$refs.ref_getVoteScratchedNumberMulticall.execute()
+                    console.log("asd", asd)
+                    console.log("this.$refs.targetAllowance.theResult.filter((o) => o != 0)")
+                    console.log(asd.filter((o) => o != 0))
+                    this.values.val_results = asd.filter((o) => o != 0).reduce((o, key) => Object.assign(o, {[key]: "whatever"}), {})
+                    // console.log("asd", this.$refs.ref_getVoteScratchedNumberMulticall)
+                    // console.log("asd", this.$refs.ref_getVoteScratchedNumberMulticall.theResult)
+
+                    // yourArray.reduce((o, key) => Object.assign(o, {[key]: whatever}), {})
+                    // console.log("this.$refs.targetAllowance.theResult.filter((o) => o != 0)")
+                    // console.log(this.$refs.ref_getVoteScratchedNumberMulticall)
+                    // console.log(asd.filter((o) => o != 0))
+                    // this.values.val_results = this.$refs.ref_getVoteScratchedNumberMulticall.theResult.filter((o) => o != 0).reduce((o, key) => Object.assign(o, {[key]: "whatever"}), {})
+
+
                     // await this.$refs.targetAllowance.execute()
-                    // this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
                 } catch (error) {
                     console.log("failed call")
                 }
