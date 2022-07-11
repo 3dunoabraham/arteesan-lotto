@@ -2,7 +2,7 @@
         
     <div class="flex-column " >
 
-        <tx-card ref="DAIBalanceOf" v-show="false" class=" flex-column  " 
+        <tx-card v-show="false" ref="DAIBalanceOf"
             :props="
                 {
                     title: 'DAI',
@@ -15,7 +15,7 @@
                     call_only: true,
                 }"
         /> 
-        <tx-card v-show="false" ref="addFullTargetAllowance" class=" " 
+        <tx-card v-show="false" ref="addFullTargetAllowance" 
             :props="
                 {
                     title: 'Add FULL DAI Allowance to target',
@@ -27,8 +27,7 @@
                     button_only: true,
                 }"
         />
-        <tx-card v-show="false" class=" flex-column  " 
-            ref="deadline"
+        <tx-card v-show="false" ref="deadline"
             :props="
                 {
                     title: 'getDeadline ',
@@ -40,8 +39,7 @@
                     call_only: true,
                 }"
         />
-        <tx-card v-show="false"  class=" flex-column  " 
-        ref="currentRound"
+        <tx-card v-show="false" ref="currentRound"
             :props="
                 {
                     title: 'Current Round',
@@ -54,9 +52,7 @@
                     call_only: true,
                 }"
         />
-        <tx-card  class=" flex-column  " 
-            v-show="false"
-            ref="accountVoteIndex"
+        <tx-card v-show="false" ref="accountVoteIndex"
             :props="
                 {
                     title: 'user vote index',
@@ -70,8 +66,7 @@
                     advanced: true,
                 }"
         />
-        <tx-card  class=" flex-column " v-show="false" 
-                    ref="prizePool"
+        <tx-card  v-show="false" ref="prizePool"
             :props="
                 {
                     title: 'tokens required',
@@ -83,6 +78,20 @@
                     call_only: true,
                 }"
         />
+        <tx-card  v-show="false" ref="ref_getVoterRefAmount"
+            :props="
+                {
+                    title: 'tokens required',
+                    form_args: form.form_getVoterRefAmount,
+                    abi: ABIS.DAO,
+                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                    function: 'getVoterRefAmount',
+                    res_type: 'uint256',
+                    call_only: true,
+                    DEBUG: true,
+                }"
+        />
+        
 
 
 
@@ -211,22 +220,24 @@
                                         }"
                                 />
                     <template v-if="!!values.accountVoteIndex && values.dai_dao_allowance > 0">
-                        <div class="flex">
-                            <div v-if="values.accountVoteIndex == 1" class="flex-column">
-                                <span class="tx-xs">Ticket Number: </span>
-                                <span class="tx-xl">1</span>
-                            </div>
-                            <div v-if="values.accountVoteIndex > 1" class="flex-column">
-                                <span class="tx-xs">Ticket Pack Number: </span>
-                                <span class="tx-xl">{{values.accountVoteIndex}}</span>
-                            </div>
+                        <div class="flex-column">
+                            <div class="flex">
+                                <div v-if="values.accountVoteIndex == 1" class="flex-column">
+                                    <span class="tx-xs">Ticket Number: </span>
+                                    <span class="tx-xl">1</span>
+                                </div>
+                                <div v-if="values.accountVoteIndex > 1" class="flex-column">
+                                    <span class="tx-xs">Ticket Pack Number: </span>
+                                    <span class="tx-xl">{{values.accountVoteIndex}}</span>
+                                </div>
 
-                            <div v-if="dark_mode" style="height: 70px; width: 2px; background: white; display: block;" class="mx-3 mb-3 opacity-10"></div>
-                            <div v-if="!dark_mode" style="height: 70px; width: 2px; background: black; display: block;" class="mx-3 mb-3 opacity-10"></div>
+                                <div v-if="dark_mode" style="height: 70px; width: 2px; background: white; display: block;" class="mx-3 mb-3 opacity-10"></div>
+                                <div v-if="!dark_mode" style="height: 70px; width: 2px; background: black; display: block;" class="mx-3 mb-3 opacity-10"></div>
 
-                            <div v-if="values.accountVoteLength > 0" class="flex-column">
-                                <span class="tx-xs">Ticket Length: </span>
-                                <span class="tx-xl">{{values.accountVoteLength}}</span>
+                                <div v-if="values.accountVoteLength > 0" class="flex-column">
+                                    <span class="tx-xs">Ticket Length: </span>
+                                    <span class="tx-xl">{{values.accountVoteLength}}</span>
+                                </div>
                             </div>
                         </div>
                     </template>
@@ -247,6 +258,8 @@
                                 />
 
                                 <div class="flex-column " v-show="togglers.buy_advanced">
+
+
                                     <div class="flex-row nowrap">
                                         <input type="text" name="" v-model="form.proposalIndexAct" class="n-flat noborder pa-2 n-tx" style="width: 60px">
                                         <div class="clickable n-flat pa-2"
@@ -308,11 +321,19 @@
                     </template>
 
                     <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
-                        <div class="flex-column  n-inset my-4 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
-                            Results:
+                        <div class="flex-column" v-show="togglers.buy_advanced">
+                            <div class="flex-column  n-inset my-4 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
+                                Results:
 
-                            <div class="opacity-50 tx-xs my-5">
-                                Not Done
+                                <div class="opacity-50 tx-xs my-5">
+                                    Not Done
+                                </div>
+                            </div>
+
+                            <div class="flex-column " >
+                                <div>
+                                    Ref: ${{values.val_getVoterRefAmount}}
+                                </div>
                             </div>
                         </div>
                     </template>
@@ -895,6 +916,7 @@
                     accountVoteIndex: null,
                     deadline: null,
                     accountVoteLength: null,
+                    val_getVoterRefAmount: null,
                 },
                 loadings: {
                     daiBalanceOfAndAllowance: false,
@@ -975,6 +997,11 @@
                         "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
                     },
                     getVoterAmountOfVotes: {                        
+                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        
+                        "1": {placeholder:"",label:`value: "",`,value: "", type: "address" },
+                    },
+                    form_getVoterRefAmount: {                        
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                         
                         "1": {placeholder:"",label:`value: "",`,value: "", type: "address" },
@@ -1098,6 +1125,7 @@
             this.form.DAIBalanceOf["0"].value = this.first_acc.address
             this.form.getVoterAmountOfVotes["1"].value = this.first_acc.address
             this.form.getVoterVoteIndex["1"].value = this.first_acc.address
+            this.form.form_getVoterRefAmount["1"].value = this.first_acc.address
             this.form.getVoteResult["2"].value = this.first_acc.address
             this.form.withdrawAll["2"].value = this.first_acc.address
             this.form.getVoteResultMulticall["2"].value = this.first_acc.address
@@ -1144,6 +1172,11 @@
                         this.form.getVoterAmountOfVotes["0"].value = (parseInt(this.values.current_round) - 1)+""
                         await this.$refs.ticketLength.execute()
                         this.values.accountVoteLength = this.$refs.ticketLength._parsedResult
+
+                        this.form.form_getVoterRefAmount["0"].value = (parseInt(this.values.current_round) - 1)+""
+                        await this.$refs.ref_getVoterRefAmount.execute()
+                        this.values.val_getVoterRefAmount = this.$refs.ref_getVoterRefAmount._parsedResult
+
                     } catch (error) {
                         this.values.accountVoteIndex = 0
                     }
