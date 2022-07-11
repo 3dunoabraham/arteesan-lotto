@@ -360,7 +360,7 @@
                                                 res_type: 'uint',
                                                 call_only: true,
                                             }"
-                                    />
+                                    />a
                                     <tx-card  class=" flex-column  " 
                                         :props="
                                             {
@@ -442,8 +442,8 @@
                                     />
                             </div>
                             
-                            <div class="flex-column ">
                                 <!-- make_multicall -->
+                            <!-- <div class="flex-column ">
                                 <tx-card  class=" flex-column  " 
                                     :props="
                                         {
@@ -472,7 +472,7 @@
                                             res_type: 'uint',
                                         }"
                                 />
-                            </div>
+                            </div> -->
                             <div class="flex-column ">
                                 <tx-card  class=" flex-column  " 
                                     :props="
@@ -537,41 +537,6 @@
                                     />
                                     <hr class="w-50 opacity-10">
 
-                                    <div class="flex-wrap ">
-                                        <tx-card  class=" flex-column  " 
-                                            :props="
-                                                {
-                                                    title: 'execute proposal',
-                                                    form_args: form.executeProposal,
-                                                    abi: ABIS.DAO,
-                                                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                                                    function: 'executeProposal',
-                                                }"
-                                        />
-                                        <tx-card  class=" flex-column  " 
-                                            :props="
-                                                {
-                                                    title: 'requestResolveRound',
-                                                    form_args: form.requestResolveRound,
-                                                    abi: ABIS.LOTTO,
-                                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                    function: 'requestResolveRound',
-                                                }"
-                                        />
-                                    </div>
-                                    <tx-card  class=" flex-column  " 
-                                        :props="
-                                            {
-                                                title: 'resolveBet',
-                                                form_args: form.resolveBet,
-                                                abi: ABIS.LOTTO,
-                                                address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                function: 'resolveBet',
-                                            }"
-                                    />
-
-
-                                    
                             <div v-if="values.dai_dao_allowance > 0">
                                 <div class="flex-wrap ">
                                     <tx-card  class=" flex-column  mt-3" 
@@ -582,6 +547,39 @@
                                                 abi: ABIS.DAO,
                                                 address: CURRENT_NETWORK.DAO_ADDRESS,
                                                 function: 'createProposal',
+                                            }"
+                                    />
+                                </div>
+
+                                <div class="flex-column ">
+                                    <tx-card  class=" flex-column  " 
+                                        :props="
+                                            {
+                                                title: 'execute proposal',
+                                                form_args: form.executeProposal,
+                                                abi: ABIS.DAO,
+                                                address: CURRENT_NETWORK.DAO_ADDRESS,
+                                                function: 'executeProposal',
+                                            }"
+                                    />
+                                    <tx-card  class=" flex-column  " 
+                                        :props="
+                                            {
+                                                title: 'requestResolveRound',
+                                                form_args: form.requestResolveRound,
+                                                abi: ABIS.LOTTO,
+                                                address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                                function: 'requestResolveRound',
+                                            }"
+                                    />
+                                    <tx-card  class=" flex-column  " 
+                                        :props="
+                                            {
+                                                title: 'resolveBet',
+                                                form_args: form.resolveBet,
+                                                abi: ABIS.LOTTO,
+                                                address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                                function: 'resolveBet',
                                             }"
                                     />
                                 </div>
