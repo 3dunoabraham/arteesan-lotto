@@ -311,7 +311,14 @@
                                         <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
                                     </div>
                                     <div class="flex-row nowrap">
-                                        <input type="text" name="" v-model="form.form_multiCallResults" class="n-flat noborder pa-2 n-tx" style="width: 60px">
+                                        <!-- <input type="text" name="" v-model="form.form_multiCallResults" class="n-flat noborder pa-2 n-tx" style="width: 60px"> -->
+
+                                        <!-- {{form.form_multiCallResultsStart}} -->
+                                        {{form.form_multiCallResultsStart}} , {{form.form_multiCallResultsEnd}}
+                                        <input type="range" name="" :max="values.accountVoteIndex + values.accountVoteLength" 
+                                        :min="values.accountVoteIndex"
+                                         v-model="form.form_multiCallResultsEnd" class="n-flat noborder pa-2 n-tx" style="width: 60px">
+
                                         <div class="clickable n-flat pa-2"
                                             @click="getResultsMulticall"
                                         >
@@ -1001,7 +1008,8 @@
                     buy_advanced: false,
                 },
                 form: {
-                    form_multiCallResults: "",
+                    form_multiCallResultsStart: "",
+                    form_multiCallResultsEnd: "",
                     proposalIndexAct: "",
                     proposalIndexRead: "",
                     votePos: "",
@@ -1251,6 +1259,9 @@
                         await this.$refs.ticketLength.execute()
                         this.values.accountVoteLength = this.$refs.ticketLength._parsedResult
 
+                        this.form.form_multiCallResultsStart = this.$refs.accountVoteIndex._parsedResult
+                        this.form.form_multiCallResultsEnd = this.$refs.accountVoteIndex._parsedResult+this.values.accountVoteLength
+
                         try {
                             this.form.form_getVoterRefAmount["0"].value = (parseInt(this.values.current_round) - 1)+""
                             await this.$refs.ref_getVoterRefAmount.execute()
@@ -1262,6 +1273,8 @@
                         await this.$refs.ref_randomResultBlock.execute()
                         this.values.val_randomResultBlock = this.$refs.ref_randomResultBlock._parsedResult
                         // randomResultBlock
+
+                        this.form.form_getVoteScratchedNumberMulticall["0"].value = (parseInt(this.values.current_round) - 1)+""
 
                     } catch (error) {
                         this.values.accountVoteIndex = 0
@@ -1417,9 +1430,11 @@
                 this.loadings.resultsMulticall = true
 
                 try {
+                    this.form.form_multiCallResultsStart = this.values.accountVoteIndex
+                    // this.form.form_getVoteScratchedNumberMulticall["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    this.form.form_getVoteScratchedNumberMulticall["1"].value =
+                        `${this.form.form_multiCallResultsStart},${this.form.form_multiCallResultsEnd}`
 
-                    this.form.form_getVoteScratchedNumberMulticall["0"].value = (parseInt(this.values.current_round) - 1)+""
-                    this.form.form_getVoteScratchedNumberMulticall["1"].value = this.form.form_multiCallResults
                     let asd = await this.$refs.ref_getVoteScratchedNumberMulticall.execute()
                     console.log("asd", asd)
                     console.log("this.$refs.targetAllowance.theResult.filter((o) => o != 0)")
