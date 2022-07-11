@@ -255,7 +255,7 @@
                         <template v-if="values.dai_dao_allowance > 0" >
 
                             <div v-if="!values.accountVoteIndex" class="  flex-column tx-sm w-100" >
-                                <div class="opacity-50 tx-xs my-5" v-if="!!values.val_randomResultBlock">
+                                <div class="" v-if="!values.val_randomResultBlock">
 
                                     <tx-card  class=" flex-column tx-xl  px-8 py-2" 
                                         :props="
@@ -268,7 +268,7 @@
                                             }"
                                     />
                                 </div>
-                                <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
+                                <div class="opacity-50 tx-xs my-5" v-if="!!values.val_randomResultBlock">
                                     Round Done
                                 </div>
                             </div>
@@ -1203,9 +1203,12 @@
                         await this.$refs.ticketLength.execute()
                         this.values.accountVoteLength = this.$refs.ticketLength._parsedResult
 
-                        this.form.form_getVoterRefAmount["0"].value = (parseInt(this.values.current_round) - 1)+""
-                        await this.$refs.ref_getVoterRefAmount.execute()
-                        this.values.val_getVoterRefAmount = this.$refs.ref_getVoterRefAmount._parsedResult
+                        try {
+                            this.form.form_getVoterRefAmount["0"].value = (parseInt(this.values.current_round) - 1)+""
+                            await this.$refs.ref_getVoterRefAmount.execute()
+                            this.values.val_getVoterRefAmount = this.$refs.ref_getVoterRefAmount._parsedResult
+                        } catch (error) {
+                        }
 
                         this.form.form_getProposalPropertyResultBlock["0"].value = (parseInt(this.values.current_round) - 1)+""
                         await this.$refs.ref_randomResultBlock.execute()
