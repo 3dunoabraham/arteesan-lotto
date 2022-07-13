@@ -71,9 +71,9 @@
         <footer class="flex-between ">
             <div></div>
             <!-- <div class="n-flat border-r-100p px-2 py-1 ma-4" style="transform: rotate(90deg);"><i class="fa fa-dollar-sign opacity-25 spin-nback tx-secondary"></i></div> -->
-            <div class="flex-column">
+            <div class="flex-column" style="z-index: 99" >
                 <div class="n-inset w-100 tx-center py-2 border-r-t-15 tx-ls-3" style="transform: translateY(5px);">arteesan</div>
-                <div class="flex-row"> <social-media /> </div>
+                <div class="flex-row"> <social-media  /> </div>
             </div>
             <div></div>
         </footer>

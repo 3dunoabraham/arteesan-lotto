@@ -1,5 +1,5 @@
 <template>
-    <div style="position: fixed; bottom: 0; left: 0 z-index: 999; background: linear-gradient(180deg,#00000000,#00000033)" class="w-100">
+    <div style="position: fixed; bottom: 0; left: 0 z-index: 75; background: linear-gradient(180deg,#00000000,#00000033)" class="w-100">
         <div class="flex-between flex-align-start "> 
             <div class="flex show-xs_lg">
             </div>
