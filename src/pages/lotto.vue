@@ -161,66 +161,129 @@
                     </div>
                     {{LANG.signup}} 
                 </div>
+                <div style="z-index: 50">
+                    <div class="flex-column n-flat border-r-15 mx-2 pa-2 px-4" style="z-index: 2" >  <!-- Prize Pool -->
+                        <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
 
-                <div class="flex-column n-flat border-r-15 mx-2 pa-2 px-4" style="z-index: 2" >  <!-- Prize Pool -->
-                    <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
-
-                    <div v-if="loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
-                        <i class="fas fa-circle-notch spin-nback"></i>
-                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.walletInfo}}</span>
-                    </div>
-                    <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
-                        <i class="fas fa-circle-notch spin-nback"></i>
-                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
-                    </div>
-                    <h1  class=" flex-column  tx-success" v-if="values.prize_pool">
-                        ${{parseDecimals(values.prize_pool * 0.4)}} 
-                    </h1>
-
-                    <div class="flex-column " v-show="togglers.buy_advanced">
-
-                        <div class="tx-xs opacity-50 w-100 flex-column my-3" >
-                            <span >{{values.deadline}}</span>
-                            
+                        <div v-if="loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
+                            <i class="fas fa-circle-notch spin-nback"></i>
+                            <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.walletInfo}}</span>
                         </div>
-                        <div class="flex flex-align-start">
+                        <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
+                            <i class="fas fa-circle-notch spin-nback"></i>
+                            <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
+                        </div>
+                        <h1  class=" flex-column  tx-success" v-if="values.prize_pool">
+                            ${{parseDecimals(values.prize_pool * 0.4)}} 
+                        </h1>
+                        <div class="flex-column " v-show="togglers.buy_advanced1">
 
-                            <div  class=" flex-column tx-sm  " >
-                                <span class="tx-xs">Current Round</span>
-                                <span class="tx-xl">{{values.current_round - 1}}</span>
+                            <div class="tx-xs opacity-50 w-100 flex-column my-3" >
+                                <span >{{values.deadline}}</span>
+                                
+                            </div>
+                            <div class="flex flex-align-start">
+
+                                <div  class=" flex-column tx-sm  " >
+                                    <span class="tx-xs">Current Round</span>
+                                    <span class="tx-xl">{{values.current_round - 1}}</span>
+                                </div>
+
+                                <div v-if="dark_mode" style="height: 70px; width: 2px; background: white; display: block;" class="mx-3 mb-3 opacity-10"></div>
+                                <div v-if="!dark_mode" style="height: 70px; width: 2px; background: black; display: block;" class="mx-3 mb-3 opacity-10"></div>
+
+                                <tx-card  class=" flex-column  mb-5" 
+                                    ref="lastTicketNumber"
+                                    :props="
+                                        {
+                                            title: LANG.lastTicketBought,
+                                            form_args: form.getProposalPropertyAmountVotes,
+                                            abi: ABIS.DAO,
+                                            address: CURRENT_NETWORK.DAO_ADDRESS,
+                                            function: 'proposals',
+                                            res_type: 'struct.amountOfVotes.uint',
+                                            button_only: true,
+                                            call_only: true,
+                                        }"
+                                />
+                            </div>
+                        </div>
+
+
+                        <div class="w-100 flex-between tx-sm" v-if="values.dai_dao_allowance > 0">
+                            <div></div>
+                            <div @click="togglers.buy_advanced1 = !togglers.buy_advanced1"
+                            :class="[togglers.buy_advanced1 ? 'n-inset' : 'n-flat']"
+                                class=" clickable pa-2 opacity-hover-50 border-r-50"
+                            >
+                                <i :class="[togglers.buy_advanced1 ? 'fa-minus' : 'fa-plus']" class="fa"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
+                        <div class="flex-column" v-show="togglers.buy_advanced1">
+                            <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
+                                Results:
+
+                                
+                                <div class="opacity-50 tx-xs my-2" v-if="!!values.val_randomResultBlock" >
+                                    <!-- <span class="tx-sm mb-2 flex-row">Block: {{values.val_randomResultBlock}}</span> -->
+
+                                    <div v-if="loadings.resultsMulticall" class="flex-column opacity-75 tx-lg">
+                                        <i class="fas fa-circle-notch spin-nback"></i>
+                                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
+                                    </div>
+                                    <div class="tx-center">
+                                        Scratch:
+                                        <input type="text" name="" v-model="form.form_multiCallResultsStart" class="n-flat noborder px-2 py-1 tx-right n-tx" style="width: 30px">
+                                        <!-- {{form.form_multiCallResultsStart}} -->
+                                        ,
+                                        {{form.form_multiCallResultsEnd}}
+                                    </div>
+                                        
+                                    <div class="flex-row nowrap">
+                                        
+                                        <input type="range" name="" :max="values.accountVoteIndex + values.accountVoteLength" 
+                                        :min="form.form_multiCallResultsStart"
+                                         v-model="form.form_multiCallResultsEnd" class="n-flat noborder pa-2 n-tx" style="width: 60px">
+
+                                        <div class="clickable n-flat pa-2"
+                                            @click="getResultsMulticall"
+                                        >
+                                            Get Results
+                                        </div>
+                                    </div>
+                                        <div v-if="Object.keys(values.val_results) == 0" >
+                                            <div class="py-4 tx-center opacity-50">
+                                                No Winning Tickets Yet
+                                            </div>
+                                        </div>
+                                        <div v-if="Object.keys(values.val_results) != 0" >
+                                            <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
+                                                
+                                                <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
+                                                    <div class="flex-row py-1">
+                                                        <div class="pr-2">
+                                                            <!-- {{index}} -->
+                                                            Ticket:
+                                                        </div>
+                                                        <div>
+                                                            # {{item}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+
+                                <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
+                                    Not Done
+                                </div>
                             </div>
 
-                            <div v-if="dark_mode" style="height: 70px; width: 2px; background: white; display: block;" class="mx-3 mb-3 opacity-10"></div>
-                            <div v-if="!dark_mode" style="height: 70px; width: 2px; background: black; display: block;" class="mx-3 mb-3 opacity-10"></div>
-
-                            <tx-card  class=" flex-column  mb-5" 
-                                ref="lastTicketNumber"
-                                :props="
-                                    {
-                                        title: LANG.lastTicketBought,
-                                        form_args: form.getProposalPropertyAmountVotes,
-                                        abi: ABIS.DAO,
-                                        address: CURRENT_NETWORK.DAO_ADDRESS,
-                                        function: 'proposals',
-                                        res_type: 'struct.amountOfVotes.uint',
-                                        button_only: true,
-                                        call_only: true,
-                                    }"
-                            />
                         </div>
-                    </div>
-
-
-                    <div class="w-100 flex-between tx-sm" v-if="values.dai_dao_allowance > 0">
-                        <div></div>
-                        <div @click="togglers.buy_advanced = !togglers.buy_advanced"
-                        :class="[togglers.buy_advanced ? 'n-inset' : 'n-flat']"
-                            class=" clickable pa-2 opacity-hover-50 border-r-50"
-                        >
-                            <i :class="[togglers.buy_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
-                        </div>
-                    </div>
-
+                    </template>
                 </div>
                 <div id="store"></div>
 
@@ -229,6 +292,7 @@
                 <div v-if="!dark_mode" style="height: 200px; width: 2px; background: black; display: block;" class="opacity-10 show-xs_md" > </div>
 
                 <div class="flex-column  n-flat border-r-25 mx-8 pa-2 " style="z-index: 2" > <!-- Buy Ticket -->
+
                     <!-- <h5 class="tx-ls-5 my-2 tx-center opacity-50">OPEN LOTTO </h5>
                     <hr class="w-100 opacity-10 "> -->
 
@@ -301,7 +365,7 @@
                             </div>
                             <div class="  flex-column tx-sm w-100" >
 
-                                <div class="flex-column " v-show="togglers.buy_advanced">
+                                <div class="flex-column " v-show="togglers.buy_advanced2">
 
 
                                 </div>
@@ -312,9 +376,9 @@
 
                 
                     <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
-                        <div class="flex-column" v-show="togglers.buy_advanced">
+                        <div class="flex-column" v-show="togglers.buy_advanced2">
                             <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
-                                Results:
+                                
                             <div class="flex-column " >
                                 <div class="tx-xs">
                                     Referral Bonus:
@@ -339,14 +403,16 @@
 
                     <div class="w-100 flex-between tx-sm" v-if="values.dai_dao_allowance > 0">
                         <div></div>
-                        <div @click="togglers.buy_advanced = !togglers.buy_advanced"
-                        :class="[togglers.buy_advanced ? 'n-inset' : 'n-flat']"
+                        <div @click="togglers.buy_advanced2 = !togglers.buy_advanced2"
+                        :class="[togglers.buy_advanced2 ? 'n-inset' : 'n-flat']"
                             class=" clickable pa-2 opacity-hover-50 border-r-50"
                         >
-                            <i :class="[togglers.buy_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
+                            <i :class="[togglers.buy_advanced2 ? 'fa-minus' : 'fa-plus']" class="fa"></i>
                         </div>
                     </div>
+
                 </div>
+
             </div>
             <!-- <div class="show-xs_md my-8"></div> -->
             <div id="user"></div>
@@ -357,6 +423,7 @@
             <div style="height: 80px" class="show-md_lg"> </div>
 
             <div class="flex-column"> <!--DAO -->
+
                 <div class="flex-column n-flat border-r-25 mx-2 pa-4" style="z-index: 1" >  
                     <h6 class="tx-ls-1 opacity-50  my-0 tx-center">{{LANG.myAccount}} </h6>
                     <h4 class="tx-ls-3 my-2 tx-center">{{shortAddress(first_acc.address)}} </h4>
@@ -645,69 +712,6 @@
                     </div>
                 </div>
 
-                    <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
-                        <div class="flex-column" v-show="togglers.buy_advanced">
-                            <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
-                                Results:
-
-                                
-                                <div class="opacity-50 tx-xs my-2" v-if="!!values.val_randomResultBlock" >
-                                    <!-- <span class="tx-sm mb-2 flex-row">Block: {{values.val_randomResultBlock}}</span> -->
-
-                                    <div v-if="loadings.resultsMulticall" class="flex-column opacity-75 tx-lg">
-                                        <i class="fas fa-circle-notch spin-nback"></i>
-                                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
-                                    </div>
-                                    <div class="tx-center">
-                                        Scratch:
-                                        <input type="text" name="" v-model="form.form_multiCallResultsStart" class="n-flat noborder px-2 py-1 tx-right n-tx" style="width: 30px">
-                                        <!-- {{form.form_multiCallResultsStart}} -->
-                                        ,
-                                        {{form.form_multiCallResultsEnd}}
-                                    </div>
-                                        
-                                    <div class="flex-row nowrap">
-                                        
-                                        <input type="range" name="" :max="values.accountVoteIndex + values.accountVoteLength" 
-                                        :min="form.form_multiCallResultsStart"
-                                         v-model="form.form_multiCallResultsEnd" class="n-flat noborder pa-2 n-tx" style="width: 60px">
-
-                                        <div class="clickable n-flat pa-2"
-                                            @click="getResultsMulticall"
-                                        >
-                                            Get Results
-                                        </div>
-                                    </div>
-                                        <div v-if="Object.keys(values.val_results) == 0" >
-                                            <div class="py-4 tx-center opacity-50">
-                                                No Winning Tickets Yet
-                                            </div>
-                                        </div>
-                                        <div v-if="Object.keys(values.val_results) != 0" >
-                                            <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
-                                                
-                                                <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
-                                                    <div class="flex-row py-1">
-                                                        <div class="pr-2">
-                                                            <!-- {{index}} -->
-                                                            Ticket:
-                                                        </div>
-                                                        <div>
-                                                            # {{item}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                </div>
-
-                                <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
-                                    Not Done
-                                </div>
-                            </div>
-
-                        </div>
-                    </template>
                 <div v-show="togglers.dao_advanced" class="flex-column n-inset border-r-50 mx-2 pa-6" style="transform: translateY(-15px);">
 
                         <!-- <tx-card  class=" flex-column  " 
@@ -1052,7 +1056,8 @@
                 },
                 togglers: {
                     dao_advanced: false,
-                    buy_advanced: false,
+                    buy_advanced1: false,
+                    buy_advanced2: false,
                 },
                 form: {
                     form_multiCallResults: "",
