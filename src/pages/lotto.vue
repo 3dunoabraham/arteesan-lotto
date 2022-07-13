@@ -528,7 +528,7 @@
                                         }"
                                 />
                             </div> -->
-                        <div v-show="false" v-if="values.dai_dao_allowance > 0">
+                        <div v-show="false" >
                             <div class="flex-column ">
                                 <tx-card  class=" flex-column  " 
                                     :props="
