@@ -143,6 +143,17 @@
                     res_type: 'uint',
                 }"
         />
+        <tx-card v-show="false" ref="ref_buyTicket"  class=" flex-column tx-xl  px-8 py-2" 
+            :props="
+                {
+                    title: LANG.buyTicket,
+                    form_args: form.voteOnProposal,
+                    abi: ABIS.DAO,
+                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                    function: 'voteOnProposal',
+                    DEBUG: true,
+                }"
+        />
 
 
 
@@ -347,17 +358,32 @@
 
                             <div v-if="!values.accountVoteIndex" class="  flex-column tx-sm w-100" >
                                 <div class="" v-if="!values.val_randomResultBlock">
+                                    <div class="flex-between">
+                                        <div @click="form.form_buyTicketAmount = 1" class="clickable pa-2 ma-1 border-r-10" :class="[form.form_buyTicketAmount == 1 ? 'n-inset' : 'n-flat']">1</div>
+                                        <div @click="form.form_buyTicketAmount = 10" class="clickable pa-2 ma-1 border-r-10" :class="[form.form_buyTicketAmount == 10 ? 'n-inset' : 'n-flat']">10</div>
+                                        <div @click="form.form_buyTicketAmount = 100" class="clickable pa-2 ma-1 border-r-10" :class="[form.form_buyTicketAmount == 100 ? 'n-inset' : 'n-flat']">100</div>
+                                        <div class="ml-1 tx-primary">
+                                            <span>x:</span>
+                                            <input type="number" name="" v-model="form.form_buyTicketAmount" class="n-inset tx-primary noborder pa-2 ma-1 border-r-10 n-tx" style="width: 40px">
+                                        </div>
+                                    </div>
 
-                                    <tx-card  class=" flex-column tx-xl  px-8 py-2" 
-                                        :props="
-                                            {
-                                                title: LANG.buyTicket,
-                                                form_args: form.voteOnProposal,
-                                                abi: ABIS.DAO,
-                                                address: CURRENT_NETWORK.DAO_ADDRESS,
-                                                function: 'voteOnProposal',
-                                            }"
-                                    />
+                                    <div class="flex-row mt-2">
+                                        <div @click="execute_buyTicket"  
+                                            class="n-flat pa-2 clickable opacity-hover-75 border-r-15    my-2"
+                                        >
+                                            <div v-if="loadings.buyTicket" class="flex-column opacity-75 mb-1">
+                                                <i class="fas fa-circle-notch spin-nback"></i>
+                                                <span class="opacity-75  tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div>Buy</div>
+                                                <div class="mx-2 tx-lg">{{form.form_buyTicketAmount}}</div>
+                                                <div>Ticket <span v-if="!!form.form_buyTicketAmount">(s)</span></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="opacity-50 tx-xs my-5" v-if="!!values.val_randomResultBlock">
                                     Round Done
@@ -367,6 +393,13 @@
 
                                 <div class="flex-column " v-show="togglers.buy_advanced2">
 
+                                    <div class="flex-column mt-2">
+                                        <div class="flex">
+                                            <span class="pr-2">Ref:</span>
+                                            <span>{{shortAddress(form.form_buyTicketRef)}}</span>
+                                        </div>
+                                        <input type="text" name="" v-model="form.form_buyTicketRef" style="width: 260px" class="n-inset noborder pa-1 tx-xs n-tx" >
+                                    </div>
 
                                 </div>
                             </div>
@@ -623,18 +656,6 @@
                                         call_only: true,
                                     }"
                             />
-                            <tx-card  class=" flex-column  mt-3" 
-                                v-show="false"
-                                :props="
-                                    {
-                                        title: 'Sign Smart Contract',
-                                        form_args: form.addTargetAllowance,
-                                        abi: ABIS.ERC20,
-                                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                        function: 'approve',
-                                        res_type: 'uint256',
-                                    }"
-                            />
 
 
 
@@ -706,6 +727,18 @@
                                                 function: 'resolveBet',
                                             }"
                                     />
+
+                            <tx-card  class=" flex-column  mt-3" 
+                                :props="
+                                    {
+                                        title: 'Sign Smart Contract',
+                                        form_args: form.addTargetAllowance,
+                                        abi: ABIS.ERC20,
+                                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                        function: 'approve',
+                                        res_type: 'uint256',
+                                    }"
+                            />
                                 </div>
                             </div>
                         </div>
@@ -1053,6 +1086,7 @@
                     daiBalanceOfAndAllowance: false,
                     currentRoundAndLastTicket: false,
                     withdrawBonus: false,
+                    buyTicket: false,
                 },
                 togglers: {
                     dao_advanced: false,
@@ -1060,6 +1094,8 @@
                     buy_advanced2: false,
                 },
                 form: {
+                    form_buyTicketRef: "",
+                    form_buyTicketAmount: "",
                     form_multiCallResults: "",
                     form_multiCallResultsStart: "",
                     form_multiCallResultsEnd: "",
@@ -1272,6 +1308,8 @@
             this.form.withdrawAll["2"].value = this.first_acc.address
             this.form.getVoteResultMulticall["2"].value = this.first_acc.address
             this.form.withdrawAmount["2"].value = this.first_acc.address
+            this.form.voteOnProposal["2"].value = this.first_acc.address
+            this.form.form_buyTicketRef = this.first_acc.address
 
             await this.trigger_daiBalanceOfAndAllowance()
             
@@ -1301,6 +1339,8 @@
                     this.form.getProposalPropertyAmount["0"].value = (parseInt(this.values.current_round) - 1)+""
                     await this.$refs.prizePool.execute()
                     this.values.prize_pool = parseDecimals(parseFloat(this.$refs.prizePool._parsedResult))
+
+                    this.form.voteOnProposal["0"].value = (parseInt(this.values.current_round) - 1)+""
 
                     this.form.getProposalPropertyDeadline["0"].value = (parseInt(this.values.current_round) - 1)+""
                     await this.$refs.deadline.execute()
@@ -1514,6 +1554,31 @@
                 }
 
                 this.loadings.resultsMulticall = false
+            },
+            async execute_buyTicket()
+            {
+                if (this.loadings.buyTicket) return
+                this.loadings.buyTicket = true
+
+                try {
+                    console.log("this.form.form_buyTicketAmount, this.form.form_buyTicketRef")
+                    console.log(this.form.form_buyTicketAmount.toString(), this.form.form_buyTicketRef)
+                    this.form.voteOnProposal ["1"].value = this.form.form_buyTicketAmount+""
+                    if (this.first_acc.address != this.form.form_buyTicketRef)
+                    {
+                        this.form.voteOnProposal ["2"].value = this.form.form_buyTicketRef
+                    }
+
+                    await this.$refs.ref_buyTicket.execute()
+                    // await this.$refs.targetAllowance.execute()
+                    // this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
+                } catch (error) {
+                    this.$refs.ref_buyTicket.loading = false
+                    console.log("failed call")
+                }
+
+                    console.log("buyTicket")
+                this.loadings.buyTicket = false
             },
             async execute_withdrawBonus()
             {
