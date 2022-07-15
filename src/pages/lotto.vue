@@ -173,8 +173,12 @@
                     {{LANG.signup}} 
                 </div>
                 <div style="z-index: 50">
-                    <div class="flex-column n-flat border-r-15 mx-2 pa-2 px-4" style="z-index: 2" >  <!-- Prize Pool -->
+                    <div class="flex-column n-flat border-r-15 mx-2 pa-2 px-4 pos-relative" style="z-index: 2" >  <!-- Prize Pool -->
+                        <div class="show-lg_x opacity-10 n-tx-s tx-xl" style="position: absolute; top: -150px;"><i class="fa fa-2x fa-award"></i></div>
+
                         <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
+
+                        
 
                         <div v-if="loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
                             <i class="fas fa-circle-notch spin-nback"></i>
@@ -184,7 +188,7 @@
                             <i class="fas fa-circle-notch spin-nback"></i>
                             <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
                         </div>
-                        <h1  class=" flex-column  tx-success" v-if="values.prize_pool">
+                        <h1  class=" flex-column  tx-success" style="z-index: 88" v-if="values.prize_pool">
                             ${{parseDecimals(values.prize_pool * 0.4)}} 
                         </h1>
                         <div class="flex-column " v-show="togglers.buy_advanced1">
@@ -218,6 +222,21 @@
                                         }"
                                 />
                             </div>
+                            <div v-if="values.dai_dao_allowance > 0">
+                                <div class="flex-wrap ">
+                                    <tx-card  class=" flex-column  mt-3" 
+                                        :props="
+                                            {
+                                                title: 'Make a proposal',
+                                                form_args: form.createProposal,
+                                                abi: ABIS.DAO,
+                                                address: CURRENT_NETWORK.DAO_ADDRESS,
+                                                function: 'createProposal',
+                                            }"
+                                    />
+                                </div>
+                            </div>
+                            
                         </div>
 
 
@@ -302,10 +321,11 @@
                 <div v-if="dark_mode" style="height: 200px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
                 <div v-if="!dark_mode" style="height: 200px; width: 2px; background: black; display: block;" class="opacity-10 show-xs_md" > </div>
 
-                <div class="flex-column  n-flat border-r-25 mx-8 pa-2 " style="z-index: 2" > <!-- Buy Ticket -->
+                <div class="flex-column  n-flat border-r-25 mx-8 pa-2 pos-relative" style="z-index: 2" > <!-- Buy Ticket -->
 
                     <!-- <h5 class="tx-ls-5 my-2 tx-center opacity-50">OPEN LOTTO </h5>
                     <hr class="w-100 opacity-10 "> -->
+                    <div class="show-lg_x opacity-10 n-tx-s tx-xl" style="position: absolute; top: -100px;"><i class="fa fa-store"></i></div>
 
                     <h5 class="tx-ls-5 my-2 tx-center opacity-50"> {{LANG.myTicket.toUpperCase() }} </h5>
 
@@ -401,6 +421,52 @@
                                         <input type="text" name="" v-model="form.form_buyTicketRef" style="width: 260px" class="n-inset noborder pa-1 tx-xs n-tx" >
                                     </div>
 
+                                    <div v-if="values.dai_dao_allowance > 0">
+
+                                        <div class="flex-column ">
+                                            <tx-card  class=" flex-column  " 
+                                                :props="
+                                                    {
+                                                        title: 'execute proposal',
+                                                        form_args: form.executeProposal,
+                                                        abi: ABIS.DAO,
+                                                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                                                        function: 'executeProposal',
+                                                    }"
+                                            />
+                                            <tx-card  class=" flex-column  " 
+                                                :props="
+                                                    {
+                                                        title: 'requestResolveRound',
+                                                        form_args: form.requestResolveRound,
+                                                        abi: ABIS.LOTTO,
+                                                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                                        function: 'requestResolveRound',
+                                                    }"
+                                            />
+                                            <tx-card  class=" flex-column  " 
+                                                :props="
+                                                    {
+                                                        title: 'resolveBet',
+                                                        form_args: form.resolveBet,
+                                                        abi: ABIS.LOTTO,
+                                                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                                        function: 'resolveBet',
+                                                    }"
+                                            />
+
+                                            <tx-card  class=" flex-column  mt-3" 
+                                                :props="
+                                                    {
+                                                        title: 'Sign Smart Contract',
+                                                        form_args: form.addTargetAllowance,
+                                                        abi: ABIS.ERC20,
+                                                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                                        function: 'approve',
+                                                        res_type: 'uint256',
+                                                    }"
+                                            />
+                                        </div>
                                 </div>
                             </div>
                             <!-- <span class="opacity-50 tx-xs">no ticket yet</span> -->
@@ -457,7 +523,10 @@
 
             <div class="flex-column"> <!--DAO -->
 
-                <div class="flex-column n-flat border-r-25 mx-2 pa-4" style="z-index: 1" >  
+                <div class="pos-relative flex-column n-flat border-r-25 mx-2 pa-4" style="z-index: 1" >  
+
+                    <div class="show-lg_x opacity-10 n-tx-s tx-xl" style="position: absolute; top: -130px;"><i class="fa fa-user"></i></div>
+
                     <h6 class="tx-ls-1 opacity-50  my-0 tx-center">{{LANG.myAccount}} </h6>
                     <h4 class="tx-ls-3 my-2 tx-center">{{shortAddress(first_acc.address)}} </h4>
                     
@@ -683,62 +752,19 @@
                                 </div>
 
                             <div v-if="values.dai_dao_allowance > 0">
-                                <div class="flex-wrap ">
+
+                                <div class="flex-column ">
                                     <tx-card  class=" flex-column  mt-3" 
                                         :props="
                                             {
-                                                title: 'Make a proposal',
-                                                form_args: form.createProposal,
-                                                abi: ABIS.DAO,
-                                                address: CURRENT_NETWORK.DAO_ADDRESS,
-                                                function: 'createProposal',
+                                                title: 'Sign Smart Contract',
+                                                form_args: form.addTargetAllowance,
+                                                abi: ABIS.ERC20,
+                                                address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                                function: 'approve',
+                                                res_type: 'uint256',
                                             }"
                                     />
-                                </div>
-
-                                <div class="flex-column ">
-                                    <tx-card  class=" flex-column  " 
-                                        :props="
-                                            {
-                                                title: 'execute proposal',
-                                                form_args: form.executeProposal,
-                                                abi: ABIS.DAO,
-                                                address: CURRENT_NETWORK.DAO_ADDRESS,
-                                                function: 'executeProposal',
-                                            }"
-                                    />
-                                    <tx-card  class=" flex-column  " 
-                                        :props="
-                                            {
-                                                title: 'requestResolveRound',
-                                                form_args: form.requestResolveRound,
-                                                abi: ABIS.LOTTO,
-                                                address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                function: 'requestResolveRound',
-                                            }"
-                                    />
-                                    <tx-card  class=" flex-column  " 
-                                        :props="
-                                            {
-                                                title: 'resolveBet',
-                                                form_args: form.resolveBet,
-                                                abi: ABIS.LOTTO,
-                                                address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                function: 'resolveBet',
-                                            }"
-                                    />
-
-                            <tx-card  class=" flex-column  mt-3" 
-                                :props="
-                                    {
-                                        title: 'Sign Smart Contract',
-                                        form_args: form.addTargetAllowance,
-                                        abi: ABIS.ERC20,
-                                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                        function: 'approve',
-                                        res_type: 'uint256',
-                                    }"
-                            />
                                 </div>
                             </div>
                         </div>
