@@ -174,7 +174,7 @@
                 </div>
                 <div style="z-index: 50">
                     <div class="flex-column n-flat border-r-15 mx-2 pa-2 px-4 pos-relative" style="z-index: 2" >  <!-- Prize Pool -->
-                        <div class="show-lg_x opacity-10 n-tx-s tx-xl" style="position: absolute; top: -150px;"><i class="fa fa-2x fa-award"></i></div>
+                        <div class="show-lg_x opacity-25 tx-primary n-tx-s tx-xl" style="position: absolute; top: -150px;"><i class="fa fa-2x fa-award"></i></div>
 
                         <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
 
@@ -325,7 +325,7 @@
 
                     <!-- <h5 class="tx-ls-5 my-2 tx-center opacity-50">OPEN LOTTO </h5>
                     <hr class="w-100 opacity-10 "> -->
-                    <div class="show-lg_x opacity-10 n-tx-s tx-xl" style="position: absolute; top: -100px;"><i class="fa fa-store"></i></div>
+                    <div class="show-lg_x opacity-25 tx-secondary n-tx-s tx-xl" style="position: absolute; top: -100px;"><i class="fa fa-store"></i></div>
 
                     <h5 class="tx-ls-5 my-2 tx-center opacity-50"> {{LANG.myTicket.toUpperCase() }} </h5>
 
@@ -525,7 +525,7 @@
 
                 <div class="pos-relative flex-column n-flat border-r-25 mx-2 pa-4" style="z-index: 1" >  
 
-                    <div class="show-lg_x opacity-10 n-tx-s tx-xl" style="position: absolute; top: -130px;"><i class="fa fa-user"></i></div>
+                    <div class="show-lg_x opacity-25 tx-tertiary n-tx-s tx-xl" style="position: absolute; top: -130px;"><i class="fa fa-user"></i></div>
 
                     <h6 class="tx-ls-1 opacity-50  my-0 tx-center">{{LANG.myAccount}} </h6>
                     <h4 class="tx-ls-3 my-2 tx-center">{{shortAddress(first_acc.address)}} </h4>
