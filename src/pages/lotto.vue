@@ -397,9 +397,9 @@
                                                 <span class="opacity-75  tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
                                             </div>
                                             <div class="flex-row">
-                                                <div>Buy</div>
-                                                <div class="mx-2 tx-lg">{{form.form_buyTicketAmount}}</div>
-                                                <div>Ticket <span v-if="!!form.form_buyTicketAmount">(s)</span></div>
+                                                <div class="pr-1">Buy</div>
+                                                <div v-if="!!form.form_buyTicketAmount" class="mx-2 tx-lg">{{form.form_buyTicketAmount}}</div>
+                                                <div>Ticket <span v-if="form.form_buyTicketAmount > 1">(s)</span></div>
                                             </div>
 
                                         </div>
@@ -666,37 +666,6 @@
                                     />
                             </div>
                             
-                                <!-- make_multicall -->
-                            <!-- <div class="flex-column ">
-                                <tx-card  class=" flex-column  " 
-                                    :props="
-                                        {
-                                            title: 'getVoteResultMulticall',
-                                            form_args: form.getVoteResultMulticall,
-                                            abi: ABIS.LOTTO,
-                                            address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                            function: 'getVoteResult',
-                                            DEBUG: true,
-                                            res_type: 'uint',
-                                            advanced: true,
-                                            make_multicall: true,
-                                        }"
-                                />
-                            </div>
-                            <div class="flex-column ">
-                                <tx-card  class=" flex-column  " 
-                                    :props="
-                                        {
-                                            title: 'getVoteResult',
-                                            form_args: form.getVoteResult,
-                                            abi: ABIS.LOTTO,
-                                            address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                            function: 'getVoteResult',
-                                            DEBUG: true,
-                                            res_type: 'uint',
-                                        }"
-                                />
-                            </div> -->
                         <div v-show="false" >
                             <div class="flex-column ">
                                 <tx-card  class=" flex-column  " 
@@ -773,28 +742,6 @@
 
                 <div v-show="togglers.dao_advanced" class="flex-column n-inset border-r-50 mx-2 pa-6" style="transform: translateY(-15px);">
 
-                        <!-- <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 'set Requester',
-                                    form_args: form.setRequester,
-                                    abi: ABIS.RESOLVER,
-                                    address: CURRENT_NETWORK.RESOLVER_ADDRESS,
-                                    function: 'setRequester',
-                                }"
-                        /> -->
-
-             <!--            <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 'transferOwnership to dao',
-                                    form_args: form.transferOwnership,
-                                    abi: ABIS.LOTTO,
-                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                    function: 'transferOwnership',
-                                    res_type: 'uint256',
-                                }"
-                        /> -->
                     <div class="flex-column tx-xs px-2" >
                         <div class="tx-sm" style="min-width: 170px">
                             <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
@@ -1072,6 +1019,65 @@
         </div>
     </div>
 </template>
+
+
+                                <!-- make_multicall -->
+                            <!-- <div class="flex-column ">
+                                <tx-card  class=" flex-column  " 
+                                    :props="
+                                        {
+                                            title: 'getVoteResultMulticall',
+                                            form_args: form.getVoteResultMulticall,
+                                            abi: ABIS.LOTTO,
+                                            address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                            function: 'getVoteResult',
+                                            DEBUG: true,
+                                            res_type: 'uint',
+                                            advanced: true,
+                                            make_multicall: true,
+                                        }"
+                                />
+                            </div>
+                            <div class="flex-column ">
+                                <tx-card  class=" flex-column  " 
+                                    :props="
+                                        {
+                                            title: 'getVoteResult',
+                                            form_args: form.getVoteResult,
+                                            abi: ABIS.LOTTO,
+                                            address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                            function: 'getVoteResult',
+                                            DEBUG: true,
+                                            res_type: 'uint',
+                                        }"
+                                />
+                            </div> -->
+
+
+                        <!-- <tx-card  class=" flex-column  " 
+                            :props="
+                                {
+                                    title: 'set Requester',
+                                    form_args: form.setRequester,
+                                    abi: ABIS.RESOLVER,
+                                    address: CURRENT_NETWORK.RESOLVER_ADDRESS,
+                                    function: 'setRequester',
+                                }"
+                        /> -->
+
+             <!--            <tx-card  class=" flex-column  " 
+                            :props="
+                                {
+                                    title: 'transferOwnership to dao',
+                                    form_args: form.transferOwnership,
+                                    abi: ABIS.LOTTO,
+                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                    function: 'transferOwnership',
+                                    res_type: 'uint256',
+                                }"
+                        /> -->
+                        
+                            
 <script>
     import {
       Multicall,
