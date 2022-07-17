@@ -418,7 +418,7 @@
                         <div class="  flex-column tx-sm w-100" >
                             <div class="flex-column " v-show="togglers.buy_advanced3">
 
-                                <div class="flex-column mt-2">
+                                <div class="flex-column my-2">
                                     <div class="flex-between">
                                         <div @click="form.form_buyTicketAmount = form.form_buyTicketAmount <= 1 ? 1 : parseInt(form.form_buyTicketAmount)-1" class=" clickable pa-2 opacity-hover-50 n-flat border-r-50" >  <i class="fa fa-minus"></i> </div>
                                         <div class="ml-1  flex-column mb-3">
@@ -434,7 +434,7 @@
                                         <button @click="form.form_buyTicketAmount = parseInt(form.form_buyTicketAmount) + 50" class="n-btn pa-2 ma-1 border-r-10 tx-secondary n-flat">+50</button>
                                     </div>
 
-                                    <div class="flex-row mt-2">
+                                    <div class="flex-row mt-2 n-flat px-2 border-r-15">
                                         <div @click="execute_buyTicket"  
                                             class="n-flat pa-3  clickable bg-secondary opacity-hover-75 border-r-15  important-tx-white  my-2"
                                         >
