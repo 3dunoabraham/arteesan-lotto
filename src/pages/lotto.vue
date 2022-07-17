@@ -342,7 +342,7 @@
                         <i class="fas fa-circle-notch spin-nback"></i>
                         <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
                     </div>
-                    <div v-if="!loadings.daiBalanceOfAndAllowance">
+                    <div v-if="!loadings.daiBalanceOfAndAllowance && !loadings.currentRoundAndLastTicket">
                         <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999"  
                             class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3 border-r-25"
                         >
@@ -390,20 +390,20 @@
                     <template v-if="values.dai_dao_allowance > 0 && !loadings.daiBalanceOfAndAllowance && !loadings.currentRoundAndLastTicket" >
 
                         <div v-if="!values.accountVoteIndex" class="  flex-column tx-sm w-100" >
-                            <div class="" v-if="!values.val_randomResultBlock">
+                            <div class="" v-if="!values.val_randomResultBlock" >
 
-                                <div class="flex-row mt-2" v-if="!togglers.buy_advanced3">
+                                <div class="flex-row n-inset border-r-25 " v-if="!togglers.buy_advanced3">
                                     <div @click="togglers.buy_advanced3 = true"  
-                                        class="n-flat pa-4 clickable opacity-hover-75 border-r-15    mb-6 mx-5"
+                                        class="pt- pa-3 clickable opacity-hover-75 border-r-15    mb-6 mx-5"
                                     >
                                         <div v-if="loadings.buyTicket" class="flex-column opacity-75 mb-1">
                                             <i class="fas fa-circle-notch spin-nback"></i>
                                             <span class="opacity-75  tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
                                         </div>
                                         <div class="flex-row tx-xl flex-column ">
-                                            <div class="pr-1">Buy</div>
+                                            <div class="pr-1 tx-lg n-tx-3d tx-ls-3">Buy</div>
                                             <!-- <div v-if="!!form.form_buyTicketAmount" class="mx-2 tx-lg">{{form.form_buyTicketAmount}}</div> -->
-                                            <div>Ticket 
+                                            <div class="n-tx-3d tx-ls-">Ticket 
                                                 <!-- <span v-if="form.form_buyTicketAmount > 1">(s)</span> -->
                                             </div>
                                         </div>
