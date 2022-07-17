@@ -387,7 +387,7 @@
                             </div>
                         </div>
                     </div>
-                    <template v-if="values.dai_dao_allowance > 0 " >
+                    <template v-if="values.dai_dao_allowance > 0 && !loadings.daiBalanceOfAndAllowance && !loadings.currentRoundAndLastTicket" >
 
                         <div v-if="!values.accountVoteIndex" class="  flex-column tx-sm w-100" >
                             <div class="" v-if="!values.val_randomResultBlock">
@@ -453,7 +453,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex-column " v-show="togglers.buy_advanced2">
+                            <div class="flex-column " v-show="togglers.buy_advanced2 && togglers.buy_advanced3">
 
                                 <div class="flex-column mt-2">
                                     <div class="flex">
@@ -497,17 +497,6 @@
                                                 }"
                                         />
 
-                                        <tx-card  class=" flex-column  mt-3" 
-                                            :props="
-                                                {
-                                                    title: 'Sign Smart Contract',
-                                                    form_args: form.addTargetAllowance,
-                                                    abi: ABIS.ERC20,
-                                                    address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                                    function: 'approve',
-                                                    res_type: 'uint256',
-                                                }"
-                                        />
                                     </div>
                             </div>
                         </div>
@@ -517,7 +506,7 @@
 
                 
                     <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
-                        <div class="flex-column" v-show="togglers.buy_advanced2">
+                        <div class="flex-column" v-show="togglers.buy_advanced2 ">
                             <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
                                 
                             <div class="flex-column " >
