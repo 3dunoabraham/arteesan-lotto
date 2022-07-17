@@ -9,7 +9,12 @@
 @keyframes shakenback { 0%{ transform: rotate(-0deg); } 50% { transform: rotate(-450deg); } 100% { transform: rotate(-0deg); } }
 
 .hover-hover { animation: hoverhover 2s;  animation-iteration-count: infinite }
-@keyframes hoverhover { 0%{ transform: translateY(0px); } 20% { transform: translateY(-3px); } 80% { transform: translateY(6px); } 100% { transform: translateY(0px); } }
+@keyframes hoverhover {
+	0%{ transform: translateY(-4px); }
+	66% { transform: translateY(6px); }
+	/*75% { transform: translateY(6px); }*/
+	100% { transform: translateY(-4px); }
+}
 .hover-nhover { animation: hovernback 2s;  animation-iteration-count: infinite }
 @keyframes hovernback { 0%{ transform: translateY(0px); } 50% { transform: translateY(9px); } 100% { transform: translateY(0px); } }
 

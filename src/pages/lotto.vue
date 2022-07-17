@@ -406,6 +406,7 @@
                                             <div class="n-tx-3d tx-ls-">Ticket 
                                                 <!-- <span v-if="form.form_buyTicketAmount > 1">(s)</span> -->
                                             </div>
+                                            <div class="n-tx-3d hover-hover"><i class=" fa fa-hand-pointer"></i></div>
                                         </div>
 
                                     </div>
