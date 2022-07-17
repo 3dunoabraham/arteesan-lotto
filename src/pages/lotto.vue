@@ -174,7 +174,9 @@
                 </div>
                 <div style="z-index: 50">
                     <div class="flex-column n-flat border-r-15 mx-2 pa-2 px-4 pos-relative" style="z-index: 2" >  <!-- Prize Pool -->
-                        <div class="show-lg_x  tx-primary n-tx-s tx-xl" style="position: absolute; top: -100px; z-index: 999"><i class="fa fa-2x fa-award"></i></div>
+                        <div class="show-lg_x  tx-primary n-tx-s tx-xl" style="position: absolute; top: -100px; z-index: 999">
+                            <i class="fa fa-2x fa-award"></i>
+                        </div>
 
                         <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
 
@@ -284,27 +286,27 @@
                                             Get Results
                                         </div>
                                     </div>
-                                        <div v-if="Object.keys(values.val_results) == 0" >
-                                            <div class="py-4 tx-center opacity-50">
-                                                No Winning Tickets Yet
-                                            </div>
+                                    <div v-if="Object.keys(values.val_results) == 0" >
+                                        <div class="py-4 tx-center opacity-50">
+                                            No Winning Tickets Yet
                                         </div>
-                                        <div v-if="Object.keys(values.val_results) != 0" >
-                                            <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
-                                                
-                                                <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
-                                                    <div class="flex-row py-1">
-                                                        <div class="pr-2">
-                                                            <!-- {{index}} -->
-                                                            Ticket:
-                                                        </div>
-                                                        <div>
-                                                            # {{item}}
-                                                        </div>
+                                    </div>
+                                    <div v-if="Object.keys(values.val_results) != 0" >
+                                        <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
+                                            
+                                            <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
+                                                <div class="flex-row py-1">
+                                                    <div class="pr-2">
+                                                        <!-- {{index}} -->
+                                                        Ticket:
+                                                    </div>
+                                                    <div>
+                                                        # {{item}}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </div>
 
                                 <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
@@ -325,7 +327,7 @@
 
                     <!-- <h5 class="tx-ls-5 my-2 tx-center opacity-50">OPEN LOTTO </h5>
                     <hr class="w-100 opacity-10 "> -->
-                    <div class="show-lg_x  tx-secondary n-tx-s tx-xl" style="position: absolute; top: -55px;"><i class="fa fa-store"></i></div>
+                    <div class="show-lg_x  n-tx-s tx-xl"  style="color: #0b85ff; position: absolute; top: -55px;"><i class="fa fa-store"></i></div>
 
                     <h5 class="tx-ls-5 my-2 tx-center opacity-50"> {{LANG.myTicket.toUpperCase() }} </h5>
 
@@ -373,105 +375,145 @@
                         </div>
                     </div>
 
-                    <!-- <template > -->
-                        <template v-if="values.dai_dao_allowance > 0" >
+                <!-- <template > -->
 
-                            <div v-if="!values.accountVoteIndex" class="  flex-column tx-sm w-100" >
-                                <div class="" v-if="!values.val_randomResultBlock">
-                                    <div class="flex-between">
-                                        <div @click="form.form_buyTicketAmount = 1" class="clickable pa-2 ma-1 border-r-10" :class="[form.form_buyTicketAmount == 1 ? 'n-inset' : 'n-flat']">1</div>
-                                        <div @click="form.form_buyTicketAmount = 10" class="clickable pa-2 ma-1 border-r-10" :class="[form.form_buyTicketAmount == 10 ? 'n-inset' : 'n-flat']">10</div>
-                                        <div @click="form.form_buyTicketAmount = 100" class="clickable pa-2 ma-1 border-r-10" :class="[form.form_buyTicketAmount == 100 ? 'n-inset' : 'n-flat']">100</div>
-                                        <div class="ml-1 tx-primary">
-                                            <span>x:</span>
-                                            <input type="number" name="" v-model="form.form_buyTicketAmount" class="n-inset tx-primary noborder pa-2 ma-1 border-r-10 n-tx" style="width: 40px">
+                    <div class="w-100 flex-between " v-if="values.dai_dao_allowance > 0">
+                        <div></div>
+                        <div class="flex-column " v-if="togglers.buy_advanced3" style="position: absolute; right: 15px; top: 40px">
+                            <div @click="togglers.buy_advanced3 = !togglers.buy_advanced3"
+                                class=" clickable pa-2  px-3 border-r-50 n-conve"
+                            >
+                                <i :class="[togglers.buy_advanced3 ? 'fa-times' : 'fa-plus']" class="fa"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <template v-if="values.dai_dao_allowance > 0 " >
+
+                        <div v-if="!values.accountVoteIndex" class="  flex-column tx-sm w-100" >
+                            <div class="" v-if="!values.val_randomResultBlock">
+
+                                <div class="flex-row mt-2" v-if="!togglers.buy_advanced3">
+                                    <div @click="togglers.buy_advanced3 = true"  
+                                        class="n-flat pa-4 clickable opacity-hover-75 border-r-15    mb-6 mx-5"
+                                    >
+                                        <div v-if="loadings.buyTicket" class="flex-column opacity-75 mb-1">
+                                            <i class="fas fa-circle-notch spin-nback"></i>
+                                            <span class="opacity-75  tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
                                         </div>
+                                        <div class="flex-row tx-xl flex-column ">
+                                            <div class="pr-1">Buy</div>
+                                            <!-- <div v-if="!!form.form_buyTicketAmount" class="mx-2 tx-lg">{{form.form_buyTicketAmount}}</div> -->
+                                            <div>Ticket 
+                                                <!-- <span v-if="form.form_buyTicketAmount > 1">(s)</span> -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="opacity-50 tx-xs my-5" v-if="!!values.val_randomResultBlock">
+                                Round Done
+                            </div>
+                        </div>
+                        <div class="  flex-column tx-sm w-100" >
+                            <div class="flex-column " v-show="togglers.buy_advanced3">
+
+                                <div class="flex-column mt-2">
+                                    <div class="flex-between">
+                                        <div @click="form.form_buyTicketAmount = form.form_buyTicketAmount <= 1 ? 1 : parseInt(form.form_buyTicketAmount)-1" class=" clickable pa-2 opacity-hover-50 n-flat border-r-50" >  <i class="fa fa-minus"></i> </div>
+                                        <div class="ml-1  flex-column mb-3">
+                                            <span class="tx-xs tx-ls-3">AMOUNT</span>
+                                            <input type="number" name="" min="0" v-model="form.form_buyTicketAmount" class="n-inset tx-primary noborder pa-2 ma-1 border-r-10 n-tx tx-bold tx-lg" style="width: 100px">
+                                        </div>
+                                        <div @click="form.form_buyTicketAmount = parseInt(form.form_buyTicketAmount)+1" class=" clickable pa-2 opacity-hover-50 n-flat border-r-50" >  <i class="fa fa-plus"></i> </div>
+                                    </div>
+                                    <div class="flex-between">
+                                        <button @click="form.form_buyTicketAmount = 1" class="noborder n-tx clickable pa-2 ma-1 border-r-10" :class="[form.form_buyTicketAmount == 1 ? 'n-inset' : 'n-flat']">1</button>
+                                        <button @click="form.form_buyTicketAmount = 10" class="noborder n-tx clickable pa-2 ma-1 border-r-10" :class="[form.form_buyTicketAmount == 10 ? 'n-inset' : 'n-flat']">10</button>
+                                        <button @click="form.form_buyTicketAmount = 50" class="noborder n-tx clickable pa-2 ma-1 border-r-10" :class="[form.form_buyTicketAmount == 50 ? 'n-inset' : 'n-flat']">50</button>
+                                        <button @click="form.form_buyTicketAmount = parseInt(form.form_buyTicketAmount) + 50" class="n-btn pa-2 ma-1 border-r-10 tx-secondary n-flat">+50</button>
                                     </div>
 
                                     <div class="flex-row mt-2">
                                         <div @click="execute_buyTicket"  
-                                            class="n-flat pa-2 clickable opacity-hover-75 border-r-15    my-2"
+                                            class="n-flat pa-3  clickable bg-secondary opacity-hover-75 border-r-15  important-tx-white  my-2"
                                         >
                                             <div v-if="loadings.buyTicket" class="flex-column opacity-75 mb-1">
                                                 <i class="fas fa-circle-notch spin-nback"></i>
                                                 <span class="opacity-75  tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
                                             </div>
                                             <div class="flex-row">
-                                                <div class="pr-1">Buy</div>
-                                                <div v-if="!!form.form_buyTicketAmount" class="mx-2 tx-lg">{{form.form_buyTicketAmount}}</div>
-                                                <div>Ticket <span v-if="form.form_buyTicketAmount > 1">(s)</span></div>
+                                                <div class="pr-1">BUY</div>
+                                                <div v-if= "!!form.form_buyTicketAmount" class="mx-2 tx-lg">{{form.form_buyTicketAmount}}</div>
+                                                <div>TICKET <span v-if="form.form_buyTicketAmount > 1">(s)</span></div>
                                             </div>
 
                                         </div>
                                     </div>
                                 </div>
-                                <div class="opacity-50 tx-xs my-5" v-if="!!values.val_randomResultBlock">
-                                    Round Done
-                                </div>
                             </div>
-                            <div class="  flex-column tx-sm w-100" >
 
-                                <div class="flex-column " v-show="togglers.buy_advanced2">
+                            <div class="flex-column " v-show="togglers.buy_advanced2">
 
-                                    <div class="flex-column mt-2">
-                                        <div class="flex">
-                                            <span class="pr-2">Ref:</span>
-                                            <span>{{shortAddress(form.form_buyTicketRef)}}</span>
-                                        </div>
-                                        <input type="text" name="" v-model="form.form_buyTicketRef" style="width: 260px" class="n-inset noborder pa-1 tx-xs n-tx" >
+                                <div class="flex-column mt-2">
+                                    <div class="flex">
+                                        <span class="pr-2">Ref:</span>
+                                        <span>{{shortAddress(form.form_buyTicketRef)}}</span>
                                     </div>
-
-                                    <div v-if="values.dai_dao_allowance > 0">
-
-                                        <div class="flex-column ">
-                                            <tx-card  class=" flex-column  " 
-                                                :props="
-                                                    {
-                                                        title: 'execute proposal',
-                                                        form_args: form.executeProposal,
-                                                        abi: ABIS.DAO,
-                                                        address: CURRENT_NETWORK.DAO_ADDRESS,
-                                                        function: 'executeProposal',
-                                                    }"
-                                            />
-                                            <tx-card  class=" flex-column  " 
-                                                :props="
-                                                    {
-                                                        title: 'requestResolveRound',
-                                                        form_args: form.requestResolveRound,
-                                                        abi: ABIS.LOTTO,
-                                                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                        function: 'requestResolveRound',
-                                                    }"
-                                            />
-                                            <tx-card  class=" flex-column  " 
-                                                :props="
-                                                    {
-                                                        title: 'resolveBet',
-                                                        form_args: form.resolveBet,
-                                                        abi: ABIS.LOTTO,
-                                                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                        function: 'resolveBet',
-                                                    }"
-                                            />
-
-                                            <tx-card  class=" flex-column  mt-3" 
-                                                :props="
-                                                    {
-                                                        title: 'Sign Smart Contract',
-                                                        form_args: form.addTargetAllowance,
-                                                        abi: ABIS.ERC20,
-                                                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                                        function: 'approve',
-                                                        res_type: 'uint256',
-                                                    }"
-                                            />
-                                        </div>
+                                    <input type="text" name="" v-model="form.form_buyTicketRef" style="width: 260px" class="n-inset noborder pa-1 tx-xs n-tx" >
                                 </div>
+
+                                <div v-if="values.dai_dao_allowance > 0">
+
+                                    <div class="flex-column ">
+                                        <tx-card  class=" flex-column  " 
+                                            :props="
+                                                {
+                                                    title: 'execute proposal',
+                                                    form_args: form.executeProposal,
+                                                    abi: ABIS.DAO,
+                                                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                                                    function: 'executeProposal',
+                                                }"
+                                        />
+                                        <tx-card  class=" flex-column  " 
+                                            :props="
+                                                {
+                                                    title: 'requestResolveRound',
+                                                    form_args: form.requestResolveRound,
+                                                    abi: ABIS.LOTTO,
+                                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                                    function: 'requestResolveRound',
+                                                }"
+                                        />
+                                        <tx-card  class=" flex-column  " 
+                                            :props="
+                                                {
+                                                    title: 'resolveBet',
+                                                    form_args: form.resolveBet,
+                                                    abi: ABIS.LOTTO,
+                                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                                    function: 'resolveBet',
+                                                }"
+                                        />
+
+                                        <tx-card  class=" flex-column  mt-3" 
+                                            :props="
+                                                {
+                                                    title: 'Sign Smart Contract',
+                                                    form_args: form.addTargetAllowance,
+                                                    abi: ABIS.ERC20,
+                                                    address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                                    function: 'approve',
+                                                    res_type: 'uint256',
+                                                }"
+                                        />
+                                    </div>
                             </div>
-                            <!-- <span class="opacity-50 tx-xs">no ticket yet</span> -->
-                        </template>
-                    <!-- </template> -->
+                        </div>
+                        <!-- <span class="opacity-50 tx-xs">no ticket yet</span> -->
+                    </template>
+                <!-- </template> -->
 
                 
                     <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
@@ -500,30 +542,30 @@
                     </div>
                 </template>
 
-                    <div class="w-100 flex-between tx-sm" v-if="values.dai_dao_allowance > 0">
-                        <div></div>
-                        <div @click="togglers.buy_advanced2 = !togglers.buy_advanced2"
-                        :class="[togglers.buy_advanced2 ? 'n-inset' : 'n-flat']"
-                            class=" clickable pa-2 opacity-hover-50 border-r-50"
-                        >
-                            <i :class="[togglers.buy_advanced2 ? 'fa-minus' : 'fa-plus']" class="fa"></i>
-                        </div>
+                <div class="w-100 flex-between tx-sm" v-if="values.dai_dao_allowance > 0 && togglers.buy_advanced3">
+                    <div></div>
+                    <div @click="togglers.buy_advanced2 = !togglers.buy_advanced2"
+                    :class="[togglers.buy_advanced2 ? 'n-inset' : 'n-flat']"
+                        class=" clickable pa-2 opacity-hover-50 border-r-50"
+                    >
+                        <i :class="[togglers.buy_advanced2 ? 'fa-minus' : 'fa-plus']" class="fa"></i>
                     </div>
-
                 </div>
 
             </div>
-            <!-- <div class="show-xs_md my-8"></div> -->
-            <div id="user"></div>
 
-            <div v-if="dark_mode" style="height: 200px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
-            <div v-if="!dark_mode" style="height: 200px; width: 2px; background: black; display: block;" class="opacity-10 show-xs_md" > </div>
+        </div>
+        <!-- <div class="show-xs_md my-8"></div> -->
+        <div id="user"></div>
 
-            <div style="height: 80px" class="show-md_lg"> </div>
+        <div v-if="dark_mode" style="height: 200px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
+        <div v-if="!dark_mode" style="height: 200px; width: 2px; background: black; display: block;" class="opacity-10 show-xs_md" > </div>
 
-            <div class="flex-column"> <!--DAO -->
+        <div style="height: 80px" class="show-md_lg"> </div>
 
-                <div class="pos-relative flex-column n-flat border-r-25 mx-2 pa-4" style="z-index: 1" >  
+        <div class="flex-column"> <!--DAO -->
+
+            <div class="pos-relative flex-column n-flat border-r-25 mx-2 pa-4" style="z-index: 1" >  
 
                     <div class="show-lg_x  tx-tertiary n-tx-s tx-xl" style="position: absolute; top: -55px;"><i class="fa fa-user"></i></div>
 
@@ -1124,10 +1166,11 @@
                     dao_advanced: false,
                     buy_advanced1: false,
                     buy_advanced2: false,
+                    buy_advanced3: false,
                 },
                 form: {
                     form_buyTicketRef: "",
-                    form_buyTicketAmount: "",
+                    form_buyTicketAmount: 0,
                     form_multiCallResults: "",
                     form_multiCallResultsStart: "",
                     form_multiCallResultsEnd: "",

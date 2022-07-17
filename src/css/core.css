@@ -16,7 +16,8 @@
 .pos-relative {
 	position: relative;
 }
-
+.important-tx-darkgrey { color: #333333; }
+.important-tx-white { color: #eeeeee; }
 
 .flex { display: flex }
 .flex-center { display: flex; justify-content: center; align-items: center }
