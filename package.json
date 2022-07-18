@@ -7,7 +7,6 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@metamask/onboarding": "^1.0.1",
     "@uniswap/sdk": "^3.0.3",
     "axios": "^0.27.2",
     "ethereum-multicall": "^2.12.0",
