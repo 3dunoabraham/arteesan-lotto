@@ -421,18 +421,21 @@
 
                                 <div class="flex-column my-2">
                                     <div class="flex-between">
-                                        <div @click="form.form_buyTicketAmount = form.form_buyTicketAmount <= 1 ? 1 : parseInt(form.form_buyTicketAmount)-1" class=" clickable pa-2 opacity-hover-50 n-flat border-r-50" >  <i class="fa fa-minus"></i> </div>
+                                        <div @click="form.form_buyTicketAmount = form.form_buyTicketAmount <= 1 ? 1 : parseInt(form.form_buyTicketAmount)-1" class=" clickable pa-2 opacity-hover-50 n-border-primary-1 n-flat border-r-50 " >  <i class="fa fa-minus"></i> </div>
                                         <div class="ml-1  flex-column mb-3">
                                             <span class="tx-xs tx-ls-3">AMOUNT</span>
                                             <input type="number" name="" min="0" v-model="form.form_buyTicketAmount" class="n-inset tx-primary noborder pa-2 ma-1 border-r-10 n-tx tx-bold tx-lg" style="width: 100px">
                                         </div>
-                                        <div @click="form.form_buyTicketAmount = parseInt(form.form_buyTicketAmount)+1" class=" clickable pa-2 opacity-hover-50 n-flat border-r-50" >  <i class="fa fa-plus"></i> </div>
+                                        <div @click="form.form_buyTicketAmount = parseInt(form.form_buyTicketAmount)+1" class=" clickable pa-2 opacity-hover-50 n-border-primary-1 n-flat border-r-50 " >  <i class="fa fa-plus"></i> </div>
                                     </div>
                                     <div class="flex-between">
-                                        <button @click="form.form_buyTicketAmount = 1" class="noborder n-tx clickable pa-2 ma-1 border-r-10" :class="[form.form_buyTicketAmount == 1 ? 'n-inset' : 'n-flat']">1</button>
-                                        <button @click="form.form_buyTicketAmount = 10" class="noborder n-tx clickable pa-2 ma-1 border-r-10" :class="[form.form_buyTicketAmount == 10 ? 'n-inset' : 'n-flat']">10</button>
-                                        <button @click="form.form_buyTicketAmount = 50" class="noborder n-tx clickable pa-2 ma-1 border-r-10" :class="[form.form_buyTicketAmount == 50 ? 'n-inset' : 'n-flat']">50</button>
-                                        <button @click="form.form_buyTicketAmount = parseInt(form.form_buyTicketAmount) + 50" class="n-btn pa-2 ma-1 border-r-10 tx-secondary n-flat">+50</button>
+                                        <button @click="form.form_buyTicketAmount = parseInt(form.form_buyTicketAmount) + 1" class="n-btn pa-2 ma-1 border-r-10 tx-secondary n-border-secondary-1 n-flat">+1</button>
+
+                                        <button @click="form.form_buyTicketAmount = parseInt(form.form_buyTicketAmount) + 10" class="n-btn pa-2 ma-1 border-r-10 tx-secondary n-border-secondary-1 n-flat">+10</button>
+
+                                        <button @click="form.form_buyTicketAmount = parseInt(form.form_buyTicketAmount) + 50" class="n-btn pa-2 ma-1 border-r-10 tx-secondary n-border-secondary-1 n-flat">+50</button>
+
+                                        <button @click="form.form_buyTicketAmount = parseInt(form.form_buyTicketAmount) + 100" class="n-btn pa-2 ma-1 border-r-10 tx-secondary n-border-secondary-1 n-flat">+100</button>
                                     </div>
 
                                     <div class="flex-row mt-2 n-flat px-2 border-r-15">

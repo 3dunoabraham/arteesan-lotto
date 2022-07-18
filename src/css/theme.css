@@ -122,6 +122,32 @@ body {
   color: #aaaaaa;
 }
 
+.dark-theme .n-border-secondary-s-1 {   
+  box-shadow: 0px 0px 0px 1px var(--secondary-color);
+}
+.dark-theme .n-border-secondary-1 {   
+  border: 1px solid var(--secondary-color);
+}
+.light-theme .n-border-secondary-s-1 {   
+  box-shadow: 0px 0px 0px 1px var(--secondary-color);
+}
+.light-theme .n-border-secondary-1 {   
+  border: 1px solid var(--secondary-color);
+}
+
+.dark-theme .n-border-primary-s-1 {   
+  box-shadow: 0px 0px 0px 1px var(--primary-color);
+}
+.dark-theme .n-border-primary-1 {   
+  border: 1px solid var(--primary-color);
+}
+.light-theme .n-border-primary-s-1 {   
+  box-shadow: 0px 0px 0px 1px var(--primary-color);
+}
+.light-theme .n-border-primary-1 {   
+  border: 1px solid var(--primary-color);
+}
+
 .light-theme.tx-primary,
 .light-theme .tx-primary { color: var(--primary-color); }
 .light-theme.tx-secondary,
