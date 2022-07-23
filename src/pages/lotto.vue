@@ -224,7 +224,7 @@
                                         }"
                                 />
                             </div>
-                            <div v-if="values.dai_dao_allowance > 0">
+                            <div v-if="values.dai_dao_allowance > 0" v-show="pro_mode">
                                 <div class="flex-wrap ">
                                     <tx-card  class=" flex-column  mt-3" 
                                         :props="
@@ -461,13 +461,13 @@
 
                                 <div class="flex-column mt-2">
                                     <div class="flex">
-                                        <span class="pr-2">Ref:</span>
+                                        <span class="pr-1">Ref:</span>
                                         <span>{{shortAddress(form.form_buyTicketRef)}}</span>
                                     </div>
-                                    <input type="text" name="" v-model="form.form_buyTicketRef" style="width: 260px" class="n-inset noborder pa-1 tx-xs n-tx" >
+                                    <input type="text" name="" v-model="form.form_buyTicketRef" style="width: 260px" class="n-inset noborder pa-2 my-2 border-r-5 tx-xs n-tx" >
                                 </div>
 
-                                <div v-if="values.dai_dao_allowance > 0">
+                                <div v-if="values.dai_dao_allowance > 0" v-show="pro_mode">
 
                                     <div class="flex-column ">
                                         <tx-card  class=" flex-column  " 
@@ -581,8 +581,7 @@
                             <!-- <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div> -->
                             
                             <div @click="trigger_daiBalanceOfAndAllowance"
-                            :class="[togglers.dao_advanced ? 'n-inset' : 'n-flat']"
-                                class=" clickable pa-2 opacity-hover-50 border-r-50"
+                                class=" clickable pa-2 opacity-hover-50 border-r-50 n-flat" 
                             >
                                 <i :class="[loadings.daiBalanceOfAndAllowance ? 'spin-nback' : 'fa-redo']" class="fas fa-circle-notch"></i>
                             </div>
@@ -757,7 +756,7 @@
 
                             <div v-if="values.dai_dao_allowance > 0">
 
-                                <div class="flex-column ">
+                                <div class="flex-column " v-show="pro_mode">
                                     <tx-card  class=" flex-column  mt-3" 
                                         :props="
                                             {
@@ -1356,6 +1355,7 @@
             accs_length()           { return this.$store.getters.accs_length },
             first_acc()             { return this.$store.getters.first_acc },
             dark_mode()             { return this.$store.getters.dark_mode },
+            pro_mode()              { return this.$store.getters.pro_mode },
 
         },
         async mounted()

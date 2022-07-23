@@ -12,6 +12,7 @@ const store = createStore({
       main_togglers: {},
       currentPseudoPage: "lottery",
       darkMode: true,
+      proMode: false,
       englishMode: true,
 
       ethereum: window.ethereum,
@@ -79,6 +80,9 @@ const store = createStore({
 
     setDarkMode(state, mode) {
       state.darkMode = mode
+    },
+    setProMode(state, mode) {
+      state.proMode = mode
     },
 
     setCurrentPseudoPage(state, _page) {
@@ -165,6 +169,9 @@ const store = createStore({
   },
   actions: {
 
+    setProMode(context, mode) {
+      context.commit('setProMode', mode);
+    },
     setDarkMode(context, mode) {
       context.commit('setDarkMode', mode);
     },
@@ -1629,6 +1636,9 @@ console.log(". . .3/4. trading TOKEN -> TOKEN")
 
     dark_mode(state) {
       return state.darkMode
+    },
+    pro_mode(state) {
+      return state.proMode
     },
     current_page(state) {
       return state.currentPseudoPage

@@ -92,6 +92,15 @@
                     </a>
                 </div>
             </div>
+                <button class="noborder n-tx tx-md n-conca clickable flex-center border-r-15 show-sm_md"
+                    @click="changeProMode"
+                    style=""
+                >
+                    <span class="pa-2 py-4  opacity-hover-50">
+                        <i class="fas tx-sm" v-if="pro_mode" > <span> PRO</span></i>
+                        <i class="fas tx-sm" v-else > <span> DEFAULT</span></i>
+                    </span>
+                </button>
             <div class="flex-column-r flex-md2x-row flex-align-start">
                 <button class="noborder n-tx tx-sm n-conca clickable flex-center border-r-15 mt-3 mr-3"
                     @click="changeNightMode"
@@ -111,6 +120,7 @@
                     </span>
                 </button>
             </div>
+            <!-- </div> -->
         </div>
         <div class="flex-between flex-align-start n-flat py-2 show-xs_md" v-show="togglers.menu"> 
         </div>
@@ -132,6 +142,7 @@
             }
         },
         computed: {
+            pro_mode()             { return this.$store.getters.pro_mode },
 	        dark_mode()            { return this.$store.getters.dark_mode },
 	        english_mode()         { return this.$store.getters.english_mode },
 	        LANG()                 { return this.$store.getters.LANG },
@@ -139,16 +150,24 @@
 	        accs_length()          { return this.$store.getters.accs_length },
         },
         created() {
+            let proMode = JSON.parse(localStorage.getItem("proMode"))
+            console.log(proMode)
             let darkMode = JSON.parse(localStorage.getItem("darkMode"))
             console.log(darkMode)
             let englishMode = JSON.parse(localStorage.getItem("englishMode"))
             console.log(englishMode)
+            if (proMode != null) { this.$store.dispatch("setProMode", proMode) }
             if (darkMode != null) { this.$store.dispatch("setDarkMode", darkMode) }
             if (englishMode != null) { this.$store.dispatch("setEnglishMode", englishMode) }
         },
         methods: {
             toggleMenu() {
                 this.togglers.menu = !this.togglers.menu
+            },
+            changeProMode() {
+                let newMode = !this.pro_mode
+                localStorage.setItem("proMode", JSON.stringify(newMode));
+                this.$store.dispatch("setProMode", newMode)
             },
             changeNightMode() {
                 let newMode = !this.dark_mode
