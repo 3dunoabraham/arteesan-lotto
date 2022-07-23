@@ -55,7 +55,7 @@
         <tx-card v-show="false" ref="currentRound"
             :props="
                 {
-                    title: 'Current Round',
+                    title: LANG.currentRound,
                     form_args: {},
                     abi: ABIS.DAO,
                     address: CURRENT_NETWORK.DAO_ADDRESS,
@@ -202,7 +202,7 @@
                             <div class="flex flex-align-start">
 
                                 <div  class=" flex-column tx-sm  " >
-                                    <span class="tx-xs">Current Round</span>
+                                    <span class="tx-xs">{{LANG.currentRound}}</span>
                                     <span class="tx-xl">{{values.current_round - 1}}</span>
                                 </div>
 
@@ -394,14 +394,14 @@
 
                                 <div class="flex-row n-inset border-r-25 " v-if="!togglers.buy_advanced3">
                                     <div @click="togglers.buy_advanced3 = true"  
-                                        class="pt- pa-3 clickable opacity-hover-75 border-r-15    mb-6 mx-5"
+                                        class="pt- pa-3 px-1 clickable opacity-hover-75 border-r-15    mb-6 mx-5"
                                     >
                                         <div v-if="loadings.buyTicket" class="flex-column opacity-75 mb-1">
                                             <i class="fas fa-circle-notch spin-nback"></i>
                                             <span class="opacity-75  tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
                                         </div>
                                         <div class="flex-row tx-xl flex-column ">
-                                            <div class="pr-1 tx-lg n-tx-3d tx-ls-3">Buy</div>
+                                            <div class="pr-1 tx-lg n-tx-3d tx-ls-3">{{LANG.buy}}</div>
                                             <!-- <div v-if="!!form.form_buyTicketAmount" class="mx-2 tx-lg">{{form.form_buyTicketAmount}}</div> -->
                                             <div class="n-tx-3d tx-ls-">Ticket 
                                                 <!-- <span v-if="form.form_buyTicketAmount > 1">(s)</span> -->
@@ -423,7 +423,7 @@
                                     <div class="flex-between">
                                         <div @click="form.form_buyTicketAmount = form.form_buyTicketAmount <= 1 ? 1 : parseInt(form.form_buyTicketAmount)-1" class=" clickable pa-2 opacity-hover-50 n-border-primary-1 n-flat border-r-50 " >  <i class="fa fa-minus"></i> </div>
                                         <div class="ml-1  flex-column mb-3">
-                                            <span class="tx-xs tx-ls-3">AMOUNT</span>
+                                            <span class="tx-xs tx-ls-3">{{LANG.amount.toUppercase()}}</span>
                                             <input type="number" name="" min="0" v-model="form.form_buyTicketAmount" class="n-inset tx-primary noborder pa-2 ma-1 border-r-10 n-tx tx-bold tx-lg" style="width: 100px">
                                         </div>
                                         <div @click="form.form_buyTicketAmount = parseInt(form.form_buyTicketAmount)+1" class=" clickable pa-2 opacity-hover-50 n-border-primary-1 n-flat border-r-50 " >  <i class="fa fa-plus"></i> </div>
