@@ -423,7 +423,7 @@
                                     <div class="flex-between">
                                         <div @click="form.form_buyTicketAmount = form.form_buyTicketAmount <= 1 ? 1 : parseInt(form.form_buyTicketAmount)-1" class=" clickable pa-2 opacity-hover-50 n-border-primary-1 n-flat border-r-50 " >  <i class="fa fa-minus"></i> </div>
                                         <div class="ml-1  flex-column mb-3">
-                                            <span class="tx-xs tx-ls-3">{{LANG.amount.toUppercase()}}</span>
+                                            <span class="tx-xs tx-ls-3">{{LANG.amount.toUpperCase()}}</span>
                                             <input type="number" name="" min="0" v-model="form.form_buyTicketAmount" class="n-inset tx-primary noborder pa-2 ma-1 border-r-10 n-tx tx-bold tx-lg" style="width: 100px">
                                         </div>
                                         <div @click="form.form_buyTicketAmount = parseInt(form.form_buyTicketAmount)+1" class=" clickable pa-2 opacity-hover-50 n-border-primary-1 n-flat border-r-50 " >  <i class="fa fa-plus"></i> </div>
