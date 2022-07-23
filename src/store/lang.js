@@ -64,6 +64,10 @@ export const LANG = {
 		connectToContinue: "Connect your wallet to Continue",
 		connectedAddress: "Connected Address",
 
+		amenu_txs: "Transaction History",
+		amenu_rules: "Rules of the game",
+		amenu_contactUs: "Contact Us",
+
 		help_calculator: "Click the calculator to get exchange rate",
 		help_inputAmount: "Enter how much you want to trade",
 		lastRewardBlock: "Last Rewarded Block",
@@ -134,6 +138,10 @@ export const LANG = {
 		refreshBalance: "para refrescar tu saldo",
 		connectToContinue: "Conecta tu cartera para Continuar",
 		connectedAddress: "Mi Cuenta",
+
+		amenu_txs: "Historial de Transacciones",
+		amenu_rules: "Reglas de Juego",
+		amenu_contactUs: "Contactanos",
 
 		help_calculator: "Clickea la calculadora para generar precio",
 		help_inputAmount: "Ingresa la cantidad a cambiar",

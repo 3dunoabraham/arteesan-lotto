@@ -780,10 +780,11 @@
                     <div class="flex-column tx-xs px-2" >
                         <div class="tx-sm" style="min-width: 170px">
                             <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
-                                class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
+                                class="tx-lg py-2 pl-3 n-tx flex-between w-100 opacity-hover-50"
                             >
                                 <i class="fa fa-file "></i>
-                                Transaction history
+                                <!-- Transaction history -->
+                                {{LANG.amenu_txs}}
                             </a>
                         </div>
                         <div class="tx-sm" style="min-width: 170px">
@@ -791,7 +792,8 @@
                                 class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
                             >
                                 <i class="fa fa-book "></i>
-                                Rules of the game
+                                <!-- Rules of the game -->
+                                {{LANG.amenu_rules}}
                             </a>
                         </div>
                         <div class="tx-sm" style="min-width: 170px">
@@ -799,7 +801,8 @@
                                 class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
                             >
                                 <i class="fas fa-headset "></i>
-                                Contact us
+                                <!-- Contact us -->
+                                {{LANG.amenu_contactUs}}
                             </a>
                         </div>
                         <div class="tx-sm" style="min-width: 170px">
