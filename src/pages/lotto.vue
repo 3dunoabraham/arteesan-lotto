@@ -447,7 +447,7 @@
                                                 <span class="opacity-75  tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
                                             </div>
                                             <div class="flex-row">
-                                                <div class="pr-1">BUY</div>
+                                                <div class="pr-1">{{LANG.buybuy}}</div>
                                                 <div v-if= "!!form.form_buyTicketAmount" class="mx-2 tx-lg">{{form.form_buyTicketAmount}}</div>
                                                 <div>TICKET <span v-if="form.form_buyTicketAmount > 1">(s)</span></div>
                                             </div>
