@@ -88,7 +88,7 @@ export const LANG = {
 		amount: "Cantidad",
 		for: "por",
 		add: "Añadir",
-		buy: "Pagar",
+		buy: "Comprar",
 		buybuy: "Comprar",
 		buyTicket: "Comprar Ticket",
 		myTicket: "Mi Ticket",
