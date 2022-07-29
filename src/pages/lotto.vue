@@ -439,8 +439,8 @@
                                     </div>
 
                                     <div class="flex-row mt-2 n-flat px-2 border-r-15">
-                                        <div @click="execute_buyTicket"  
-                                            class="n-flat pa-3  clickable bg-secondary opacity-hover-75 border-r-15  important-tx-white  my-2"
+                                        <div @click="execute_buyTicket"  style="color: white" 
+                                            class="n-flat pa-3  clickable bg-secondary opacity-hover-75 border-r-15    my-2"
                                         >
                                             <div v-if="loadings.buyTicket" class="flex-column opacity-75 mb-1">
                                                 <i class="fas fa-circle-notch spin-nback"></i>
