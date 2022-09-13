@@ -13,6 +13,7 @@
         <tx-card :props="forms.requestResolveRound" />
         <tx-card :props="forms.resolveBet" />
         <tx-card :props="forms.withdrawFromProposal" />
+        <tx-card :props="forms.withdrawBalance" />
     </div>
 
     <hr class="w-50 opacity-10">
@@ -111,12 +112,20 @@
                         },
                     },
                     withdrawFromProposal: {
-                        title: 'Withdraw from Proposal',
+                        title: 'Withdraw from failed Proposal',
                         abi: ABIS.DAO,
                         address: CURRENT_NETWORK.DAO_ADDRESS,
                         function: 'withdrawFromFailedProposal',
                         form_args: {
                             "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        },
+                    },
+                    withdrawBalance: {
+                        title: 'Withdraw all erc20 balance',
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'withdrawBalance',
+                        form_args: {
                         },
                     },
                     setRequester: {            

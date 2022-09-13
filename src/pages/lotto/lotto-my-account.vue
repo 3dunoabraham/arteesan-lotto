@@ -35,17 +35,7 @@
             </div>
             <div class="flex-column " v-show="togglers.dao_advanced">
                 <div class="flex-column " v-show="pro_mode">
-                    <tx-card  class=" flex-column  mt-3" 
-                        :props="
-                            {
-                                title: 'Sign Smart Contract',
-                                form_args: forms.addTargetAllowance,
-                                abi: ABIS.ERC20,
-                                address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                function: 'approve',
-                                res_type: 'uint256',
-                            }"
-                    />
+                    <tx-card  class=" flex-column  mt-3" :props="forms.addTargetAllowance" />
                 </div>
             </div>
         </div>
@@ -142,9 +132,15 @@
                         },
                     },
                     addTargetAllowance: {
-                        "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
-                        
-                        "1": {placeholder:"amount",label:`value: '',`,value: '', type: "uint256" },
+                        title: 'Sign Smart Contract',
+                        abi: ABIS.ERC20,
+                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                        function: 'approve',
+                        res_type: 'uint256',
+                        form_args: {
+                            "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                            "1": {placeholder:"amount",label:`value: '',`,value: '', type: "uint256" },
+                        },
                     },
                 },  
                 values: {

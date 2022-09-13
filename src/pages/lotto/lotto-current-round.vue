@@ -43,7 +43,9 @@
                 <span v-if="values.deadline" >{{values.deadline}}</span>
                 
             </div>
-
+            <tx-card ref="ref_amountOfTokensRequired" :props="forms.form_getProposalamountOfTokensRequired" />
+            <tx-card ref="ref_amountOfTokens" :props="forms.form_getProposalamountOfTokens" />
+            <tx-card  class=" flex-column  mt-3" :props="forms.balanceOfDAO" />
             <tx-card  v-show="true" ref="prizePool" :props="forms.amountOfTokensRequired" />
             <hr class="w-50 opacity-10">
             <div class="flex flex-align-start">
@@ -63,6 +65,7 @@
     <tx-card v-show="false" ref="currentRound" :props="forms.currentRound" />
     <tx-card v-show="false" ref="deadline" :props="forms.getProposalPropertyDeadline" />
     <tx-card v-show="false" ref="ref_randomResultBlock" :props="forms.form_getProposalPropertyResultBlock" />
+    
 
 </div>
 </template>
@@ -94,7 +97,7 @@
                 },
                 forms: {
                     currentRound: {
-                        title: LANG.currentRound,
+                        title: "current round",
                         form_args: {},
                         abi: ABIS.DAO,
                         address: CURRENT_NETWORK.DAO_ADDRESS,
@@ -104,7 +107,7 @@
                         call_only: true,
                     },
                     amountOfVotes: { 
-                        title: LANG.lastTicketBought,
+                        title: "LANG.lastTicketBought",
                         abi: ABIS.DAO,
                         address: CURRENT_NETWORK.DAO_ADDRESS,
                         function: 'proposals',
@@ -152,6 +155,39 @@
                         call_only: true,
                         form_args: {
                             "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                        },
+                    },
+                    form_getProposalamountOfTokens: {                        
+                        title: 'amountOfTokens ',
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'proposals',
+                        res_type: 'struct.amountOfTokens.uint256',
+                        call_only: true,
+                        form_args: {
+                            "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                        },
+                    },
+                    form_getProposalamountOfTokensRequired: {                        
+                        title: 'amountOfTokensRequired',
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'proposals',
+                        res_type: 'struct.amountOfTokensRequired.uint256',
+                        call_only: true,
+                        form_args: {
+                            "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                        },
+                    },
+                    balanceOfDAO: {
+                        title: 'balanceOfDAO',
+                        abi: ABIS.ERC20,
+                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                        function: 'balanceOf',
+                        res_type: 'uint256',
+                        call_only: true,
+                        form_args: {
+                            "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
                         },
                     },
                 },  
@@ -220,6 +256,9 @@
 
                     await this.$refs.deadline.execute()
                     this.values.deadline = this.$refs.deadline._parsedResult
+
+                    this.forms.form_getProposalamountOfTokensRequired.form_args["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    this.forms.form_getProposalamountOfTokens.form_args["0"].value = (parseInt(this.values.current_round) - 1)+""
 
                     this.forms.form_getProposalPropertyResultBlock.form_args["0"].value = (parseInt(this.values.current_round) - 1)+""
                     await this.$refs.ref_randomResultBlock.execute()
