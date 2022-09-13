@@ -789,31 +789,6 @@
 
                 this.loadings.resultsMulticall = false
             },
-            async execute_buyTicket()
-            {
-                if (this.loadings.buyTicket) return
-                this.loadings.buyTicket = true
-
-                try {
-                    console.log("this.form.form_buyTicketAmount, this.form.form_buyTicketRef")
-                    console.log(this.form.form_buyTicketAmount.toString(), this.form.form_buyTicketRef)
-                    this.form.voteOnProposal ["1"].value = this.form.form_buyTicketAmount+""
-                    if (this.first_acc.address != this.form.form_buyTicketRef)
-                    {
-                        this.form.voteOnProposal ["2"].value = this.form.form_buyTicketRef
-                    }
-
-                    await this.$refs.ref_buyTicket.execute()
-                    // await this.$refs.targetAllowance.execute()
-                    // this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
-                } catch (error) {
-                    this.$refs.ref_buyTicket.loading = false
-                    console.log("failed call")
-                }
-
-                    console.log("buyTicket")
-                this.loadings.buyTicket = false
-            },
             async execute_withdrawBonus()
             {
                 if (this.loadings.withdrawBonus) return
