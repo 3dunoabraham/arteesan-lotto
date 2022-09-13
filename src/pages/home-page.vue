@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex-column flex-lg2x-row">
+        <div class="flex-column flex-lg_x-row">
             <div class="flex-column mt-8 pt-8" v-if="!accs_length">
                 <div class="flex-center flex-1 my-8" style="min-width: 300px; " >
                     <span @click="connectWallet"

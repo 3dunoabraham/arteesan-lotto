@@ -12,7 +12,7 @@
                     </span>
                 </a>
             </div>
-            <div class="flex-column-r flex-md2x-row flex-align-start">
+            <div class="flex-column-r flex-md_x-row flex-align-start">
                 <button class="noborder n-tx tx-sm n-conca clickable flex-center border-r-15 mt-3 mr-3"
                     @click="changeNightMode"
                 >
@@ -69,7 +69,7 @@
                         <i class="fas tx-sm" v-else > <span> DEFAULT</span></i>
                     </span>
                 </button>
-            <div class="flex-column-r flex-md2x-row flex-align-start">
+            <div class="flex-column-r flex-md_x-row flex-align-start">
                 <button class="noborder n-tx tx-sm n-conca clickable flex-center border-r-15 mt-3 mr-3"
                     @click="changeNightMode"
                 >

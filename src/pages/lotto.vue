@@ -160,8 +160,8 @@
 
         <div id="award" style="position: absolute; top: 0; left: 0"></div>
         <div class="py-8" > </div>
-        <div class="flex-column flex-lg2x-row pt-8">
-            <div class="flex-column flex-md2x-row" >
+        <div class="flex-column flex-lg_x-row pt-8">
+            <div class="flex-column flex-md_x-row" >
 
                 <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
                     class="n-flat pa-5 clickable opacity-hover-75 mt-3 border-r-25 show-xs_md tx-xl mb-8"
