@@ -13,7 +13,7 @@
                 <i class="fas fa-circle-notch spin-nback"></i>
                 <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
             </div> -->
-            <div v-if="!loadings.daiBalanceOfAndAllowance">
+            <div v-if="!loadings.daiBalanceOfAndAllowance ">
                 <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999"  
                     class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3 border-r-25"
                 >
@@ -25,7 +25,6 @@
                 </div>
             </div>
 
-        
             <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
                 <div class="flex-column" v-show="togglers.buy_advanced2 ">
                     <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
@@ -70,7 +69,7 @@
                     form_args: form.form_getVoteScratchedNumberMulticall,
                     abi: ABIS.LOTTO,
                     address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                    function: 'getVoteScratchedNumber',
+                    function: 'getWonAmount',
                     DEBUG: true,
                     res_type: 'uint',
                     call_only: true,
@@ -107,7 +106,17 @@
             />
         </div>
         <div v-show="pro_mode">
-
+              <tx-card  class=" flex-column  " 
+                            :props="
+                                {
+                                    title: 'transferOwnership to dao',
+                                    form_args: form.transferOwnership,
+                                    abi: ABIS.LOTTO,
+                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                                    function: 'transferOwnership',
+                                    res_type: 'uint256',
+                                }"
+                        /> 
             <tx-card ref="addTargetAllowance" 
                 :props="
                     {
@@ -184,72 +193,6 @@
             </div>
         </div>
 
-        <div v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" v-show="pro_mode">
-            <div  style="z-index: 50">
-                <div class="flex-column" >
-                    <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
-                        Results:
-
-                        
-                        <div class="opacity-50 tx-xs my-2" v-if="!!values.val_randomResultBlock" >
-                            <!-- <span class="tx-sm mb-2 flex-row">Block: {{values.val_randomResultBlock}}</span> -->
-
-                            <div v-if="loadings.resultsMulticall" class="flex-column opacity-75 tx-lg">
-                                <i class="fas fa-circle-notch spin-nback"></i>
-                                <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
-                            </div>
-                            <div class="tx-center">
-                                Scratch:
-                                <input type="text" name="" v-model="form.form_multiCallResultsStart" class="n-flat noborder px-2 py-1 tx-right n-tx" style="width: 30px">
-                                <!-- {{form.form_multiCallResultsStart}} -->
-                                ,
-                                {{form.form_multiCallResultsEnd}}
-                            </div>
-                                
-                            <div class="flex-row nowrap">
-                                
-                                <input type="range" name="" :max="values.accountVoteIndex + values.accountVoteLength" 
-                                :min="form.form_multiCallResultsStart"
-                                 v-model="form.form_multiCallResultsEnd" class="n-flat noborder pa-2 n-tx" style="width: 60px">
-
-                                <div class="clickable n-flat pa-2"
-                                    @click="getResultsMulticall"
-                                >
-                                    Get Results
-                                </div>
-                            </div>
-                            <div v-if="Object.keys(values.val_results) == 0" >
-                                <div class="py-4 tx-center opacity-50">
-                                    No Winning Tickets Yet
-                                </div>
-                            </div>
-                            <div v-if="Object.keys(values.val_results) != 0" >
-                                <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
-                                    
-                                    <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
-                                        <div class="flex-row py-1">
-                                            <div class="pr-2">
-                                                <!-- {{index}} -->
-                                                Ticket:
-                                            </div>
-                                            <div>
-                                                # {{item}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
-                            Not Done
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
         <div class="flex-column flex-lg_x-row pt-8">
             <lotto-current-round ref="currentRound" @update_loading="update_loading"
                 @update_currentRound="update_currentRound" :_loadings="loadings" :_values="values"
@@ -257,7 +200,7 @@
 
             <div class="flex-column flex-md_x-row" >
 
-                <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
+                <!-- <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
                     class="n-flat pa-5 clickable opacity-hover-75 mt-3 border-r-25  tx-xl "
                 >
                     <div v-if="loadings.signup" class="flex-column opacity-75">
@@ -265,7 +208,7 @@
                         <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
                     </div>
                     {{LANG.signup}} 
-                </div>
+                </div> -->
 
                 <div id="store"></div>
 
@@ -460,6 +403,88 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+        <div v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
+            <div  style="z-index: 50">
+                <div class="flex-column" >
+                    <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
+                        Results:
+
+                        
+                        <div class="opacity-50 tx-xs my-2" v-if="!!values.val_randomResultBlock" >
+                            <!-- <span class="tx-sm mb-2 flex-row">Block: {{values.val_randomResultBlock}}</span> -->
+
+                            <div v-if="loadings.resultsMulticall" class="flex-column opacity-75 tx-lg">
+                                <i class="fas fa-circle-notch spin-nback"></i>
+                                <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
+                            </div>
+                            <div class="tx-center">
+                                Scratch:
+                                <input type="text" name="" v-model="form.form_multiCallResultsStart" class="n-flat noborder px-2 py-1 tx-right n-tx" style="width: 30px">
+                                <!-- {{form.form_multiCallResultsStart}} -->
+                                ,
+                                {{form.form_multiCallResultsEnd}}
+                            </div>
+                                
+                            <div class="flex-row nowrap">
+                                
+                                <input type="range" name="" :max="values.accountVoteIndex + values.accountVoteLength" 
+                                :min="form.form_multiCallResultsStart"
+                                 v-model="form.form_multiCallResultsEnd" class="n-flat noborder pa-2 n-tx" style="width: 60px">
+
+                                <div class="clickable n-flat pa-2"
+                                    @click="getResultsMulticall"
+                                >
+                                    Get Results
+                                </div>
+                            </div>
+                            <div v-if="Object.keys(values.val_results) == 0" >
+                                <div class="py-4 tx-center opacity-50">
+                                    No Winning Tickets Yet
+                                </div>
+                            </div>
+                            <div v-if="Object.keys(values.val_results) != 0" >
+                                <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
+                                    
+                                    <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
+                                        <div class="flex-row py-1">
+                                            <div class="pr-2">
+                                                <!-- {{index}} -->
+                                                Ticket:
+                                            </div>
+                                            <div>
+                                                # {{item}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
+                            Not Done
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
 </template>
 
                         
@@ -513,6 +538,7 @@
                     daiBalanceOfAndAllowance: false,
                     currentRoundAndLastTicket: false,
                     withdrawBonus: false,
+                    currentTicket: false,
                     buyTicket: false,
                 },
                 togglers: {
@@ -692,10 +718,13 @@
             },
             async update_currentTicket(msg)
             {
-                // console.log("update_currentTicket",msg)
+                console.log("update_currentTicket",msg)
                 this.values.accountVoteIndex = msg.data.accountVoteIndex
+                this.values.accountVoteLength = msg.data.accountVoteLength
                 // this.values.prize_pool = msg.data.prize_pool
 
+                this.form.form_multiCallResultsStart = msg.data.accountVoteIndex
+                this.form.form_multiCallResultsEnd = msg.data.accountVoteIndex+msg.data.accountVoteLength
                 // await this.trigger_currentRoundAndLastTicket()
             },
             async makeMultiCall()
@@ -779,10 +808,11 @@
 
                 try {
                     // this.form.form_multiCallResultsStart = this.values.accountVoteIndex
-                    // this.form.form_getVoteScratchedNumberMulticall["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    this.form.form_getVoteScratchedNumberMulticall["0"].value = (parseInt(this.values.current_round) - 1)+""
                     this.form.form_getVoteScratchedNumberMulticall["1"].value =
                         `${this.form.form_multiCallResultsStart},${this.form.form_multiCallResultsEnd}`
 
+                    console.log("this.form.form_getVoteScratchedNumberMulticall", this.form.form_getVoteScratchedNumberMulticall)
                     let asd = await this.$refs.ref_getVoteScratchedNumberMulticall.execute()
                     console.log("asd", asd)
                     console.log("this.$refs.targetAllowance.theResult.filter((o) => o != 0)")

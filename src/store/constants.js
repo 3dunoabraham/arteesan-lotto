@@ -29,6 +29,8 @@ export const polygonNetwork = {
   RESOLVER_ADDRESS: '0x4C5f09D239E11896ed4B21e5BEba0DE9D777eEbD',
   LOTTO_ADDRESS: '0xF250a014CE4f238936b295892BA172941AaA084e',
   DAO_ADDRESS: '0xF8D30959e33E4BF4424868b94d2015e2643eca60',
+
+  MULTICALL_ADDRESS: '0x275617327c958bD06b5D6b871E7f491D76113dd8',
 };
 // https://docs.chain.link/docs/matic-addresses/
 export const localNetwork = {
@@ -42,10 +44,12 @@ export const localNetwork = {
   RESOLVER_ADDRESS: '0x5866c15DC432dA5cc3928E06d2E510A738963669',
   LOTTO_ADDRESS: '0x6c652937623b816343F2ba32c8d840F6cDaE0820',
   DAO_ADDRESS: '0x50C48f8C651191405644Ed03C8B9373b3531B338',
+  
+  MULTICALL_ADDRESS: '0xFEfDf422efD090902aE513483DF31c420Dca7691',
 };
 
 // export const CURRENT_NETWORK = bscNetwork;
 // export const CURRENT_NETWORK = ftmNetwork;
 // export const CURRENT_NETWORK = maticNetwork;
-export const CURRENT_NETWORK = polygonNetwork;
-// export const CURRENT_NETWORK = localNetwork;
+// export const CURRENT_NETWORK = polygonNetwork;
+export const CURRENT_NETWORK = localNetwork;

@@ -454,7 +454,7 @@
 
 
                     const multicall = new Multicall({
-                        multicallCustomContractAddress: '0x275617327c958bD06b5D6b871E7f491D76113dd8',
+                        multicallCustomContractAddress: CURRENT_NETWORK.MULTICALL_ADDRESS, 
                         ethersProvider: BLOCKCHAIN,
                         tryAggregate: true
                     });

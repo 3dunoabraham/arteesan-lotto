@@ -54,8 +54,8 @@
 
             <template v-if="_values.dai_dao_allowance > 0 && !_loadings.daiBalanceOfAndAllowance && !_loadings.currentRoundAndLastTicket" >
 
-                <div v-if="!values.accountVoteIndex" class="  flex-column tx-sm w-100" >
-                    <div class="" v-if="!values.val_randomResultBlock" >
+                <div v-if="!values.accountVoteIndex" class="  flex-column tx-sm w-100" > <!-- user hasnt voted -->
+                    <div class="" v-if="!values.val_randomResultBlock" > <!-- round hasnt finished -->
 
                         <div class="flex-row n-inset border-r-25 " v-if="!togglers.buy_advanced3">
                             <div @click="togglers.buy_advanced3 = true"  
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="opacity-50 tx-xs my-5" v-if="!!values.val_randomResultBlock">
+                    <div class="opacity-50 tx-xs my-5" v-if="!!values.val_randomResultBlock"> <!-- round has finished -->
                         Round Done
                     </div>
 
@@ -205,6 +205,7 @@
                 loading: false,
                 loadings: {
                     buyTicket: false,
+                    currentTicket: false,
                 },
 
                 togglers: {
@@ -253,7 +254,8 @@
             await this.trigger_currentTicket()
 
             this.$emit("update_currentTicket", { data: {
-                accountVoteIndex: this._values.accountVoteIndex,
+                accountVoteIndex: this.values.accountVoteIndex,
+                accountVoteLength: this.values.accountVoteLength,
                 // prize_pool: this.values.prize_pool,
             }})
         },
@@ -296,15 +298,15 @@
 
                     try {
                         this.forms.getVoterVoteIndex["0"].value = (parseInt(this._values.current_round) - 1)+""
-                        await this.$refs.accountVoteIndex.execute().catch()
+                        await this.$refs.accountVoteIndex.execute()
                         this.values.accountVoteIndex = this.$refs.accountVoteIndex._parsedResult
 
                         this.forms.getVoterAmountOfVotes["0"].value = (parseInt(this._values.current_round) - 1)+""
                         await this.$refs.ticketLength.execute()
                         this.values.accountVoteLength = this.$refs.ticketLength._parsedResult
 
-                        this.forms.form_multiCallResultsStart = this.$refs.accountVoteIndex._parsedResult
-                        this.forms.form_multiCallResultsEnd = this.$refs.accountVoteIndex._parsedResult+this.values.accountVoteLength
+                        // this.forms.form_multiCallResultsStart = this.$refs.accountVoteIndex._parsedResult
+                        // this.forms.form_multiCallResultsEnd = this.$refs.accountVoteIndex._parsedResult+this.values.accountVoteLength
                         // console.log("form_multiCallResults Start-end", this.forms.form_multiCallResultsStart, this.forms.form_multiCallResultsEnd)
 
                         // try {
