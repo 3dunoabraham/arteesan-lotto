@@ -57,9 +57,9 @@
                                 </div>
                                 <div class="flex-row tx-xl flex-column ">
                                     <div class="pr-1 tx-lg n-tx-3d tx-ls-3">{{LANG.buy}}</div>
-                                    <!-- <div v-if="!!form.form_buyTicketAmount" class="mx-2 tx-lg">{{form.form_buyTicketAmount}}</div> -->
+                                    <!-- <div v-if="!!forms.form_buyTicketAmount" class="mx-2 tx-lg">{{forms.form_buyTicketAmount}}</div> -->
                                     <div class="n-tx-3d tx-ls-">Ticket 
-                                        <!-- <span v-if="form.form_buyTicketAmount > 1">(s)</span> -->
+                                        <!-- <span v-if="forms.form_buyTicketAmount > 1">(s)</span> -->
                                     </div>
                                     <div class="n-tx-3d hover-hover"><i class=" fa fa-hand-pointer"></i></div>
                                 </div>
@@ -69,6 +69,69 @@
                     </div>
                     <div class="opacity-50 tx-xs my-5" v-if="!!values.val_randomResultBlock">
                         Round Done
+                    </div>
+
+
+
+                </div>
+                <div class="  flex-column tx-sm w-100" >
+                    <div class="flex-column " v-show="togglers.buy_advanced3">
+
+                        <div class="flex-column my-2">
+                            <div class="flex-between">
+                                <div @click="forms.form_buyTicketAmount = forms.form_buyTicketAmount <= 1 ? 1 : parseInt(forms.form_buyTicketAmount)-1" class=" clickable pa-2 opacity-hover-50 n-border-primary-1 n-flat border-r-50 " >  <i class="fa fa-minus"></i> </div>
+                                <div class="ml-1  flex-column mb-3">
+                                    <span class="tx-xs tx-ls-3">{{LANG.amount.toUpperCase()}}</span>
+                                    <input type="number" name="" min="0" v-model="forms.form_buyTicketAmount" class="n-inset tx-primary noborder pa-2 ma-1 border-r-10 n-tx tx-bold tx-lg" style="width: 100px">
+                                </div>
+                                <div @click="forms.form_buyTicketAmount = parseInt(forms.form_buyTicketAmount)+1" class=" clickable pa-2 opacity-hover-50 n-border-primary-1 n-flat border-r-50 " >  <i class="fa fa-plus"></i> </div>
+                            </div>
+                            <div class="flex-between">
+                                <button @click="forms.form_buyTicketAmount = parseInt(forms.form_buyTicketAmount) + 1" class="n-btn pa-2 ma-1 border-r-10 tx-secondary n-border-secondary-1 n-flat">+1</button>
+
+                                <button @click="forms.form_buyTicketAmount = parseInt(forms.form_buyTicketAmount) + 10" class="n-btn pa-2 ma-1 border-r-10 tx-secondary n-border-secondary-1 n-flat">+10</button>
+
+                                <button @click="forms.form_buyTicketAmount = parseInt(forms.form_buyTicketAmount) + 50" class="n-btn pa-2 ma-1 border-r-10 tx-secondary n-border-secondary-1 n-flat">+50</button>
+
+                                <button @click="forms.form_buyTicketAmount = parseInt(forms.form_buyTicketAmount) + 100" class="n-btn pa-2 ma-1 border-r-10 tx-secondary n-border-secondary-1 n-flat">+100</button>
+                            </div>
+
+                            <div class="flex-row mt-2 n-flat px-2 border-r-15">
+                                <div @click="execute_buyTicket"  style="color: white" 
+                                    class="n-flat pa-3  clickable bg-secondary opacity-hover-75 border-r-15    my-2"
+                                >
+                                    <div v-if="loadings.buyTicket" class="flex-column opacity-75 mb-1">
+                                        <i class="fas fa-circle-notch spin-nback"></i>
+                                        <span class="opacity-75  tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
+                                    </div>
+                                    <div class="flex-row">
+                                        <div class="pr-1">{{LANG.buybuy}}</div>
+                                        <div v-if= "!!forms.form_buyTicketAmount" class="mx-2 tx-lg">{{forms.form_buyTicketAmount}}</div>
+                                        <div>TICKET <span v-if="forms.form_buyTicketAmount > 1">(s)</span></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                            <div class="flex-column " v-show="togglers.buy_advanced2 && togglers.buy_advanced3">
+
+                                <div class="flex-column mt-2">
+                                    <div class="flex">
+                                        <span class="pr-1">Ref:</span>
+                                        <span>{{shortAddress(forms.form_buyTicketRef)}}</span>
+                                    </div>
+                                    <input type="text" name="" v-model="forms.form_buyTicketRef" style="width: 260px" class="n-inset noborder pa-2 my-2 border-r-5 tx-xs n-tx" >
+                                </div>
+
+                        </div>
+                <div class="w-100 flex-between tx-sm" v-if="_values.dai_dao_allowance > 0 && togglers.buy_advanced3">
+                    <div></div>
+                    <div @click="togglers.buy_advanced2 = !togglers.buy_advanced2"
+                    :class="[togglers.buy_advanced2 ? 'n-inset' : 'n-flat']"
+                        class=" clickable pa-2 opacity-hover-50 border-r-50"
+                    >
+                        <i :class="[togglers.buy_advanced2 ? 'fa-minus' : 'fa-plus']" class="fa"></i>
                     </div>
                 </div>
         </div>
@@ -123,9 +186,13 @@
                 },
 
                 togglers: {
+                    buy_advanced2: false,
                     buy_advanced3: false,
                 },
                 forms: {
+                    form_buyTicketRef: "",
+                    form_buyTicketAmount: 0,
+
                     getVoterVoteIndex: {                        
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                         
@@ -159,6 +226,7 @@
             this.forms.getVoterVoteIndex["1"].value = this.first_acc.address
             this.forms.getVoterAmountOfVotes["1"].value = this.first_acc.address
             this.forms.voteOnProposal["2"].value = this.first_acc.address
+            this.forms.form_buyTicketRef = this.first_acc.address
 
             await this.trigger_currentTicket()
 
@@ -188,24 +256,24 @@
                         // await this.$refs.ticketLength.execute()
                         // this.values.accountVoteLength = this.$refs.ticketLength._parsedResult
 
-                        // this.form.form_multiCallResultsStart = this.$refs.accountVoteIndex._parsedResult
-                        // this.form.form_multiCallResultsEnd = this.$refs.accountVoteIndex._parsedResult+this.values.accountVoteLength
+                        // this.forms.form_multiCallResultsStart = this.$refs.accountVoteIndex._parsedResult
+                        // this.forms.form_multiCallResultsEnd = this.$refs.accountVoteIndex._parsedResult+this.values.accountVoteLength
 
                         // try {
-                        //     this.form.form_getVoterRefAmount["0"].value = (parseInt(this.values.current_round) - 1)+""
+                        //     this.forms.form_getVoterRefAmount["0"].value = (parseInt(this.values.current_round) - 1)+""
                         //     await this.$refs.ref_getVoterRefAmount.execute()
                         //     this.values.val_getVoterRefAmount = this.$refs.ref_getVoterRefAmount._parsedResult
 
-                        //     this.form.withdrawRefBonus["0"].value = (parseInt(this.values.current_round) - 1)+""
+                        //     this.forms.withdrawRefBonus["0"].value = (parseInt(this.values.current_round) - 1)+""
                         // } catch (error) {
                         // }
 
-                        // this.form.form_getProposalPropertyResultBlock["0"].value = (parseInt(this.values.current_round) - 1)+""
+                        // this.forms.form_getProposalPropertyResultBlock["0"].value = (parseInt(this.values.current_round) - 1)+""
                         // await this.$refs.ref_randomResultBlock.execute()
                         // this.values.val_randomResultBlock = this.$refs.ref_randomResultBlock._parsedResult
                         // // randomResultBlock
 
-                        // this.form.form_getVoteScratchedNumberMulticall["0"].value = (parseInt(this.values.current_round) - 1)+""
+                        // this.forms.form_getVoteScratchedNumberMulticall["0"].value = (parseInt(this.values.current_round) - 1)+""
                         resolve(true)
                     } catch (error) {
                         console.log("no vote found")

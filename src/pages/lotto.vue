@@ -111,6 +111,42 @@
         <div id="award" style="position: absolute; top: 0; left: 0"></div>
         <div class="py-8" > </div>
 
+        <div v-if="values.dai_dao_allowance > 0" v-show="pro_mode">
+
+            <div class="flex-column ">
+                <tx-card  class=" flex-column  " 
+                    :props="
+                        {
+                            title: 'execute proposal',
+                            form_args: form.executeProposal,
+                            abi: ABIS.DAO,
+                            address: CURRENT_NETWORK.DAO_ADDRESS,
+                            function: 'executeProposal',
+                        }"
+                />
+                <tx-card  class=" flex-column  " 
+                    :props="
+                        {
+                            title: 'requestResolveRound',
+                            form_args: form.requestResolveRound,
+                            abi: ABIS.LOTTO,
+                            address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                            function: 'requestResolveRound',
+                        }"
+                />
+                <tx-card  class=" flex-column  " 
+                    :props="
+                        {
+                            title: 'resolveBet',
+                            form_args: form.resolveBet,
+                            abi: ABIS.LOTTO,
+                            address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                            function: 'resolveBet',
+                        }"
+                />
+
+            </div>
+    </div>
         <div v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" v-show="pro_mode">
             <div  style="z-index: 50">
                 <div class="flex-column" >
@@ -365,7 +401,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            
                             <div class="flex-column " v-show="togglers.buy_advanced2 && togglers.buy_advanced3">
 
                                 <div class="flex-column mt-2">
@@ -376,42 +412,6 @@
                                     <input type="text" name="" v-model="form.form_buyTicketRef" style="width: 260px" class="n-inset noborder pa-2 my-2 border-r-5 tx-xs n-tx" >
                                 </div>
 
-                                <div v-if="values.dai_dao_allowance > 0" v-show="pro_mode">
-
-                                    <div class="flex-column ">
-                                        <tx-card  class=" flex-column  " 
-                                            :props="
-                                                {
-                                                    title: 'execute proposal',
-                                                    form_args: form.executeProposal,
-                                                    abi: ABIS.DAO,
-                                                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                                                    function: 'executeProposal',
-                                                }"
-                                        />
-                                        <tx-card  class=" flex-column  " 
-                                            :props="
-                                                {
-                                                    title: 'requestResolveRound',
-                                                    form_args: form.requestResolveRound,
-                                                    abi: ABIS.LOTTO,
-                                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                    function: 'requestResolveRound',
-                                                }"
-                                        />
-                                        <tx-card  class=" flex-column  " 
-                                            :props="
-                                                {
-                                                    title: 'resolveBet',
-                                                    form_args: form.resolveBet,
-                                                    abi: ABIS.LOTTO,
-                                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                                    function: 'resolveBet',
-                                                }"
-                                        />
-
-                                    </div>
-                            </div>
                         </div>
                         <!-- <span class="opacity-50 tx-xs">no ticket yet</span> -->
                     </template>
@@ -1128,6 +1128,8 @@
                 // console.log("update_currentRound",msg)
                 this.values.current_round = msg.data.current_round
                 this.values.prize_pool = msg.data.prize_pool
+                this.values.val_randomResultBlock = msg.data.val_randomResultBlock
+                this.values.deadline = msg.data.deadline
 
                 // await this.trigger_currentRoundAndLastTicket()
             },

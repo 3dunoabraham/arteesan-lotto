@@ -102,6 +102,18 @@
                     call_only: true,
                 }"
         />
+        <tx-card v-show="false" ref="ref_randomResultBlock"
+            :props="
+                {
+                    title: 'getDeadline ',
+                    form_args: forms.form_getProposalPropertyResultBlock,
+                    abi: ABIS.LOTTO,
+                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                    function: 'gameRounds',
+                    res_type: 'struct.randomResultBlock.uint',
+                    call_only: true,
+                }"
+        />
     </div>
 </template>
 
@@ -146,11 +158,15 @@
                     getProposalPropertyDeadline: {                        
                         "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
                     },
+                    form_getProposalPropertyResultBlock: {                        
+                        "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                    },
                 },  
                 values: {
                     prize_pool: null,
                     deadline: null,
                     current_round: null,
+                    val_randomResultBlock: null,
                 },  
             }
         },
@@ -171,6 +187,8 @@
                 this.$emit("update_currentRound", { data: {
                     current_round: this.values.current_round,
                     prize_pool: this.values.prize_pool,
+                    val_randomResultBlock: this.values.val_randomResultBlock,
+                    deadline: this.values.deadline,
                 }})
             })
         },
@@ -204,6 +222,11 @@
 
                     await this.$refs.deadline.execute()
                     this.values.deadline = this.$refs.deadline._parsedResult
+
+                    this.forms.form_getProposalPropertyResultBlock["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    await this.$refs.ref_randomResultBlock.execute()
+                    this.values.val_randomResultBlock = this.$refs.ref_randomResultBlock._parsedResult
+                    // randomResultBlock
                     
                     this.loadings.currentRoundAndLastTicket = false
                     this.$emit("update_loading", {key: "currentRoundAndLastTicket", value: false, })
