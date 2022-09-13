@@ -43,6 +43,9 @@
                 <span v-if="values.deadline" >{{values.deadline}}</span>
                 
             </div>
+
+            <tx-card  v-show="true" ref="prizePool" :props="forms.amountOfTokensRequired" />
+            <hr class="w-50 opacity-10">
             <div class="flex flex-align-start">
 
                 <div  class=" flex-column tx-sm  " >
@@ -53,73 +56,14 @@
                 <div v-if="dark_mode" style="height: 70px; width: 2px; background: white; display: block;" class="mx-3 mb-3 opacity-10"></div>
                 <div v-if="!dark_mode" style="height: 70px; width: 2px; background: black; display: block;" class="mx-3 mb-3 opacity-10"></div>
 
-                <tx-card  class=" flex-column  mb-5" 
-                    ref="lastTicketNumber"
-                    :props="
-                        {
-                            title: LANG.lastTicketBought,
-                            form_args: forms.getProposalPropertyAmountVotes,
-                            abi: ABIS.DAO,
-                            address: CURRENT_NETWORK.DAO_ADDRESS,
-                            function: 'proposals',
-                            res_type: 'struct.amountOfVotes.uint',
-                            button_only: true,
-                            call_only: true,
-                        }"
-                />
+                <tx-card  class=" flex-column  mb-5" ref="lastTicketNumber" :props="forms.amountOfVotes" />
             </div>
         </div>
     </div>
-    <tx-card  v-show="false" ref="prizePool"
-        :props="
-            {
-                title: 'tokens required',
-                form_args: forms.amountOfTokensRequired,
-                abi: ABIS.DAO,
-                address: CURRENT_NETWORK.DAO_ADDRESS,
-                function: 'proposals',
-                res_type: 'struct.amountOfTokensRequired.uint256',
-                call_only: true,
-            }"
-    />
-    <tx-card v-show="false" ref="currentRound"
-        :props="
-            {
-                title: LANG.currentRound,
-                form_args: {},
-                abi: ABIS.DAO,
-                address: CURRENT_NETWORK.DAO_ADDRESS,
-                function: 'numProposals',
-                res_type: 'uint',
-                button_only: true,
-                call_only: true,
-            }"
-    />
-    <tx-card v-show="false" ref="deadline"
-        :props="
-            {
-                title: 'getDeadline ',
-                form_args: forms.getProposalPropertyDeadline,
-                abi: ABIS.DAO,
-                address: CURRENT_NETWORK.DAO_ADDRESS,
-                function: 'proposals',
-                res_type: 'struct.deadline.timestamp',
-                call_only: true,
-            }"
-    />
-    <tx-card v-show="false" ref="ref_randomResultBlock"
-        :props="
-            {
-                title: 'getDeadline ',
-                form_args: forms.form_getProposalPropertyResultBlock,
-                abi: ABIS.LOTTO,
-                address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                function: 'gameRounds',
-                res_type: 'struct.randomResultBlock.uint',
-                call_only: true,
-            }"
-    />
-    
+    <tx-card v-show="false" ref="currentRound" :props="forms.currentRound" />
+    <tx-card v-show="false" ref="deadline" :props="forms.getProposalPropertyDeadline" />
+    <tx-card v-show="false" ref="ref_randomResultBlock" :props="forms.form_getProposalPropertyResultBlock" />
+
 </div>
 </template>
 
@@ -149,11 +93,38 @@
                     round_advanced: false,
                 },
                 forms: {
-                    getProposalPropertyAmountVotes: {                        
-                        "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                    currentRound: {
+                        title: LANG.currentRound,
+                        form_args: {},
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'numProposals',
+                        res_type: 'uint',
+                        button_only: true,
+                        call_only: true,
+                    },
+                    amountOfVotes: { 
+                        title: LANG.lastTicketBought,
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'proposals',
+                        res_type: 'struct.amountOfVotes.uint',
+                        button_only: true,
+                        call_only: true,                       
+                        form_args: {
+                            "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                        },
                     },
                     amountOfTokensRequired: {
-                        "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                        title: 'tokens required',
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'proposals',
+                        res_type: 'struct.amountOfTokensRequired.uint256',
+                        call_only: true,
+                        form_args: {
+                            "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                        },
                     },
                     getProposalPropertyAmount: {                        
                         "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
@@ -161,11 +132,27 @@
                     getProposalPropertyAmountRequired: {                        
                         "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
                     },
-                    getProposalPropertyDeadline: {                        
-                        "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                    getProposalPropertyDeadline: {
+                        title: 'getDeadline ',
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'proposals',
+                        res_type: 'struct.deadline.timestamp',
+                        call_only: true,                        
+                        form_args: {
+                            "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                        },
                     },
                     form_getProposalPropertyResultBlock: {                        
-                        "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                        title: 'getDeadline ',
+                        abi: ABIS.LOTTO,
+                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                        function: 'gameRounds',
+                        res_type: 'struct.randomResultBlock.uint',
+                        call_only: true,
+                        form_args: {
+                            "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
+                        },
                     },
                 },  
                 values: {
@@ -221,20 +208,20 @@
                         return resolve(true)
                     }
 
-                    this.forms.getProposalPropertyAmountVotes["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    this.forms.amountOfVotes.form_args["0"].value = (parseInt(this.values.current_round) - 1)+""
                     await this.$refs.lastTicketNumber.execute()
 
-                    this.forms.amountOfTokensRequired["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    this.forms.amountOfTokensRequired.form_args["0"].value = (parseInt(this.values.current_round) - 1)+""
                     this.forms.getProposalPropertyAmount["0"].value = (parseInt(this.values.current_round) - 1)+""
                     await this.$refs.prizePool.execute()
                     this.values.prize_pool = parseDecimals(parseFloat(this.$refs.prizePool._parsedResult))
 
-                    this.forms.getProposalPropertyDeadline["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    this.forms.getProposalPropertyDeadline.form_args["0"].value = (parseInt(this.values.current_round) - 1)+""
 
                     await this.$refs.deadline.execute()
                     this.values.deadline = this.$refs.deadline._parsedResult
 
-                    this.forms.form_getProposalPropertyResultBlock["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    this.forms.form_getProposalPropertyResultBlock.form_args["0"].value = (parseInt(this.values.current_round) - 1)+""
                     await this.$refs.ref_randomResultBlock.execute()
                     this.values.val_randomResultBlock = this.$refs.ref_randomResultBlock._parsedResult
                     // randomResultBlock

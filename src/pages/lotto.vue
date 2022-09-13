@@ -297,14 +297,11 @@
         },
         async mounted()
         {
-            var url_string = window.location.href
-            var url = new URL(url_string);
-            console.log(url_string, url);
-            var c = url.searchParams.get("round");
-            console.log(c);
-
-            this.form.withdrawAll.form_args["2"].value = this.first_acc.address
-            this.form.withdrawAmount.form_args["2"].value = this.first_acc.address
+            // var url_string = window.location.href
+            // var url = new URL(url_string);
+            // console.log(url_string, url);
+            // var c = url.searchParams.get("round");
+            // console.log(c);
         },
         methods: {
             parseDecimals,
