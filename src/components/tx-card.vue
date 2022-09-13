@@ -189,7 +189,6 @@
             accs_length()           { return this.$store.getters.accs_length },
             BASE_TOKEN()            { return this.$store.getters.BASE_TOKEN },
 
-            token_list()            { return this.$store.getters.token_list },
             pools()                 { return this.$store.getters.pools },
             pools_length()          { return this.$store.getters.pools_length },
             retrieved_pool_length() { return this.$store.getters.retrieved_pool_length },

@@ -1,7 +1,7 @@
 import { createStore } from 'vuex';
 import { ethers, Contract }  from 'ethers';
 
-import { CONTRACT_HELPER, isMetaMaskInstalled, parseDecimals, parseTradeDataTokenAmounts, formatTradeDataTokenAmounts, fixBTCDecimalsMul, fixBTCDecimalsDiv } from './helpers';
+import { isMetaMaskInstalled } from './helpers';
 import { ABIS, CURRENT_NETWORK } from './constants';
 import { LANG } from './lang';
 
@@ -17,25 +17,17 @@ const store = createStore({
 
       ethereum: window.ethereum,
       isMetaMaskInstalled: isMetaMaskInstalled(),
-      SCANNER: CURRENT_NETWORK.SCANNER_URL,
       BASE_TOKEN: CURRENT_NETWORK.BASE_TOKEN,
       BASE_USD_ID: CURRENT_NETWORK.BASE_USD_ID,
 
       lps: {},
       pools: {},
       retrieved_pool_length: 0,
-      tokens: CURRENT_NETWORK.TOKEN_LIST.slice(0, 2),
-      token_list: CURRENT_NETWORK.TOKEN_LIST,
 
       accounts: {},
     };
   },
   mutations: {
-
-    updateTokenPriceAt(state, tokenData) {
-      state.token_list[tokenData.index].price = tokenData.price
-    },
-
     setDarkMode(state, mode) {
       state.darkMode = mode
     },
@@ -49,27 +41,7 @@ const store = createStore({
     setEnglishMode(state, mode) {
       state.englishMode = mode
     },
-    setToken(state, tokenData) {
-      state.tokens[tokenData.index] = tokenData.token
-    },
-    reverseToken(state) {
-      state.tokens = [state.tokens[1], state.tokens[0]]
-    },
-    addLp(state, lpData) {
-      state.lps[lpData.token0+lpData.token1] = lpData
-    },
-    addPool(state, poolData) {
-      state.pools[poolData.lpToken] = poolData
-    },
-    refreshPool(state, poolData) {
-      state.pools[poolData.lpToken] = {
-        ...state.pools[poolData.lpToken],
-        ...poolData,
-      }
-    },
-    update_retrieved_pools_length(state, length) {
-      state.retrieved_pool_length = length
-    },
+
     addAccount(state, accountData) {
       const newAccounts = {
         [accountData]: {
@@ -123,13 +95,6 @@ const store = createStore({
       context.commit('setEnglishMode', mode);
     },
 
-    addLp(context, lpData) {
-      context.commit('addLp', lpData);
-    },
-    reverseToken(context) {
-      context.commit('reverseToken')
-    },
-
     connectWallet: async (context) => {
       if (!context.getters.is_metaMask) { alert("Please, Install Metamask.") }
       let accs = await context.getters.eth.request({ method: 'eth_requestAccounts' }).catch((err) => {
@@ -146,7 +111,6 @@ const store = createStore({
 
   },
   getters: {
-
     LANG(state) {
       return state.LANG[state.englishMode ? "EN" : "ES"];
     },
@@ -165,66 +129,6 @@ const store = createStore({
     },
 
 
-    token_list(state) {
-      return state.token_list;
-    },
-    token_listAt(state) {
-      return (tokenId) => {
-        return state.token_list.find((token) => token.id === tokenId);
-      };
-    },
-    token(state) {
-      return (tokenId) => {
-        return state.tokens.find((token) => token.id === tokenId);
-      };
-    },
-    tokens(state) {
-      return state.tokens;
-    },
-    tokenAt(state) {
-      return (index) => {
-        return state.tokens[index];
-      };
-    },
-
-    lps(state) {
-      return state.lps;
-    },
-    lpAt(state) {
-      return (key) => {
-        return state.lps[key];
-      };
-    },
-
-    retrieved_pool_length(state) {
-      return state.retrieved_pool_length - 1
-    },
-    pools_length(state) {
-      return Object.keys(state.pools).length
-    },
-    pools(state) {
-      const theLength = Object.keys(state.pools).length
-      if (theLength == 0) return {}
-      if (theLength == 1) return {}
-      const newPools = {...state.pools} 
-      delete newPools[Object.keys(state.pools)[0]]
-      return newPools
-    },
-    poolAt(state) {
-      return (key) => {
-        return state.pools[key]
-      };
-    },
-
-    BASE_TOKEN(state) {
-      return state.BASE_TOKEN
-    },
-    BASE_USD_ID(state) {
-      return state.BASE_USD_ID
-    },
-    SCANNER(state) {
-      return state.SCANNER
-    },
     eth(state) {
       return state.ethereum
     },
@@ -233,6 +137,13 @@ const store = createStore({
     },
     is_metaMask(state) {
       return state.isMetaMaskInstalled;
+    },
+
+    BASE_TOKEN(state) {
+      return state.BASE_TOKEN
+    },
+    BASE_USD_ID(state) {
+      return state.BASE_USD_ID
     },
 
     accs_length(state) {
