@@ -92,77 +92,16 @@
 
 
 
-    <div v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
-        <div  >
-            <div class="flex-column" >
-                <div class="flex-column z-10  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
-                    Results:
-
-                    
-                    <div class="opacity-50 tx-xs my-2" v-if="!!values.val_randomResultBlock" >
-                        <!-- <span class="tx-sm mb-2 flex-row">Block: {{values.val_randomResultBlock}}</span> -->
-
-                        <div v-if="loadings.resultsMulticall" class="flex-column opacity-75 tx-lg">
-                            <i class="fas fa-circle-notch spin-nback"></i>
-                            <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
-                        </div>
-                        <div class="tx-center">
-                            Scratch:
-                            <input type="text" name="" v-model="form.form_multiCallResultsStart" class="n-flat noborder px-2 py-1 tx-right n-tx" style="width: 30px">
-                            <!-- {{form.form_multiCallResultsStart}} -->
-                            ,
-                            {{form.form_multiCallResultsEnd}}
-                        </div>
-                            
-                        <div class="flex-row nowrap">
-                            
-                            <input type="range" name="" :max="values.accountVoteIndex + values.accountVoteLength" 
-                            :min="form.form_multiCallResultsStart"
-                             v-model="form.form_multiCallResultsEnd" class="n-flat noborder pa-2 n-tx" style="width: 60px">
-
-                            <div class="clickable n-flat pa-2"
-                                @click="getResultsMulticall"
-                            >
-                                Get Results
-                            </div>
-                        </div>
-                        <div v-if="Object.keys(values.val_results) == 0" >
-                            <div class="py-4 tx-center opacity-50">
-                                No Winning Tickets Yet
-                            </div>
-                        </div>
-                        <div v-if="Object.keys(values.val_results) != 0" >
-                            <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
-                                
-                                <div v-for="(item,index) in values.val_results" class="flex-column w-100">
-                                    <div class="flex-row py-1" v-if="item != 0">
-                                        <div class="pr-2">
-                                            <!-- {{index}} -->
-                                            Ticket #{{parseInt(index)+parseInt(values.accountVoteIndex)}}
-                                        </div>
-                                        <div class="tx-success">
-                                            ${{item}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
-                        Not Done
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
 
     <div class="flex-around flex-wrap w-100 ">
         <lotto-settings v-show="pro_mode" class="z-10 n-flat pa-2 border-r-15" />
         <div v-if="values.dai_dao_allowance > 0 && pro_mode" class="z-10">
-            <lotto-results class="n-flat pa-2 border-r-15"/>
+            <lotto-results class="n-inset pa-2 border-r-15" ref="lottoResults"
+                :_loadings="loadings" :_values="values" :_forms="{
+                    form_multiCallResultsStart: form.form_multiCallResultsStart,
+                    form_multiCallResultsEnd: form.form_multiCallResultsEnd}"
+                @update_results="update_results"  @update_loading="update_loading"
+            />
         </div>
     </div>
 </div>
@@ -310,6 +249,10 @@
             {
                 this.loadings[msg.key] = msg.value
             },
+            async update_results(msg)
+            {
+                this.values.val_results = msg.data.val_results
+            },
             async update_myAccount(msg)
             {
                 this.values.dai_balance_of = msg.data.dai_balance_of
@@ -329,6 +272,8 @@
 
                 this.form.form_multiCallResultsStart = msg.data.accountVoteIndex
                 this.form.form_multiCallResultsEnd = msg.data.accountVoteIndex+msg.data.accountVoteLength
+                this.$refs.lottoResults.forms.form_multiCallResultsStart = this.form.form_multiCallResultsStart
+                this.$refs.lottoResults.forms.form_multiCallResultsEnd =    this.form.form_multiCallResultsEnd
             },
             // sign up
             async execute_addFullTargetAllowance()
