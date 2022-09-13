@@ -258,9 +258,6 @@
                             "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                         },
                     },
-                    setRequester: {                        
-                        "0": {placeholder:"",label:`value: CURRENT_NETWORK.LOTTO_ADDRESS`,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
-                    },
                     withdrawAmount: {     
                         title: 'withdrawAmount',
                         abi: ABIS.LOTTO,
@@ -329,13 +326,6 @@
                             "3": {placeholder:"vote distance",label:`value: "",`,value: "", type: "uint" },
                         },
                     },
-                    getVoteResult: {                        
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                        
-                        "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
-                        
-                        "2": {placeholder:"",label:`value: "",`,value: "", type: "address" },
-                    },
                     form_getVoteScratchedNumberMulticall: {    
                         title: 'form_getVoteScratchedNumberMulticall',
                         abi: ABIS.LOTTO,
@@ -363,14 +353,6 @@
                             "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                             "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "range:uint" },
                         },  
-                    },
-                    transferOwnership: {                        
-                        "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
-                    },
-                    addTargetAllowance: {
-                        "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
-                        
-                        "1": {placeholder:"amount",label:`value: '',`,value: '', type: "uint256" },
                     },
                     addFullTargetAllowance: {
                         title: 'Add FULL DAI Allowance to target',
@@ -433,6 +415,23 @@
                 this.form.form_multiCallResultsStart = msg.data.accountVoteIndex
                 this.form.form_multiCallResultsEnd = msg.data.accountVoteIndex+msg.data.accountVoteLength
             },
+            // sign up
+            async execute_addFullTargetAllowance()
+            {
+                if (this.loadings.signup) return
+                this.loadings.signup = true
+
+                try {
+                    let tx = await this.$refs.addFullTargetAllowance.execute()
+                    let updatetx = await this.$refs.myAccount.triggersend_daiBalanceOfAndAllowance()
+                } catch (error) {
+                    console.log("failed call", error)
+                    window.location.reload()
+                }
+
+                this.loadings.signup = false
+            },
+            
             async makeMultiCall()
             {
                 let provider = ethers.getDefaultProvider();
@@ -502,8 +501,6 @@
             },
             async connectWallet() {
                 await this.$store.dispatch("connectWallet")
-                // this.$refs.exchange.getTradeData(true)
-                // this.$refs.exchange.getAccountBalances(true)
             },
             
             async getResultsMulticall()
@@ -553,37 +550,6 @@
 
                     console.log("withdrawBonus")
                 this.loadings.withdrawBonus = false
-            },
-            async execute_addFullTargetAllowance()
-            {
-                if (this.loadings.signup) return
-                this.loadings.signup = true
-
-                try {
-                    let tx = await this.$refs.addFullTargetAllowance.execute()
-                    let updatetx = await this.$refs.myAccount.triggersend_daiBalanceOfAndAllowance()
-                } catch (error) {
-                    console.log("failed call", error)
-                    window.location.reload()
-                }
-
-                this.loadings.signup = false
-            },
-            async execute_set0TargetAllowance()
-            {
-                if (this.loadings.signup) return
-                this.loadings.signup = true
-
-                try {
-                    this.form.addFullTargetAllowance.form_args["1"].value = "0"
-                    await this.$refs.addFullTargetAllowance.execute()
-                    await this.$refs.targetAllowance.execute()
-                    this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
-                } catch (error) {
-                    console.log("failed call")
-                }
-
-                this.loadings.signup = false
             },
         },
     }
