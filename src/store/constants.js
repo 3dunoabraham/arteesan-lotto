@@ -27,8 +27,8 @@ export const polygonNetwork = {
   BASE_USD_ADDRESS: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
 
   RESOLVER_ADDRESS: '0x4C5f09D239E11896ed4B21e5BEba0DE9D777eEbD',
-  LOTTO_ADDRESS: '0xF250a014CE4f238936b295892BA172941AaA084e',
-  DAO_ADDRESS: '0xF8D30959e33E4BF4424868b94d2015e2643eca60',
+  LOTTO_ADDRESS: '0x9ea7574d0E7A2cd3A041eCfe29F97AeF71E47b93',
+  DAO_ADDRESS: '0x1b9aD45fc26ee4f3Ae0A6D2bb5d2B31733f5E83E',
 
   MULTICALL_ADDRESS: '0x275617327c958bD06b5D6b871E7f491D76113dd8',
 };
@@ -51,5 +51,5 @@ export const localNetwork = {
 // export const CURRENT_NETWORK = bscNetwork;
 // export const CURRENT_NETWORK = ftmNetwork;
 // export const CURRENT_NETWORK = maticNetwork;
-// export const CURRENT_NETWORK = polygonNetwork;
-export const CURRENT_NETWORK = localNetwork;
+export const CURRENT_NETWORK = polygonNetwork;
+// export const CURRENT_NETWORK = localNetwork;

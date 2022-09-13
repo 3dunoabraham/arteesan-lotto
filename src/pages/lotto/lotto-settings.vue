@@ -77,6 +77,27 @@
                         function: 'withdrawFromFailedProposal',
                     }"
             />
+            <hr class="w-50 opacity-10">
+            <tx-card  class=" flex-column  " 
+                            :props="
+                                {
+                                    title: 'set Requester',
+                                    form_args: forms.setRequester,
+                                    abi: ABIS.RESOLVER,
+                                    address: CURRENT_NETWORK.RESOLVER_ADDRESS,
+                                    function: 'setRequester',
+                                }"
+                        />
+            <tx-card  class=" flex-column  " 
+                            :props="
+                                {
+                                    title: 'set Lotto',
+                                    form_args: forms.setLotto,
+                                    abi: ABIS.DAO,
+                                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                                    function: 'setLotto',
+                                }"
+                        />
         </div>
     </div>
 </template>
@@ -127,6 +148,12 @@
                     },
                     withdrawFromProposal: {
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                    },
+                    setRequester: {                        
+                        "0": {placeholder:"",label:`value: CURRENT_NETWORK.LOTTO_ADDRESS`,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
+                    },
+                    setLotto: {                        
+                        "0": {placeholder:"",label:`value: CURRENT_NETWORK.LOTTO_ADDRESS`,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
                     },
                 },  
                 values: {
