@@ -28,15 +28,6 @@ const store = createStore({
       token_list: CURRENT_NETWORK.TOKEN_LIST,
 
       accounts: {},
-      articles: [
-        {
-          id: 'test1',
-          image:
-            'https://s2.coinmarketcap.com/static/cloud/img/loyalty-program/diamond-icon.svg',
-          title: 'A trip into the mountains',
-          description: 'It was a really nice trip!',
-        },
-      ],
       memories: [
         {
           id: 'BNB',
@@ -1745,86 +1736,7 @@ console.log(". . .3/4. trading TOKEN -> TOKEN")
       };
     },
 
-    articles(state) {
-      return state.articles;
-    },
-    article(state) {
-      return (articleId) => {
-        return state.articles.find((article) => article.id === articleId);
-      };
-    },
   },
 });
 
 export default store;
-
-
-    // pair.approve(pair_address, lp_balance, {'from':accounts[0]})
-    // pair.transferFrom(accounts[0], pair_address, lp_balance, {'from': pair_address})
-    // tx = pair.burn(accounts[0], {'from': pair_address})
-    // interface.IWETH(router.CURRENT_NETWORK.WETH_ADDRESS()).withdraw(tx.events['Burn']['amount1'], {'from':accounts[0]})
-
-
-/*
-              const wethContract = new Contract(
-                  CURRENT_NETWORK.WETH_ADDRESS,
-                  [
-                      'function deposit() external payable',
-                      'function transfer(address to, uint value) external returns (bool)',
-                  ],
-                  zigner
-              )
-              // await wethContract.deposit({value: ethers.utils.parseEther("1").toString()})
-              // await wethContract.transfer(pairAddress, ethers.utils.parseEther("0.1").toString())
-
-              const tokenContract = new Contract(
-                  pairToken.address,
-                  [
-                      'function deposit() external payable',
-                      'function transfer(address to, uint value) external returns (bool)',
-                  ],
-                  zigner
-              )
-              // await tokenContract.deposit({value: ethers.utils.parseEther("1").toString()})
-              // await tokenContract.transfer(pairAddress, ethers.utils.parseEther("0.1").toString())
-*/
-              /*
-              // Acccounts now exposed
-              console.log(ethers.utils.parseUnits("1001", 'wei'))
-              console.log(ethers.utils.parseUnits("1001", 'wei').toHexString())
-              console.log(ethers.utils.parseUnits("1001", 'wei').toString())
-              const params = [{
-                  from: firstAddress,
-                  to: pairAddress,
-                  value: ethers.utils.parseEther("1").toString(),
-                  value: "1000",
-                  // value: ethers.utils.parseUnits("1001", 'wei').toHexString()
-              }];
-
-              const transactionHash = await provider2.send('eth_sendTransaction', params)
-              console.log('transactionHash is ' + transactionHash);
-              */
-
-              /*
-
-              let tx = {
-                  to: pairAddress,
-                  // Convert currency unit from ether to wei
-                  value: "1000",
-                  value: 1000,
-                  value: ethers.utils.formatEther("1001").toString(),
-                  // value: ethers.utils.parseEther("1")
-              }
-              // Send a transaction
-              console.log("pair exists", tx, "tx ********")
-              provider2.sendTransaction(tx)
-              .then((txObj) => {
-                  console.log('txHash', txObj.hash)
-                  // => 0x9c172314a693b94853b49dc057cf1cb8e529f29ce0272f451eea8f5741aa9b58
-                  // A transaction result can be checked in a etherscan with a transaction hash which can be obtained here.
-              })
-              .catch((err) => {
-                  console.log('sendTransaction err', err)
-                  // => 0x9c172314a693b94853b49dc057cf1cb8e529f29ce0272f451eea8f5741aa9b58
-                  // A transaction result can be checked in a etherscan with a transaction hash which can be obtained here.
-              })*/

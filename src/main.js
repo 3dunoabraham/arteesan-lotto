@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 
 import './css/theme.css'
-import './css/core.css';
+import './css/css.css';
 
 import store from './store';
 

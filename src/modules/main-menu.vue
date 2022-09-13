@@ -1,36 +1,17 @@
 <template>
-    <div style="position: fixed; z-index: 999; background: linear-gradient(180deg,#00000033, #00000000)" class="w-100">
-
-
+    <div style="background: linear-gradient(180deg,#00000033, #00000000)" class="w-100 pos-fixed z-10">
 
         <div class="flex-between flex-align-start show-md_x"> 
             <div class="flex show-md_x">
-                <!-- <a class="nodeco letter-s-3 noborder n-tx tx-lg n-conve clickable flex-center mx-3"
-                    href="https://t.me/"  target="_blank"
-                    style="border-radius: 0 0 30px 30px"
-                >
-                    <span class="px-3 pb-4 pt-3 opacity-hover-50">
-                        <i class="fab fa-telegram"></i>
-                    </span>
-                </a> -->
                 <a class="nodeco letter-s-3 noborder n-tx tx-md n-flat clickable flex-column"
                     href="https://gamearteesan.gitbook.io/arteesan/"  target="_blank"
                     style="border-radius: 0 30px 30px 0"
                 >
-                    <!-- <img src="res/aaa.png" class="nocursor noclick"
-                        style=" width: 50px; height: 50px"
-                    > -->
                     <span class="px-5 pb-4 pt-3 opacity-hover-50">
                         <i class="mr-2 fas fa-external-link-alt"></i> Docs
                     </span>
                 </a>
             </div>
-            <div class="flex ">
-                <!-- <social-media /> -->
-            </div>
-            <!-- <div class="flex show-md_x" style="position: absolute; left: 50%; transform: translateX(-50%);">
-                <social-media />
-            </div> -->
             <div class="flex-column-r flex-md2x-row flex-align-start">
                 <button class="noborder n-tx tx-sm n-conca clickable flex-center border-r-15 mt-3 mr-3"
                     @click="changeNightMode"
@@ -52,9 +33,6 @@
             </div>
         </div>
 
-
-
-
         <div @click="toggleMenu"
             style=""
             class="show-xs_md flex-between flex-align-start clickable b-flat"
@@ -66,16 +44,6 @@
             </div>
         </div>
         <div class="flex-between flex-align-start n-inset py-2 px-2 show-xs_md " v-show="togglers.menu"> 
-            <!-- <div class="flex ">
-                <a class="nodeco letter-s-3 noborder n-tx tx-md n-flat clickable flex-column"
-                    href="https://gamearteesan.gitbook.io/arteesan/"  target="_blank"
-                    style="border-radius: 0 30px 30px 0"
-                >
-                    <span class="px-5 pb-4 pt-3 opacity-hover-50 tx-sm">
-                        Docs
-                    </span>
-                </a>
-            </div> -->
             <div class="flex-column tx-xs" >
                 <div class="flex mb-4">
                     <social-media />
@@ -120,7 +88,6 @@
                     </span>
                 </button>
             </div>
-            <!-- </div> -->
         </div>
         <div class="flex-between flex-align-start n-flat py-2 show-xs_md" v-show="togglers.menu"> 
         </div>
