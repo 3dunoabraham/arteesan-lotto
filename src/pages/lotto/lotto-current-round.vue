@@ -11,10 +11,11 @@
                 <i class="fas fa-circle-notch spin-nback"></i>
                 <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.walletInfo}}</span>
             </div>
-            <div v-if="_loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
+            <div v-else v-if="_loadings.currentRoundAndLastTicket || loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
                 <i class="fas fa-circle-notch spin-nback"></i>
                 <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
             </div>
+            
             <h1  class=" flex-column  tx-success" style="z-index: 88" v-if="values.prize_pool">
                 ${{parseDecimals(values.prize_pool * 0.8)}} 
             </h1>

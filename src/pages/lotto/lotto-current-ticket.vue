@@ -10,6 +10,16 @@
 
             <hr class="w-100 opacity-10 ">
 
+            <div @click="$emit('signup')"  v-if="_values.dai_dao_allowance < 999999999"  
+                class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3 border-r-25"
+            >
+                <div v-if="_loadings.signup" class="flex-column opacity-75">
+                    <i class="fas fa-circle-notch spin-nback"></i>
+                    <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
+                </div>
+                {{LANG.signup}} 
+            </div>
+
             <div v-if="_loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
                 <i class="fas fa-circle-notch spin-nback"></i>
                 <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.walletInfo}}</span>
@@ -161,6 +171,17 @@
                     call_only: true,
                 }"
         />
+        <tx-card v-show="false" ref="ref_buyTicket"  class=" flex-column tx-xl  px-8 py-2" 
+            :props="
+                {
+                    title: LANG.buyTicket,
+                    form_args: forms.voteOnProposal,
+                    abi: ABIS.DAO,
+                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                    function: 'voteOnProposal',
+                    DEBUG: true,
+                }"
+        />
     </div>
 </template>
 
@@ -183,6 +204,7 @@
 
                 loading: false,
                 loadings: {
+                    buyTicket: false,
                 },
 
                 togglers: {
@@ -238,6 +260,31 @@
         methods: {
             parseDecimals,
             shortAddress,
+            async execute_buyTicket()
+            {
+                if (this.loadings.buyTicket) return
+                this.loadings.buyTicket = true
+
+                try {
+                    console.log("this.forms.form_buyTicketAmount, this.forms.form_buyTicketRef")
+                    console.log(this.forms.form_buyTicketAmount.toString(), this.forms.form_buyTicketRef)
+                    this.forms.voteOnProposal ["1"].value = this.forms.form_buyTicketAmount+""
+                    if (this.first_acc.address != this.forms.form_buyTicketRef)
+                    {
+                        this.forms.voteOnProposal["2"].value = this.forms.form_buyTicketRef
+                    }
+
+                    await this.$refs.ref_buyTicket.execute()
+                    // await this.$refs.targetAllowance.execute()
+                    // this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
+                } catch (error) {
+                    this.$refs.ref_buyTicket.loading = false
+                    console.log("failed call")
+                }
+
+                    console.log("buyTicket")
+                this.loadings.buyTicket = false
+            },
             trigger_currentTicket()
             {
                 if (this.loadings.currentTicket) return
@@ -252,12 +299,13 @@
                         await this.$refs.accountVoteIndex.execute().catch()
                         this.values.accountVoteIndex = this.$refs.accountVoteIndex._parsedResult
 
-                        // this.forms.getVoterAmountOfVotes["0"].value = (parseInt(this._values.current_round) - 1)+""
-                        // await this.$refs.ticketLength.execute()
-                        // this.values.accountVoteLength = this.$refs.ticketLength._parsedResult
+                        this.forms.getVoterAmountOfVotes["0"].value = (parseInt(this._values.current_round) - 1)+""
+                        await this.$refs.ticketLength.execute()
+                        this.values.accountVoteLength = this.$refs.ticketLength._parsedResult
 
-                        // this.forms.form_multiCallResultsStart = this.$refs.accountVoteIndex._parsedResult
-                        // this.forms.form_multiCallResultsEnd = this.$refs.accountVoteIndex._parsedResult+this.values.accountVoteLength
+                        this.forms.form_multiCallResultsStart = this.$refs.accountVoteIndex._parsedResult
+                        this.forms.form_multiCallResultsEnd = this.$refs.accountVoteIndex._parsedResult+this.values.accountVoteLength
+                        // console.log("form_multiCallResults Start-end", this.forms.form_multiCallResultsStart, this.forms.form_multiCallResultsEnd)
 
                         // try {
                         //     this.forms.form_getVoterRefAmount["0"].value = (parseInt(this.values.current_round) - 1)+""
