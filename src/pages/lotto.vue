@@ -4,7 +4,7 @@
 
         <div class="flex-column" style="z-index: 2" > <!-- Buy Ticket -->
 
-            <div v-if="loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
+            <!-- <div v-if="loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
                 <i class="fas fa-circle-notch spin-nback"></i>
                 <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.walletInfo}}</span>
             </div>
@@ -12,8 +12,8 @@
             <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
                 <i class="fas fa-circle-notch spin-nback"></i>
                 <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
-            </div>
-            <div v-if="!loadings.daiBalanceOfAndAllowance && !loadings.currentRoundAndLastTicket">
+            </div> -->
+            <div v-if="!loadings.daiBalanceOfAndAllowance">
                 <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999"  
                     class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3 border-r-25"
                 >
@@ -63,18 +63,6 @@
 
         </div>
 
-        <tx-card v-show="false" ref="addFullTargetAllowance" 
-            :props="
-                {
-                    title: 'Add FULL DAI Allowance to target',
-                    form_args: form.addFullTargetAllowance,
-                    abi: ABIS.ERC20,
-                    address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                    function: 'approve',
-                    res_type: 'uint256',
-                    button_only: true,
-                }"
-        />
         <tx-card v-show="false" ref="ref_getVoteScratchedNumberMulticall" 
             :props="
                 {
@@ -104,7 +92,63 @@
 
         <div id="award" style="position: absolute; top: 0; left: 0"></div>
         <div class="py-8" > </div>
+        <div v-show="false">
+            <tx-card ref="addFullTargetAllowance" 
+                :props="
+                    {
+                        title: 'Add FULL DAI Allowance to target',
+                        form_args: form.addFullTargetAllowance,
+                        abi: ABIS.ERC20,
+                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                        function: 'approve',
+                        res_type: 'uint256',
+                        button_only: true,
+                    }"
+            />
+        </div>
+        <div v-show="pro_mode">
 
+            <tx-card ref="addTargetAllowance" 
+                :props="
+                    {
+                        title: 'Set  DAI Allowance to target',
+                        form_args: form.addTargetAllowance,
+                        abi: ABIS.ERC20,
+                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                        function: 'approve',
+                        res_type: 'uint256',
+                    }"
+            />
+        </div>
+        <div v-if="values.dai_dao_allowance > 0" v-show="pro_mode">
+
+            <div class="flex-wrap ">
+                <tx-card  class=" flex-column  mt-3" 
+                    :props="
+                        {
+                            title: 'Make a proposal',
+                            form_args: form.createProposal,
+                            abi: ABIS.DAO,
+                            address: CURRENT_NETWORK.DAO_ADDRESS,
+                            function: 'createProposal',
+                        }"
+                />
+            </div>
+
+            <div class="flex-wrap ">
+                <tx-card  class=" flex-column  " 
+                    :props="
+                        {
+                            title: 'Withdraw from Proposal',
+                            form_args: form.withdrawFromProposal,
+                            abi: ABIS.DAO,
+                            address: CURRENT_NETWORK.DAO_ADDRESS,
+                            function: 'withdrawFromFailedProposal',
+                        }"
+                />
+            </div>
+            <div class="py-4" > </div>
+        </div>
         <div v-if="values.dai_dao_allowance > 0" v-show="pro_mode">
             <div class="flex-column ">
                 <tx-card  class=" flex-column  " 
@@ -205,34 +249,6 @@
                 </div>
             </div>
         </div>
-        <div v-if="values.dai_dao_allowance > 0" v-show="pro_mode">
-            <div class="flex-wrap ">
-                <tx-card  class=" flex-column  mt-3" 
-                    :props="
-                        {
-                            title: 'Make a proposal',
-                            form_args: form.createProposal,
-                            abi: ABIS.DAO,
-                            address: CURRENT_NETWORK.DAO_ADDRESS,
-                            function: 'createProposal',
-                        }"
-                />
-            </div>
-
-            <div class="flex-wrap ">
-                <tx-card  class=" flex-column  " 
-                    :props="
-                        {
-                            title: 'Withdraw from Proposal',
-                            form_args: form.withdrawFromProposal,
-                            abi: ABIS.DAO,
-                            address: CURRENT_NETWORK.DAO_ADDRESS,
-                            function: 'withdrawFromFailedProposal',
-                        }"
-                />
-            </div>
-            <div class="py-4" > </div>
-        </div>
 
         <div class="flex-column flex-lg_x-row pt-8">
             <lotto-current-round ref="currentRound" @update_loading="update_loading"
@@ -242,7 +258,7 @@
             <div class="flex-column flex-md_x-row" >
 
                 <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
-                    class="n-flat pa-5 clickable opacity-hover-75 mt-3 border-r-25 show-xs_md tx-xl mb-8"
+                    class="n-flat pa-5 clickable opacity-hover-75 mt-3 border-r-25  tx-xl "
                 >
                     <div v-if="loadings.signup" class="flex-column opacity-75">
                         <i class="fas fa-circle-notch spin-nback"></i>
@@ -811,11 +827,20 @@
                 this.loadings.signup = true
 
                 try {
-                    await this.$refs.addFullTargetAllowance.execute()
-                    await this.$refs.targetAllowance.execute()
-                    this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
+                    let tx = await this.$refs.addFullTargetAllowance.execute()
+                    let updatetx = await this.$refs.myAccount.triggersend_daiBalanceOfAndAllowance()
+
+                    // console.log("1", this.$refs.targetAllowance._parsedResult)
+                    // this.$nextTick(() => {
+                    //     console.log("2", this.$refs.targetAllowance._parsedResult)
+                    // })
+                    // setTimeout(() => {
+                    //     console.log("3", this.$refs.targetAllowance._parsedResult)
+                    // }, 500)
+                    // this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
                 } catch (error) {
-                    console.log("failed call")
+                    console.log("failed call", error)
+                    // window.location.reload()
                 }
 
                 this.loadings.signup = false

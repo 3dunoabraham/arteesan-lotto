@@ -15,7 +15,10 @@
                 <i class="fas fa-circle-notch spin-nback"></i>
                 <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
             </div>
-            
+
+            <h1  class=" flex-column  tx-error" style="z-index: 88" v-if="values.current_round == 0">
+                ?
+            </h1>
             <h1  class=" flex-column  tx-success" style="z-index: 88" v-if="values.prize_pool">
                 ${{parseDecimals(values.prize_pool * 0.8)}} 
             </h1>
@@ -209,7 +212,12 @@
                     console.log("this.values.current_round",this.$refs.currentRound._parsedResult)
                     this.values.current_round = this.$refs.currentRound._parsedResult
 
-                    if (this.values.current_round == 0) return this.loadings.currentRoundAndLastTicket = false
+                    if (this.values.current_round == 0) 
+                    {
+                        this.loadings.currentRoundAndLastTicket = false
+                        this.$emit("update_loading", {key: "currentRoundAndLastTicket", value: false, })
+                        return resolve(true)
+                    }
 
                     this.forms.getProposalPropertyAmountVotes["0"].value = (parseInt(this.values.current_round) - 1)+""
                     await this.$refs.lastTicketNumber.execute()

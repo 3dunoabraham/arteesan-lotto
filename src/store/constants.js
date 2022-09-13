@@ -23,8 +23,6 @@ export const polygonNetwork = {
   RPC_URL: 'https://rpc-mainnet.matic.quiknode.pro',
 
   BASE_TOKEN: 'MATIC',
-  WETH_ADDRESS: '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270',
-
   BASE_USD_ID: 'USD (DAI)',
   BASE_USD_ADDRESS: '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063',
 
@@ -32,9 +30,22 @@ export const polygonNetwork = {
   LOTTO_ADDRESS: '0xF250a014CE4f238936b295892BA172941AaA084e',
   DAO_ADDRESS: '0xF8D30959e33E4BF4424868b94d2015e2643eca60',
 };
+// https://docs.chain.link/docs/matic-addresses/
+export const localNetwork = {
+  SCANNER_URL: 'https://google.com',
+  RPC_URL: 'localhost:8545',
 
-// export const CURRENT_NETWORK = localNetwork;
+  BASE_TOKEN: 'ETH',
+  BASE_USD_ID: 'USD (DAI)',
+  BASE_USD_ADDRESS: '0xD704cED92Cc82D05D932364459EF14C1Dc5D9d61',
+
+  RESOLVER_ADDRESS: '0x5866c15DC432dA5cc3928E06d2E510A738963669',
+  LOTTO_ADDRESS: '0x6c652937623b816343F2ba32c8d840F6cDaE0820',
+  DAO_ADDRESS: '0x50C48f8C651191405644Ed03C8B9373b3531B338',
+};
+
 // export const CURRENT_NETWORK = bscNetwork;
 // export const CURRENT_NETWORK = ftmNetwork;
 // export const CURRENT_NETWORK = maticNetwork;
 export const CURRENT_NETWORK = polygonNetwork;
+// export const CURRENT_NETWORK = localNetwork;

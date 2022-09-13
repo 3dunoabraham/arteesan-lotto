@@ -168,16 +168,25 @@
             this.forms.DAIBalanceOf["0"].value = this.first_acc.address
             this.forms.targetAllowance["0"].value = this.first_acc.address
 
-            await this.trigger_daiBalanceOfAndAllowance()
-
-            this.$emit("update_myAccount", { data: {
-                dai_balance_of: this.values.dai_balance_of,
-                dai_dao_allowance: this.values.dai_dao_allowance,
-            }})
+            await this.triggersend_daiBalanceOfAndAllowance()
         },
         methods: {
             parseDecimals,
             shortAddress,
+            triggersend_daiBalanceOfAndAllowance()
+            {
+                return new Promise(async (resolve,reject) =>
+                {
+                    await this.trigger_daiBalanceOfAndAllowance()
+
+                    this.$emit("update_myAccount", { data: {
+                        dai_balance_of: this.values.dai_balance_of,
+                        dai_dao_allowance: this.values.dai_dao_allowance,
+                    }})      
+                    
+                    resolve(true)
+                })
+            },
             trigger_daiBalanceOfAndAllowance()
             {
                 if (this.loadings.daiBalanceOfAndAllowance) return
