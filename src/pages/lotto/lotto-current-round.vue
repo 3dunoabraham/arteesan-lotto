@@ -16,21 +16,24 @@
                 <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
             </div>
             <h1  class=" flex-column  tx-success" style="z-index: 88" v-if="values.prize_pool">
-                ${{parseDecimals(values.prize_pool * 0.4)}} 
+                ${{parseDecimals(values.prize_pool * 0.8)}} 
             </h1>
 
             <div class="w-100 flex-between tx-sm" >
                 <div></div>
-                <div @click="togglers.buy_advanced1 = !togglers.buy_advanced1"
-                :class="[togglers.buy_advanced1 ? 'n-inset' : 'n-flat']"
+                <div @click="togglers.round_advanced = !togglers.round_advanced"
+                :class="[togglers.round_advanced ? 'n-inset' : 'n-flat']"
                     class=" clickable pa-2 opacity-hover-50 border-r-50"
                 >
-                    <i :class="[togglers.buy_advanced1 ? 'fa-minus' : 'fa-plus']" class="fa"></i>
+                    <i :class="[togglers.round_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
                 </div>
             </div>
 
-            <div class="flex-column " v-show="togglers.buy_advanced1">
+            <div class="flex-column " v-show="togglers.round_advanced">
 
+                <h6  class="ma-0 flex-column  tx-xs" style="z-index: 88" v-if="values.prize_pool">
+                    MAX SINGLE PRIZE: ${{parseDecimals(values.prize_pool * 0.2)}} 
+                </h6>
                 <div class="tx-xs opacity-50 w-100 flex-column my-3" >
                     <span v-if="values.deadline" >{{values.deadline}}</span>
                     
@@ -125,7 +128,7 @@
                 },
 
                 togglers: {
-                    buy_advanced1: false,
+                    round_advanced: false,
                 },
                 forms: {
                     getProposalPropertyAmountVotes: {                        
