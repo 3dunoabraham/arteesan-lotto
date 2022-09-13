@@ -69,19 +69,21 @@
 
     </div>
 
-    <div class="flex-column ">
-        <tx-card :props="forms.getVoteScratchedNumber" />
-        <tx-card :props="forms.wonAmount" />
-        <tx-card :props="forms.getWinner" />
-        <tx-card :props="forms.getWonAmountMulticall"/>
-        <tx-card ref="ref_getVoteScratchedNumberMulticall" :props="forms.form_getVoteScratchedNumberMulticall"/> <!-- yes -->
-    </div>
+    <div class="flex-column " v-if="pro_mode">
+        <div class="flex-column " >
+            <tx-card :props="forms.getVoteScratchedNumber" />
+            <tx-card :props="forms.wonAmount" />
+            <tx-card :props="forms.getWinner" />
+            <tx-card :props="forms.getWonAmountMulticall"/>
+            <tx-card ref="ref_getVoteScratchedNumberMulticall" :props="forms.form_getVoteScratchedNumberMulticall"/> <!-- yes -->
+        </div>
 
-    <hr class="w-50 opacity-10">
+        <hr class="w-50 opacity-10">
 
-    <div class="flex-column ">
-        <tx-card :props="forms.withdrawAmount" />
-        <tx-card :props="forms.withdrawAll" />
+        <div class="flex-column ">
+            <tx-card :props="forms.withdrawAmount" />
+            <tx-card :props="forms.withdrawAll" />
+        </div>
     </div>
 
 </div>

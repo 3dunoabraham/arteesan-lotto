@@ -95,7 +95,7 @@
 
     <div class="flex-around flex-wrap w-100 ">
         <lotto-settings v-show="pro_mode" class="z-10 n-flat pa-2 border-r-15" />
-        <div v-if="values.dai_dao_allowance > 0 && pro_mode" class="z-10">
+        <div v-if="values.dai_dao_allowance > 0" class="z-10">
             <lotto-results class="n-inset pa-2 border-r-15" ref="lottoResults"
                 :_loadings="loadings" :_values="values" :_forms="{
                     form_multiCallResultsStart: form.form_multiCallResultsStart,
