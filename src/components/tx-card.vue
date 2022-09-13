@@ -186,12 +186,6 @@
 	    computed: {
             LANG()                  { return this.$store.getters.LANG },
             first_acc()             { return this.$store.getters.first_acc },
-            accs_length()           { return this.$store.getters.accs_length },
-            BASE_TOKEN()            { return this.$store.getters.BASE_TOKEN },
-
-            pools()                 { return this.$store.getters.pools },
-            pools_length()          { return this.$store.getters.pools_length },
-            retrieved_pool_length() { return this.$store.getters.retrieved_pool_length },
 
             _formArgKeys()          { return Object.keys(this.form.args) },
             _valid()
@@ -335,10 +329,6 @@
                 }
             },
 
-            isFarmStake(poolLp)
-            {
-                return CURRENT_NETWORK.FRUIT_ADDRESS.toUpperCase() == this.pools[poolLp].lpToken.toUpperCase()
-            },
             toggleAdvanced()
             {
                 this.togglers.advanced = !this.togglers.advanced

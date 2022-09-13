@@ -8,21 +8,14 @@ import { LANG } from './lang';
 const store = createStore({
   state() {
     return {
-      LANG,
-      main_togglers: {},
       currentPseudoPage: "lottery",
+      LANG,
       darkMode: true,
       proMode: false,
       englishMode: true,
 
       ethereum: window.ethereum,
       isMetaMaskInstalled: isMetaMaskInstalled(),
-      BASE_TOKEN: CURRENT_NETWORK.BASE_TOKEN,
-      BASE_USD_ID: CURRENT_NETWORK.BASE_USD_ID,
-
-      lps: {},
-      pools: {},
-      retrieved_pool_length: 0,
 
       accounts: {},
     };
@@ -54,34 +47,6 @@ const store = createStore({
 
       state.accounts = {...state.accounts, ...newAccounts}
     },
-    updateAccountAllowance(state, allowanceData) {
-      let newAllowance = {
-        [allowanceData.tokenAddress]: allowanceData.allowance
-      }
-      state.accounts[allowanceData.address].allowances = {
-        ...state.accounts[allowanceData.address].allowances,
-        ...newAllowance,
-      }
-    },
-    updateAccountBalance(state, balanceData) {
-      let newBalance = {
-        [balanceData.tokenId]: balanceData.balance
-      }
-      if (CURRENT_NETWORK.BASE_TOKEN == balanceData.tokenId)
-      {
-        state.accounts[balanceData.address].balance = balanceData.balance
-      }
-      state.accounts[balanceData.address].balances = {
-        ...state.accounts[balanceData.address].balances,
-        ...newBalance,
-      }
-    },
-    updateAccount(state, accountData) {
-      state.accounts[accountData.address] = {
-                          ...state.accounts[accountData.address],
-                          ...accountData.account
-                        }
-    },
   },
   actions: {
 
@@ -111,6 +76,9 @@ const store = createStore({
 
   },
   getters: {
+    current_page(state) {
+      return state.currentPseudoPage
+    },
     LANG(state) {
       return state.LANG[state.englishMode ? "EN" : "ES"];
     },
@@ -120,9 +88,6 @@ const store = createStore({
     },
     pro_mode(state) {
       return state.proMode
-    },
-    current_page(state) {
-      return state.currentPseudoPage
     },
     english_mode(state) {
       return state.englishMode
@@ -137,13 +102,6 @@ const store = createStore({
     },
     is_metaMask(state) {
       return state.isMetaMaskInstalled;
-    },
-
-    BASE_TOKEN(state) {
-      return state.BASE_TOKEN
-    },
-    BASE_USD_ID(state) {
-      return state.BASE_USD_ID
     },
 
     accs_length(state) {
