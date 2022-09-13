@@ -1,28 +1,8 @@
 <template>
     <div class="n-flat pa-2 border-r-5">
         <div class="flex-column ">
-            <tx-card  class=" flex-column  " 
-                        :props="
-                            {
-                                title: 'transferOwnership to dao',
-                                form_args: forms.transferOwnership,
-                                abi: ABIS.LOTTO,
-                                address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                function: 'transferOwnership',
-                                res_type: 'uint256',
-                            }"
-                    /> 
-            <tx-card ref="addTargetAllowance" 
-                :props="
-                    {
-                        title: 'Set  DAI Allowance to target',
-                        form_args: forms.addTargetAllowance,
-                        abi: ABIS.ERC20,
-                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                        function: 'approve',
-                        res_type: 'uint256',
-                    }"
-            />
+            <tx-card class=" flex-column" :props="forms.transferOwnership"/>
+            <tx-card ref="addTargetAllowance" :props="forms.addTargetAllowance" />
         </div>
         <div class="flex-column ">
             <tx-card  class=" flex-column  mt-3" 
@@ -124,13 +104,27 @@
                 togglers: {
                 },
                 forms: {
-                    transferOwnership: {                        
-                        "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                    transferOwnership: {
+                        title: 'transferOwnership to dao',
+                        abi: ABIS.LOTTO,
+                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                        function: 'transferOwnership',
+                        res_type: 'uint256',
+                        form_args: {                        
+                            "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                        },
                     },
                     addTargetAllowance: {
-                        "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
-                        
-                        "1": {placeholder:"amount",label:`value: '',`,value: '', type: "uint256" },
+                        title: 'Set  DAI Allowance to target',
+                        abi: ABIS.ERC20,
+                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                        function: 'approve',
+                        res_type: 'uint256',
+                        form_args:  {
+                            "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                            
+                            "1": {placeholder:"amount",label:`value: '',`,value: '', type: "uint256" },
+                        },
                     },
                     createProposal: {
                         "0": { placeholder: "Votes", value: "", type: "uint" },
