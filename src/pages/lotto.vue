@@ -1,19 +1,50 @@
 <template>
     <div class="flex-column " >
 
+        <tx-card v-show="false" ref="ref_getVoteScratchedNumberMulticall" 
+            :props="
+                {
+                    title: 'form_getVoteScratchedNumberMulticall',
+                    form_args: form.form_getVoteScratchedNumberMulticall,
+                    abi: ABIS.LOTTO,
+                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                    function: 'getWonAmount',
+                    DEBUG: true,
+                    res_type: 'uint',
+                    call_only: true,
+                    make_multicall: true,
+                }"
+        />
+        <tx-card   v-show="false" ref="ref_withdrawBonus" 
+            :props="
+                {
+                    title: 'withdrawAll',
+                    form_args: form.withdrawRefBonus,
+                    abi: ABIS.DAO,
+                    address: CURRENT_NETWORK.DAO_ADDRESS,
+                    function: 'withdrawRefBonus',
+                    DEBUG: true,
+                    res_type: 'uint',
+                }"
+        />
+        <div v-show="false">
+            <tx-card ref="addFullTargetAllowance" 
+                :props="
+                    {
+                        title: 'Add FULL DAI Allowance to target',
+                        form_args: form.addFullTargetAllowance,
+                        abi: ABIS.ERC20,
+                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                        function: 'approve',
+                        res_type: 'uint256',
+                        button_only: true,
+                    }"
+            />
+        </div>
+
 
         <div class="flex-column" style="z-index: 2" > <!-- Buy Ticket -->
-
-            <!-- <div v-if="loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
-                <i class="fas fa-circle-notch spin-nback"></i>
-                <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.walletInfo}}</span>
-            </div>
-
-            <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
-                <i class="fas fa-circle-notch spin-nback"></i>
-                <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
-            </div> -->
-            <div v-if="!loadings.daiBalanceOfAndAllowance ">
+            <div v-if="!loadings.daiBalanceOfAndAllowance " class="show-xs_lg tx-xl">
                 <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999"  
                     class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3 border-r-25"
                 >
@@ -49,149 +80,15 @@
                     </div>
                 </div>
             </template>
-
-            <div class="w-100 flex-between tx-sm" v-if="values.dai_dao_allowance > 0 && togglers.buy_advanced3">
-                <div></div>
-                <div @click="togglers.buy_advanced2 = !togglers.buy_advanced2"
-                :class="[togglers.buy_advanced2 ? 'n-inset' : 'n-flat']"
-                    class=" clickable pa-2 opacity-hover-50 border-r-50"
-                >
-                    <i :class="[togglers.buy_advanced2 ? 'fa-minus' : 'fa-plus']" class="fa"></i>
-                </div>
-            </div>
-
         </div>
 
-        <tx-card v-show="false" ref="ref_getVoteScratchedNumberMulticall" 
-            :props="
-                {
-                    title: 'form_getVoteScratchedNumberMulticall',
-                    form_args: form.form_getVoteScratchedNumberMulticall,
-                    abi: ABIS.LOTTO,
-                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                    function: 'getWonAmount',
-                    DEBUG: true,
-                    res_type: 'uint',
-                    call_only: true,
-                    make_multicall: true,
-                }"
-        />
-        <tx-card   v-show="false" ref="ref_withdrawBonus" 
-            :props="
-                {
-                    title: 'withdrawAll',
-                    form_args: form.withdrawRefBonus,
-                    abi: ABIS.DAO,
-                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                    function: 'withdrawRefBonus',
-                    DEBUG: true,
-                    res_type: 'uint',
-                }"
-        />
 
         <div id="award" style="position: absolute; top: 0; left: 0"></div>
         <div class="py-8" > </div>
-        <div v-show="false">
-            <tx-card ref="addFullTargetAllowance" 
-                :props="
-                    {
-                        title: 'Add FULL DAI Allowance to target',
-                        form_args: form.addFullTargetAllowance,
-                        abi: ABIS.ERC20,
-                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                        function: 'approve',
-                        res_type: 'uint256',
-                        button_only: true,
-                    }"
-            />
-        </div>
-        <div v-show="pro_mode">
-              <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 'transferOwnership to dao',
-                                    form_args: form.transferOwnership,
-                                    abi: ABIS.LOTTO,
-                                    address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                                    function: 'transferOwnership',
-                                    res_type: 'uint256',
-                                }"
-                        /> 
-            <tx-card ref="addTargetAllowance" 
-                :props="
-                    {
-                        title: 'Set  DAI Allowance to target',
-                        form_args: form.addTargetAllowance,
-                        abi: ABIS.ERC20,
-                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                        function: 'approve',
-                        res_type: 'uint256',
-                    }"
-            />
-        </div>
-        <div v-if="values.dai_dao_allowance > 0" v-show="pro_mode">
 
-            <div class="flex-wrap ">
-                <tx-card  class=" flex-column  mt-3" 
-                    :props="
-                        {
-                            title: 'Make a proposal',
-                            form_args: form.createProposal,
-                            abi: ABIS.DAO,
-                            address: CURRENT_NETWORK.DAO_ADDRESS,
-                            function: 'createProposal',
-                        }"
-                />
-            </div>
 
-            <div class="flex-wrap ">
-                <tx-card  class=" flex-column  " 
-                    :props="
-                        {
-                            title: 'Withdraw from Proposal',
-                            form_args: form.withdrawFromProposal,
-                            abi: ABIS.DAO,
-                            address: CURRENT_NETWORK.DAO_ADDRESS,
-                            function: 'withdrawFromFailedProposal',
-                        }"
-                />
-            </div>
-            <div class="py-4" > </div>
-        </div>
-        <div v-if="values.dai_dao_allowance > 0" v-show="pro_mode">
-            <div class="flex-column ">
-                <tx-card  class=" flex-column  " 
-                    :props="
-                        {
-                            title: 'execute proposal',
-                            form_args: form.executeProposal,
-                            abi: ABIS.DAO,
-                            address: CURRENT_NETWORK.DAO_ADDRESS,
-                            function: 'executeProposal',
-                        }"
-                />
-                <tx-card  class=" flex-column  " 
-                    :props="
-                        {
-                            title: 'requestResolveRound',
-                            form_args: form.requestResolveRound,
-                            abi: ABIS.LOTTO,
-                            address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                            function: 'requestResolveRound',
-                        }"
-                />
-                <tx-card  class=" flex-column  " 
-                    :props="
-                        {
-                            title: 'resolveBet',
-                            form_args: form.resolveBet,
-                            abi: ABIS.LOTTO,
-                            address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                            function: 'resolveBet',
-                        }"
-                />
-            </div>
-        </div>
+        <lotto-settings v-show="pro_mode" class="z-10" />
+
 
         <div class="flex-column flex-lg_x-row pt-8">
             <lotto-current-round ref="currentRound" @update_loading="update_loading"
@@ -199,17 +96,6 @@
             />
 
             <div class="flex-column flex-md_x-row" >
-
-                <!-- <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
-                    class="n-flat pa-5 clickable opacity-hover-75 mt-3 border-r-25  tx-xl "
-                >
-                    <div v-if="loadings.signup" class="flex-column opacity-75">
-                        <i class="fas fa-circle-notch spin-nback"></i>
-                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
-                    </div>
-                    {{LANG.signup}} 
-                </div> -->
-
                 <div id="store"></div>
 
 
@@ -219,9 +105,8 @@
                 <lotto-current-ticket ref="currentTicket" v-if="values.current_round > 0" @signup="execute_addFullTargetAllowance"
                     @update_currentTicket="update_currentTicket" :_loadings="loadings" :_values="values" @update_loading="update_loading"
                 />
-
             </div>
-            <!-- <div class="show-xs_md my-8"></div> -->
+
             <div id="user"></div>
 
             <div v-if="dark_mode" style="width: 2px; background: white;" class="py-100 block opacity-10 show-xs_md" > </div>
@@ -332,32 +217,6 @@
                         }"
                 />
             </div>
-            <div class="flex-row">
-                <tx-card  class=" flex-column  " 
-                    :props="
-                        {
-                            title: 'get randomResult  ',
-                            form_args: form.getProposalPropertyResult,
-                            abi: ABIS.LOTTO,
-                            address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                            function: 'gameRounds',
-                            res_type: 'struct.randomResult.uint',
-                            call_only: true,
-                        }"
-                />
-                <tx-card  class=" flex-column  " 
-                    :props="
-                        {
-                            title: 'get randomRequests',
-                            form_args: form.randomRequests,
-                            abi: ABIS.LOTTO,
-                            address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                            function: 'randomRequests',
-                            res_type: 'uint',
-                            call_only: true,
-                        }"
-                />
-            </div>
         </div>
 
 
@@ -389,17 +248,6 @@
                             function: 'setRequester',
                         }"
                 />
-                <tx-card  class=" flex-column  " 
-                    :props="
-                        {
-                            title: 'transferOwnership to dao',
-                            form_args: form.transferOwnership,
-                            abi: ABIS.LOTTO,
-                            address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                            function: 'transferOwnership',
-                            res_type: 'uint256',
-                        }"
-                />
             </div>
         </div>
     </div>
@@ -414,9 +262,9 @@
 
 
         <div v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
-            <div  style="z-index: 50">
+            <div  >
                 <div class="flex-column" >
-                    <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
+                    <div class="flex-column z-10  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
                         Results:
 
                         
@@ -499,6 +347,7 @@
     import { parseDecimals, ERROR_HELPER, shortAddress, shortAddressSpaced } from '../store/helpers';
     
     import txCard from "../components/tx-card.vue";
+    import lottoSettings from "./lotto/lotto-settings.vue";
     import lottoBottomMenu from "./lotto/lotto-bottom-menu.vue";
     import lottoMyAccount from "./lotto/lotto-my-account.vue";
     import lottoCurrentTicket from "./lotto/lotto-current-ticket.vue";
@@ -509,6 +358,7 @@
         components: {
             txCard,
 
+            lottoSettings,
             lottoBottomMenu,
             lottoMyAccount,
             lottoCurrentRound,
@@ -562,25 +412,7 @@
                         "1": { placeholder: "Deadline", value: "", type: "uint" },
                     },
 
-                    withdrawFromProposal: {
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                    },
                     withdrawRefBonus: {
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                    },
-                    requestResolveRound: {
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                    },
-                    randomRequests: {
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                    },
-                    resolveBet: {
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                    },
-                    executeProposal: {
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                    },
-                    randomWords: {
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                     },
                     setRequester: {                        
@@ -645,9 +477,6 @@
                     },
                     transferOwnership: {                        
                         "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
-                    },
-                    getProposalPropertyResult: {                        
-                        "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
                     },
                     addTargetAllowance: {
                         "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
