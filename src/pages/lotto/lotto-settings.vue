@@ -111,7 +111,10 @@
                         function: 'transferOwnership',
                         res_type: 'uint256',
                         form_args: {                        
-                            "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                            "0": {
+                                placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,
+                                value: CURRENT_NETWORK.DAO_ADDRESS, type: "address"
+                            },
                         },
                     },
                     addTargetAllowance: {
