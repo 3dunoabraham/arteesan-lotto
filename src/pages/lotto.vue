@@ -237,6 +237,19 @@
                                             }"
                                     />
                                 </div>
+
+                                <div class="flex-wrap ">
+                                    <tx-card  class=" flex-column  " 
+                                        :props="
+                                            {
+                                                title: 'Withdraw from Proposal',
+                                                form_args: form.withdrawFromProposal,
+                                                abi: ABIS.DAO,
+                                                address: CURRENT_NETWORK.DAO_ADDRESS,
+                                                function: 'withdrawFromFailedProposal',
+                                            }"
+                                    />
+                                </div>
                             </div>
                             
                         </div>
@@ -741,16 +754,6 @@
                                     </div>
 
                                     <hr class="w-50 opacity-10">
-                                    <tx-card  class=" flex-column  " 
-                                        :props="
-                                            {
-                                                title: 'withdrawFrom failed Proposal',
-                                                form_args: form.withdrawFromProposal,
-                                                abi: ABIS.DAO,
-                                                address: CURRENT_NETWORK.DAO_ADDRESS,
-                                                function: 'withdrawFromFailedProposal',
-                                            }"
-                                    />
                                     <hr class="w-50 opacity-10">
                                 </div>
 
@@ -1399,6 +1402,7 @@
                     this.loadings.currentRoundAndLastTicket = true
 
                     await this.$refs.currentRound.execute()
+                    // console.log("this.values.current_round",this.$refs.currentRound._parsedResult)
                     this.values.current_round = this.$refs.currentRound._parsedResult
 
                     if (this.values.current_round == 0) return this.loadings.currentRoundAndLastTicket = false

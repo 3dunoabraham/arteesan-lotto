@@ -11,6 +11,15 @@
                         <i class="mr-2 fas fa-external-link-alt"></i> Docs
                     </span>
                 </a>
+                <button class="noborder n-tx ml-4 tx-sm n-conca clickable flex-center border-r-15 show-md_x"
+                    @click="changeProMode"
+                    style=""
+                >
+                    <span class="pa-2 py-4  opacity-hover-50">
+                        <i class="fas tx-sm" v-if="pro_mode" > <span> PRO</span></i>
+                        <i class="fas tx-sm" v-else > <span> DEFAULT</span></i>
+                    </span>
+                </button>
             </div>
             <div class="flex-column-r flex-md_x-row flex-align-start">
                 <button class="noborder n-tx tx-sm n-conca clickable flex-center border-r-15 mt-3 mr-3"
@@ -60,15 +69,15 @@
                     </a>
                 </div>
             </div>
-                <button class="noborder n-tx tx-md n-conca clickable flex-center border-r-15 show-sm_md"
-                    @click="changeProMode"
-                    style=""
-                >
-                    <span class="pa-2 py-4  opacity-hover-50">
-                        <i class="fas tx-sm" v-if="pro_mode" > <span> PRO</span></i>
-                        <i class="fas tx-sm" v-else > <span> DEFAULT</span></i>
-                    </span>
-                </button>
+            <button class="noborder n-tx tx-md n-conca clickable flex-center border-r-15 show-sm_md"
+                @click="changeProMode"
+                style=""
+            >
+                <span class="pa-2 py-4  opacity-hover-50">
+                    <i class="fas tx-sm" v-if="pro_mode" > <span> PRO</span></i>
+                    <i class="fas tx-sm" v-else > <span> DEFAULT</span></i>
+                </span>
+            </button>
             <div class="flex-column-r flex-md_x-row flex-align-start">
                 <button class="noborder n-tx tx-sm n-conca clickable flex-center border-r-15 mt-3 mr-3"
                     @click="changeNightMode"
