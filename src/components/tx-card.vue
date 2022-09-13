@@ -56,7 +56,7 @@
                     class="fas fa-cloud-download-alt tx-xs hover-hover" ></i>
             </div>
             <div v-if="!props.title"> Response </div>
-            <span v-if="theResult" class="mx-2">{{_parsedResult}}</span>
+            <span v-if="!props.make_multicall && theResult" class="mx-2">{{_parsedResult}}</span>
             
             
         </span>
@@ -205,6 +205,8 @@
             },
             _parsedResult()
             {
+                if (this.props.make_multicall) return {}
+                    
                 let altResult = { ...this.theResult }
                 let altResType = this.props.res_type
 

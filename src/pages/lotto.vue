@@ -134,14 +134,14 @@
                         <div v-if="Object.keys(values.val_results) != 0" >
                             <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
                                 
-                                <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
-                                    <div class="flex-row py-1">
+                                <div v-for="(item,index) in values.val_results" class="flex-column w-100">
+                                    <div class="flex-row py-1" v-if="item != 0">
                                         <div class="pr-2">
                                             <!-- {{index}} -->
-                                            Ticket:
+                                            Ticket #{{parseInt(index)+parseInt(values.accountVoteIndex)}}
                                         </div>
-                                        <div>
-                                            # {{item}}
+                                        <div class="tx-success">
+                                            ${{item}}
                                         </div>
                                     </div>
                                 </div>
@@ -264,7 +264,7 @@
                         address: CURRENT_NETWORK.LOTTO_ADDRESS,
                         function: 'getWonAmount',
                         DEBUG: true,
-                        res_type: 'uint',
+                        res_type: 'uint256',
                         call_only: true,
                         make_multicall: true,                    
                         form_args: {
@@ -431,10 +431,14 @@
 
                     console.log("this.form.form_getVoteScratchedNumberMulticall", this.form.form_getVoteScratchedNumberMulticall)
                     let asd = await this.$refs.ref_getVoteScratchedNumberMulticall.execute()
-                    console.log("asd", asd)
+                    // console.log("asd", asd)
                     console.log("this.$refs.targetAllowance.theResult.filter((o) => o != 0)")
-                    console.log(asd.filter((o) => o != 0))
-                    this.values.val_results = asd.filter((o) => o != 0).reduce((o, key) => Object.assign(o, {[key]: "whatever"}), {})
+                    // console.log(asd.filter((o) => o != 0))
+                    console.log("resultsss won amount",asd)
+
+                    this.values.val_results = {...this.$refs.ref_getVoteScratchedNumberMulticall.theResult}
+                    console.log("this.values.val_results",this.values.val_results)
+                    // this.values.val_results = asd.filter((i, o) => o != 0).reduce((o, key) => Object.assign(o, {[key]: "whatever"}), {})
                     // console.log("asd", this.$refs.ref_getVoteScratchedNumberMulticall)
                     // console.log("asd", this.$refs.ref_getVoteScratchedNumberMulticall.theResult)
 
