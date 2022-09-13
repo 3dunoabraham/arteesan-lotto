@@ -1,88 +1,88 @@
 <template>
-    <div class="flex-column " >
+<div class="flex-column " >
 
-        <tx-card v-show="false" ref="ref_getVoteScratchedNumberMulticall" :props="form.form_getVoteScratchedNumberMulticall" />
-        <tx-card v-show="false" ref="ref_withdrawBonus" :props="form.withdrawRefBonus" />
-        <tx-card v-show="false" ref="addFullTargetAllowance" :props="form.addFullTargetAllowance" />
+    <tx-card v-show="false" ref="ref_getVoteScratchedNumberMulticall" :props="form.form_getVoteScratchedNumberMulticall" />
+    <tx-card v-show="false" ref="ref_withdrawBonus" :props="form.withdrawRefBonus" />
+    <tx-card v-show="false" ref="addFullTargetAllowance" :props="form.addFullTargetAllowance" />
 
 
-        <div class="flex-column" style="z-index: 2" > <!-- Buy Ticket -->
-            <div v-if="!loadings.daiBalanceOfAndAllowance " class="show-xs_lg tx-xl">
-                <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999"  
-                    class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3 border-r-25"
-                >
-                    <div v-if="loadings.signup" class="flex-column opacity-75">
-                        <i class="fas fa-circle-notch spin-nback"></i>
-                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
-                    </div>
-                    {{LANG.signup}} 
+    <div class="flex-column" style="z-index: 2" > <!-- Buy Ticket -->
+        <div v-if="!loadings.daiBalanceOfAndAllowance " class="show-xs_lg tx-xl">
+            <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999"  
+                class="n-flat pa-2 clickable opacity-hover-50 mb-5 mt-3 border-r-25"
+            >
+                <div v-if="loadings.signup" class="flex-column opacity-75">
+                    <i class="fas fa-circle-notch spin-nback"></i>
+                    <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
                 </div>
+                {{LANG.signup}} 
             </div>
+        </div>
 
-            <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
-                <div class="flex-column" v-show="togglers.buy_advanced2 ">
-                    <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
-                        <div class="flex-column " >
-                            <div class="tx-xs">
-                                Referral Bonus:
-                            </div>
-                            <div class="tx-secondary">
-                                ${{values.val_getVoterRefAmount}}
-                            </div>
+        <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
+            <div class="flex-column" v-show="togglers.buy_advanced2 ">
+                <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
+                    <div class="flex-column " >
+                        <div class="tx-xs">
+                            Referral Bonus:
+                        </div>
+                        <div class="tx-secondary">
+                            ${{values.val_getVoterRefAmount}}
+                        </div>
 
-                            <div @click="execute_withdrawBonus"  v-if="values.val_getVoterRefAmount > 0"
-                                class="n-flat pa-2 clickable opacity-hover-75 border-r-25   tx-xs mt-2"
-                            >
-                                <div v-if="loadings.withdrawBonus" class="flex-column opacity-75 mb-1">
-                                    <i class="fas fa-circle-notch spin-nback"></i>
-                                    <span class="opacity-75  tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
-                                </div>
-                                Withdraw Bonus
+                        <div @click="execute_withdrawBonus"  v-if="values.val_getVoterRefAmount > 0"
+                            class="n-flat pa-2 clickable opacity-hover-75 border-r-25   tx-xs mt-2"
+                        >
+                            <div v-if="loadings.withdrawBonus" class="flex-column opacity-75 mb-1">
+                                <i class="fas fa-circle-notch spin-nback"></i>
+                                <span class="opacity-75  tx-center mt-1">{{LANG.loading}} <br> {{LANG.tx}}</span>
                             </div>
+                            Withdraw Bonus
                         </div>
                     </div>
                 </div>
-            </template>
-        </div>
-
-
-        <div id="award" style="position: absolute; top: 0; left: 0"></div>
-        <div class="py-8" > </div>
-
-
-        <lotto-settings v-show="pro_mode" class="z-10" />
-
-
-        <div class="flex-column flex-lg_x-row pt-8">
-            <lotto-current-round ref="currentRound" @update_loading="update_loading"
-                @update_currentRound="update_currentRound" :_loadings="loadings" :_values="values"
-            />
-
-            <div class="flex-column flex-md_x-row" >
-                <div id="store"></div>
-
-
-                <div v-if="dark_mode" style="height: 200px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
-                <div v-if="!dark_mode" style="height: 200px; width: 2px; background: black; display: block;" class="opacity-10 show-xs_md" > </div>
-
-                <lotto-current-ticket ref="currentTicket" v-if="values.current_round > 0" @signup="execute_addFullTargetAllowance"
-                    @update_currentTicket="update_currentTicket" :_loadings="loadings" :_values="values" @update_loading="update_loading"
-                />
             </div>
+        </template>
+    </div>
 
-            <div id="user"></div>
+    <div id="award" style="position: absolute; top: 0; left: 0"></div>
+    <div class="py-8" > </div>
 
-            <div v-if="dark_mode" style="width: 2px; background: white;" class="py-100 block opacity-10 show-xs_md" > </div>
-            <div v-if="!dark_mode" style="width: 2px; background: black;" class="py-100 block opacity-10 show-xs_md" > </div>
+    
 
-            <div style="height: 80px" class="show-md_lg"> </div>
+    <div class="flex-column flex-lg_x-row pt-8">
+        <lotto-current-round ref="currentRound" @update_loading="update_loading" class="z-50"
+            @update_currentRound="update_currentRound" :_loadings="loadings" :_values="values"
+        />
 
-            <lotto-my-account ref="myAccount" @update_myAccount="update_myAccount" @update_loading="update_loading"/>
+        <div class="flex-column flex-md_x-row" >
+            <div id="store"></div>
 
-            <lotto-bottom-menu />
 
+            <div v-if="dark_mode" style="height: 200px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
+            <div v-if="!dark_mode" style="height: 200px; width: 2px; background: black; display: block;" class="opacity-10 show-xs_md" > </div>
+
+            <lotto-current-ticket ref="currentTicket" v-if="values.current_round > 0" @signup="execute_addFullTargetAllowance"
+                @update_currentTicket="update_currentTicket" :_loadings="loadings" :_values="values" @update_loading="update_loading"
+            />
         </div>
 
+        <div id="user"></div>
+
+        <div v-if="dark_mode" style="width: 2px; background: white;" class="py-100 block opacity-10 show-xs_md" > </div>
+        <div v-if="!dark_mode" style="width: 2px; background: black;" class="py-100 block opacity-10 show-xs_md" > </div>
+
+        <div style="height: 80px" class="show-md_lg"> </div>
+
+        <lotto-my-account ref="myAccount" @update_myAccount="update_myAccount" 
+            class="flex-column" @update_loading="update_loading"
+        />
+
+        <lotto-bottom-menu  class="flex-column w-100 pos-fixed bottom-0 show-xs_md"
+            style="z-index: 1999; background: linear-gradient(180deg, #00000000 0%, #00000033 80%, #00000000 100%)"
+        />
+
+    </div>
 
 
 
@@ -92,82 +92,80 @@
 
 
 
-        <div v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
-            <div  >
-                <div class="flex-column" >
-                    <div class="flex-column z-10  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
-                        Results:
+    <div v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
+        <div  >
+            <div class="flex-column" >
+                <div class="flex-column z-10  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
+                    Results:
 
-                        
-                        <div class="opacity-50 tx-xs my-2" v-if="!!values.val_randomResultBlock" >
-                            <!-- <span class="tx-sm mb-2 flex-row">Block: {{values.val_randomResultBlock}}</span> -->
+                    
+                    <div class="opacity-50 tx-xs my-2" v-if="!!values.val_randomResultBlock" >
+                        <!-- <span class="tx-sm mb-2 flex-row">Block: {{values.val_randomResultBlock}}</span> -->
 
-                            <div v-if="loadings.resultsMulticall" class="flex-column opacity-75 tx-lg">
-                                <i class="fas fa-circle-notch spin-nback"></i>
-                                <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
+                        <div v-if="loadings.resultsMulticall" class="flex-column opacity-75 tx-lg">
+                            <i class="fas fa-circle-notch spin-nback"></i>
+                            <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
+                        </div>
+                        <div class="tx-center">
+                            Scratch:
+                            <input type="text" name="" v-model="form.form_multiCallResultsStart" class="n-flat noborder px-2 py-1 tx-right n-tx" style="width: 30px">
+                            <!-- {{form.form_multiCallResultsStart}} -->
+                            ,
+                            {{form.form_multiCallResultsEnd}}
+                        </div>
+                            
+                        <div class="flex-row nowrap">
+                            
+                            <input type="range" name="" :max="values.accountVoteIndex + values.accountVoteLength" 
+                            :min="form.form_multiCallResultsStart"
+                             v-model="form.form_multiCallResultsEnd" class="n-flat noborder pa-2 n-tx" style="width: 60px">
+
+                            <div class="clickable n-flat pa-2"
+                                @click="getResultsMulticall"
+                            >
+                                Get Results
                             </div>
-                            <div class="tx-center">
-                                Scratch:
-                                <input type="text" name="" v-model="form.form_multiCallResultsStart" class="n-flat noborder px-2 py-1 tx-right n-tx" style="width: 30px">
-                                <!-- {{form.form_multiCallResultsStart}} -->
-                                ,
-                                {{form.form_multiCallResultsEnd}}
+                        </div>
+                        <div v-if="Object.keys(values.val_results) == 0" >
+                            <div class="py-4 tx-center opacity-50">
+                                No Winning Tickets Yet
                             </div>
+                        </div>
+                        <div v-if="Object.keys(values.val_results) != 0" >
+                            <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
                                 
-                            <div class="flex-row nowrap">
-                                
-                                <input type="range" name="" :max="values.accountVoteIndex + values.accountVoteLength" 
-                                :min="form.form_multiCallResultsStart"
-                                 v-model="form.form_multiCallResultsEnd" class="n-flat noborder pa-2 n-tx" style="width: 60px">
-
-                                <div class="clickable n-flat pa-2"
-                                    @click="getResultsMulticall"
-                                >
-                                    Get Results
-                                </div>
-                            </div>
-                            <div v-if="Object.keys(values.val_results) == 0" >
-                                <div class="py-4 tx-center opacity-50">
-                                    No Winning Tickets Yet
-                                </div>
-                            </div>
-                            <div v-if="Object.keys(values.val_results) != 0" >
-                                <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
-                                    
-                                    <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
-                                        <div class="flex-row py-1">
-                                            <div class="pr-2">
-                                                <!-- {{index}} -->
-                                                Ticket:
-                                            </div>
-                                            <div>
-                                                # {{item}}
-                                            </div>
+                                <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
+                                    <div class="flex-row py-1">
+                                        <div class="pr-2">
+                                            <!-- {{index}} -->
+                                            Ticket:
+                                        </div>
+                                        <div>
+                                            # {{item}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
-                            Not Done
-                        </div>
                     </div>
 
+                    <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
+                        Not Done
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="flex-column " v-show="false">
-            <div v-if="values.dai_dao_allowance > 0">
-                <tx-card  class="flex-column" :props="form.getVoteScratchedNumber" />
-                <tx-card  class="flex-column" :props="form.wonAmount" />
-                <tx-card  class="flex-column" :props="form.getWinner" />
-                <tx-card  class="flex-column" :props="form.getWonAmountMulticall"/>
-                <tx-card  class="flex-column" :props="form.withdrawAmount" />
-                <tx-card  class="flex-column" :props="form.withdrawAll" />
+
             </div>
         </div>
     </div>
+
+
+    <div class="flex-around flex-wrap w-100 ">
+        <lotto-settings v-show="pro_mode" class="z-10 n-flat pa-2 border-r-15" />
+        <div v-if="values.dai_dao_allowance > 0 && pro_mode" class="z-10">
+            <lotto-results class="n-flat pa-2 border-r-15"/>
+        </div>
+    </div>
+</div>
 </template>
 
                         
@@ -182,6 +180,7 @@
     import { parseDecimals, ERROR_HELPER, shortAddress, shortAddressSpaced } from '../store/helpers';
     
     import txCard from "../components/tx-card.vue";
+    import lottoResults from "./lotto/lotto-results.vue";
     import lottoSettings from "./lotto/lotto-settings.vue";
     import lottoBottomMenu from "./lotto/lotto-bottom-menu.vue";
     import lottoMyAccount from "./lotto/lotto-my-account.vue";
@@ -193,6 +192,7 @@
         components: {
             txCard,
 
+            lottoResults,
             lottoSettings,
             lottoBottomMenu,
             lottoMyAccount,
@@ -258,74 +258,6 @@
                             "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                         },
                     },
-                    withdrawAmount: {     
-                        title: 'withdrawAmount',
-                        abi: ABIS.LOTTO,
-                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                        function: 'withdrawAmount',
-                        DEBUG: true,
-                        res_type: 'uint256',                   
-                        form_args: {
-                            "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                            "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
-                            "2": {placeholder:"voter address",label:`value: "",`,value: "", type: "address" },
-                        },
-                    },
-                    getWinner: {    
-                        title: 'getWinner',
-                        abi: ABIS.LOTTO,
-                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                        function: 'getWinner',
-                        DEBUG: true,
-                        res_type: 'uint',
-                        call_only: true,                    
-                        form_args: {
-                            "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                            "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
-                        },
-                    },
-                    wonAmount: {      
-                        title: 'wonAmount',
-                        abi: ABIS.LOTTO,
-                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                        function: 'getWonAmount',
-                        DEBUG: true,
-                        res_type: 'uint256',
-                        call_only: true,                  
-                        form_args: {
-                            "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                            "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
-                        },
-                    },
-                    getVoteScratchedNumber: {                        
-                        title: 'getVoteScratchedNumber',
-                        abi: ABIS.LOTTO,
-                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                        function: 'getVoteScratchedNumber',
-                        DEBUG: true,
-                        res_type: 'uint',
-                        call_only: true,
-                        form_args: {
-                            "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                            "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
-                        },
-                    },
-                    withdrawAll: {                        
-                        title: 'withdrawAll',
-                        abi: ABIS.LOTTO,
-                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                        function: 'withdrawAll',
-                        DEBUG: true,
-                        res_type: 'uint',
-                        form_args: {
-                            "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                            
-                            "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "uint" },
-                            
-                            "2": {placeholder:"",label:`value: "",`,value: "", type: "address" },
-                            "3": {placeholder:"vote distance",label:`value: "",`,value: "", type: "uint" },
-                        },
-                    },
                     form_getVoteScratchedNumberMulticall: {    
                         title: 'form_getVoteScratchedNumberMulticall',
                         abi: ABIS.LOTTO,
@@ -339,20 +271,6 @@
                             "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                             "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "range:uint" },
                         },
-                    },
-                    getWonAmountMulticall: {   
-                        title: 'getWonAmountMulticall',
-                        abi: ABIS.LOTTO,
-                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                        function: 'getWonAmount',
-                        DEBUG: true,
-                        res_type: 'uint256',
-                        call_only: true,
-                        make_multicall: true,                     
-                        form_args: {
-                            "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                            "1": {placeholder:"vote number",label:`value: "",`,value: "", type: "range:uint" },
-                        },  
                     },
                     addFullTargetAllowance: {
                         title: 'Add FULL DAI Allowance to target',
@@ -431,7 +349,7 @@
 
                 this.loadings.signup = false
             },
-            
+
             async makeMultiCall()
             {
                 let provider = ethers.getDefaultProvider();

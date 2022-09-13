@@ -1,33 +1,30 @@
 <template>
-    <div class="n-flat pa-2 border-r-5">
-        <div class="flex-column ">
-            <tx-card class=" flex-column" :props="forms.transferOwnership"/>
-            <tx-card ref="addTargetAllowance" :props="forms.addTargetAllowance" />
-        </div>
-        <div class="flex-column ">
-            <tx-card  class=" flex-column  mt-3" 
-                :props="
-                    {
-                        title: 'Make a proposal',
-                        form_args: forms.createProposal,
-                        abi: ABIS.DAO,
-                        address: CURRENT_NETWORK.DAO_ADDRESS,
-                        function: 'createProposal',
-                    }"
-            />
-        </div>
-        <div class="flex-column ">
-            <tx-card class="flex-column" :props="forms.executeProposal" />
-            <tx-card class="flex-column" :props="forms.requestResolveRound" />
-            <tx-card class="flex-column" :props="forms.resolveBet" />
-            <tx-card class="flex-column" :props="forms.withdrawFromProposal" />
-            <hr class="w-50 opacity-10">
-            <tx-card class="flex-column" :props="forms.setRequester" />
-            <tx-card class="flex-column" :props="forms.setLotto" />
-        </div>
-    </div>
-</template>
+<div>
 
+    <div class="flex-column ">
+        <tx-card ref="addTargetAllowance" :props="forms.addTargetAllowance" />
+        <tx-card :props="forms.createProposal" />
+    </div>
+
+    <hr class="w-50 opacity-10">
+
+    <div class="flex-column ">
+        <tx-card :props="forms.executeProposal" />
+        <tx-card :props="forms.requestResolveRound" />
+        <tx-card :props="forms.resolveBet" />
+        <tx-card :props="forms.withdrawFromProposal" />
+    </div>
+
+    <hr class="w-50 opacity-10">
+
+    <div class="flex-column ">
+        <tx-card :props="forms.transferOwnership"/>
+        <tx-card :props="forms.setRequester" />
+        <tx-card :props="forms.setLotto" />
+    </div>
+
+</div>
+</template>
 <script>
     import { ABIS, CURRENT_NETWORK } from '../../store/constants';
     import { parseDecimals, ERROR_HELPER, shortAddress, shortAddressSpaced } from '../../store/helpers';
@@ -76,8 +73,14 @@
                         },
                     },
                     createProposal: {
-                        "0": { placeholder: "Votes", value: "", type: "uint" },
-                        "1": { placeholder: "Deadline", value: "", type: "uint" },
+                        title: 'Make a proposal',
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'createProposal',
+                        form_args: {
+                            "0": { placeholder: "Votes", value: "", type: "uint" },
+                            "1": { placeholder: "Deadline", value: "", type: "uint" },
+                        },
                     },
 
                     executeProposal: {

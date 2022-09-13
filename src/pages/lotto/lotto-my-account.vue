@@ -1,93 +1,95 @@
 <template>
-    <div class="flex-column"> 
-        <div class="pos-relative flex-column n-flat border-r-25 mx-2 pa-4" style="z-index: 1" >  
-            <div class="show-lg_x  tx-tertiary n-tx-s tx-xl" style="position: absolute; top: -55px;"><i class="fa fa-user"></i></div>
+<div> 
 
-            <h6 class="tx-ls-1 opacity-50  my-0 tx-center">{{LANG.myAccount}} </h6> 
-            <h4 class="tx-ls-3 my-2 tx-center">{{shortAddress(first_acc.address)}} </h4>
+    <div class="pos-relative flex-column n-flat border-r-25 mx-2 pa-4" style="z-index: 1" >  
+        <div class="show-lg_x  tx-tertiary n-tx-s tx-xl" style="position: absolute; top: -55px;"><i class="fa fa-user"></i></div>
 
-            <div v-if="loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
-                <i class="fas fa-circle-notch spin-nback"></i>
-                <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.walletInfo}}</span>
-            </div>
-            <span class="">{{values.dai_balance_of}} DAI</span>
-            <hr class="w-100 opacity-10">
+        <h6 class="tx-ls-1 opacity-50  my-0 tx-center">{{LANG.myAccount}} </h6> 
+        <h4 class="tx-ls-3 my-2 tx-center">{{shortAddress(first_acc.address)}} </h4>
 
-            <div class="  flex-column tx-sm w-100">
-                <div class="w-100 flex-between tx-sm">
-                    
-
-                    <!-- <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div> -->
-                    
-                    <div @click="trigger_daiBalanceOfAndAllowance"
-                        class=" clickable pa-2 opacity-hover-50 border-r-50 n-flat" 
-                    >
-                        <i :class="[loadings.daiBalanceOfAndAllowance ? 'spin-nback' : 'fa-redo']" class="fas fa-circle-notch"></i>
-                    </div>
-                    <div @click="togglers.dao_advanced = !togglers.dao_advanced"
-                    :class="[togglers.dao_advanced ? 'n-inset' : 'n-flat']"
-                        class=" clickable pa-2 opacity-hover-50 border-r-50"
-                    >
-                        <i :class="[togglers.dao_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
-                        <!-- <i class="fa fa-minus"></i> -->
-                    </div>
-                </div>
-                <div class="flex-column " v-show="togglers.dao_advanced">
-                    <div class="flex-column " v-show="pro_mode">
-                        <tx-card  class=" flex-column  mt-3" 
-                            :props="
-                                {
-                                    title: 'Sign Smart Contract',
-                                    form_args: forms.addTargetAllowance,
-                                    abi: ABIS.ERC20,
-                                    address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                                    function: 'approve',
-                                    res_type: 'uint256',
-                                }"
-                        />
-                    </div>
-                </div>
-            </div>
-
-
+        <div v-if="loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
+            <i class="fas fa-circle-notch spin-nback"></i>
+            <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.walletInfo}}</span>
         </div>
-        <div v-show="togglers.dao_advanced" class="flex-column n-inset border-r-50 mx-2 pa-6" style="transform: translateY(-15px);">
+        <span class="">{{values.dai_balance_of}} DAI</span>
+        <hr class="w-100 opacity-10">
 
-            <div class="flex-column tx-xs px-2" >
-                <div class="tx-sm" style="min-width: 170px">
-                    <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
-                        class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
-                    >
-                        <i class="fa fa-file "></i>
-                        <!-- Transaction history -->
-                        {{LANG.amenu_txs}}
-                    </a>
-                </div>
-                <div class="tx-sm" style="min-width: 170px">
-                    <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
-                        class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
-                    >
-                        <i class="fa fa-book "></i>
-                        <!-- Rules of the game -->
-                        {{LANG.amenu_rules}}
-                    </a>
-                </div>
-                <div class="tx-sm" style="min-width: 170px">
-                    <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
-                        class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
-                    >
-                        <i class="fas fa-headset "></i>
-                        <!-- Contact us -->
-                        {{LANG.amenu_contactUs}}
-                    </a>
-                </div>
+        <div class="  flex-column tx-sm w-100">
+            <div class="w-100 flex-between tx-sm">
+                
 
+                <!-- <div v-if="loadings.daiBalanceOfAndAllowance"><i class="fas fa-circle-notch spin-nback"></i></div> -->
+                
+                <div @click="trigger_daiBalanceOfAndAllowance"
+                    class=" clickable pa-2 opacity-hover-50 border-r-50 n-flat" 
+                >
+                    <i :class="[loadings.daiBalanceOfAndAllowance ? 'spin-nback' : 'fa-redo']" class="fas fa-circle-notch"></i>
+                </div>
+                <div @click="togglers.dao_advanced = !togglers.dao_advanced"
+                :class="[togglers.dao_advanced ? 'n-inset' : 'n-flat']"
+                    class=" clickable pa-2 opacity-hover-50 border-r-50"
+                >
+                    <i :class="[togglers.dao_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
+                    <!-- <i class="fa fa-minus"></i> -->
+                </div>
+            </div>
+            <div class="flex-column " v-show="togglers.dao_advanced">
+                <div class="flex-column " v-show="pro_mode">
+                    <tx-card  class=" flex-column  mt-3" 
+                        :props="
+                            {
+                                title: 'Sign Smart Contract',
+                                form_args: forms.addTargetAllowance,
+                                abi: ABIS.ERC20,
+                                address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                                function: 'approve',
+                                res_type: 'uint256',
+                            }"
+                    />
+                </div>
             </div>
         </div>
 
-        <tx-card v-show="false" ref="DAIBalanceOf" :props="forms.DAIBalanceOf" />
-        <tx-card v-show="false"  ref="targetAllowance" :props="forms.targetAllowance" />
+
     </div>
+    <div v-show="togglers.dao_advanced" class="flex-column n-inset border-r-50 mx-2 pa-6" style="transform: translateY(-15px);">
+
+        <div class="flex-column tx-xs px-2" >
+            <div class="tx-sm" style="min-width: 170px">
+                <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
+                    class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
+                >
+                    <i class="fa fa-file "></i>
+                    <!-- Transaction history -->
+                    {{LANG.amenu_txs}}
+                </a>
+            </div>
+            <div class="tx-sm" style="min-width: 170px">
+                <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
+                    class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
+                >
+                    <i class="fa fa-book "></i>
+                    <!-- Rules of the game -->
+                    {{LANG.amenu_rules}}
+                </a>
+            </div>
+            <div class="tx-sm" style="min-width: 170px">
+                <a :href="'http://polygonscan.com/address/'+first_acc.address" target="_blank"
+                    class="tx-lg py-2 n-tx flex-between w-100 opacity-hover-50"
+                >
+                    <i class="fas fa-headset "></i>
+                    <!-- Contact us -->
+                    {{LANG.amenu_contactUs}}
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <tx-card v-show="false" ref="DAIBalanceOf" :props="forms.DAIBalanceOf" />
+    <tx-card v-show="false"  ref="targetAllowance" :props="forms.targetAllowance" />
+
+</div>
 </template>
 
 <script>
