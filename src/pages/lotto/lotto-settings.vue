@@ -17,67 +17,13 @@
             />
         </div>
         <div class="flex-column ">
-            <tx-card  class=" flex-column  " 
-                :props="
-                    {
-                        title: 'execute proposal',
-                        form_args: forms.executeProposal,
-                        abi: ABIS.DAO,
-                        address: CURRENT_NETWORK.DAO_ADDRESS,
-                        function: 'executeProposal',
-                    }"
-            />
-            <tx-card  class=" flex-column  " 
-                :props="
-                    {
-                        title: 'requestResolveRound',
-                        form_args: forms.requestResolveRound,
-                        abi: ABIS.LOTTO,
-                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                        function: 'requestResolveRound',
-                    }"
-            />
-            <tx-card  class=" flex-column  " 
-                :props="
-                    {
-                        title: 'resolveBet',
-                        form_args: forms.resolveBet,
-                        abi: ABIS.LOTTO,
-                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
-                        function: 'resolveBet',
-                    }"
-            />
-            <tx-card  class=" flex-column  " 
-                :props="
-                    {
-                        title: 'Withdraw from Proposal',
-                        form_args: forms.withdrawFromProposal,
-                        abi: ABIS.DAO,
-                        address: CURRENT_NETWORK.DAO_ADDRESS,
-                        function: 'withdrawFromFailedProposal',
-                    }"
-            />
+            <tx-card class="flex-column" :props="forms.executeProposal" />
+            <tx-card class="flex-column" :props="forms.requestResolveRound" />
+            <tx-card class="flex-column" :props="forms.resolveBet" />
+            <tx-card class="flex-column" :props="forms.withdrawFromProposal" />
             <hr class="w-50 opacity-10">
-            <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 'set Requester',
-                                    form_args: forms.setRequester,
-                                    abi: ABIS.RESOLVER,
-                                    address: CURRENT_NETWORK.RESOLVER_ADDRESS,
-                                    function: 'setRequester',
-                                }"
-                        />
-            <tx-card  class=" flex-column  " 
-                            :props="
-                                {
-                                    title: 'set Lotto',
-                                    form_args: forms.setLotto,
-                                    abi: ABIS.DAO,
-                                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                                    function: 'setLotto',
-                                }"
-                        />
+            <tx-card class="flex-column" :props="forms.setRequester" />
+            <tx-card class="flex-column" :props="forms.setLotto" />
         </div>
     </div>
 </template>
@@ -135,22 +81,58 @@
                     },
 
                     executeProposal: {
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        title: 'execute proposal',
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'executeProposal',
+                        form_args: {
+                            "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        },
                     },
                     resolveBet: {
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        title: 'resolveBet',
+                        abi: ABIS.LOTTO,
+                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                        function: 'resolveBet',
+                        form_args: {
+                            "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        },
                     },
                     requestResolveRound: {
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        title: 'requestResolveRound',
+                        abi: ABIS.LOTTO,
+                        address: CURRENT_NETWORK.LOTTO_ADDRESS,
+                        function: 'requestResolveRound',
+                        form_args: {
+                            "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        },
                     },
                     withdrawFromProposal: {
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        title: 'Withdraw from Proposal',
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'withdrawFromFailedProposal',
+                        form_args: {
+                            "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                        },
                     },
-                    setRequester: {                        
-                        "0": {placeholder:"",label:`value: CURRENT_NETWORK.LOTTO_ADDRESS`,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
+                    setRequester: {            
+                        title: 'set Requester',
+                        abi: ABIS.RESOLVER,
+                        address: CURRENT_NETWORK.RESOLVER_ADDRESS,
+                        function: 'setRequester',            
+                        form_args: {
+                            "0": {placeholder:"",label:`value: `,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
+                        },
                     },
-                    setLotto: {                        
-                        "0": {placeholder:"",label:`value: CURRENT_NETWORK.LOTTO_ADDRESS`,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
+                    setLotto: {    
+                        title: 'set Lotto',
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'setLotto',                    
+                        form_args: {
+                            "0": {placeholder:"",label:`value:.LOTTO_ADDRESS`,value: CURRENT_NETWORK.LOTTO_ADDRESS, type: "address" },
+                        },
                     },
                 },  
                 values: {

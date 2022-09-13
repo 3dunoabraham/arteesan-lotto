@@ -85,32 +85,8 @@
             </div>
         </div>
 
-        <tx-card v-show="false" ref="DAIBalanceOf"
-            :props="
-                {
-                    title: 'DAI',
-                    form_args: forms.DAIBalanceOf,
-                    abi: ABIS.ERC20,
-                    address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                    function: 'balanceOf',
-                    res_type: 'uint256',
-                    button_only: true,
-                    call_only: true,
-                }"
-        /> 
-        <tx-card v-show="false"  ref="targetAllowance" 
-            :props="
-                {
-                    title: 'DAI Allowance to TargetContract',
-                    form_args: forms.targetAllowance,
-                    abi: ABIS.ERC20,
-                    address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                    function: 'allowance',
-                    res_type: 'uint256',
-                    button_only: true,
-                    call_only: true,
-                }"
-        />
+        <tx-card v-show="false" ref="DAIBalanceOf" :props="forms.DAIBalanceOf" />
+        <tx-card v-show="false"  ref="targetAllowance" :props="forms.targetAllowance" />
     </div>
 </template>
 
@@ -139,12 +115,29 @@
                 },
                 forms: {
                     DAIBalanceOf: {
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "address" },
+                        title: 'DAI',
+                        abi: ABIS.ERC20,
+                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                        function: 'balanceOf',
+                        res_type: 'uint256',
+                        button_only: true,
+                        call_only: true,
+                        form_args: {
+                            "0": {placeholder:"",label:`value: "",`,value: "", type: "address" },
+                        },
                     },
-                    targetAllowance: {                        
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "address" },
-                        
-                        "1": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                    targetAllowance: {  
+                        title: 'DAI Allowance to TargetContract',
+                        abi: ABIS.ERC20,
+                        address: CURRENT_NETWORK.BASE_USD_ADDRESS,
+                        function: 'allowance',
+                        res_type: 'uint256',
+                        button_only: true,
+                        call_only: true,                      
+                        form_args: {
+                            "0": {placeholder:"",label:`value: "",`,value: "", type: "address" },
+                            "1": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
+                        },
                     },
                     addTargetAllowance: {
                         "0": {placeholder:"",label:`value: CURRENT_NETWORK.DAO_ADDRESS`,value: CURRENT_NETWORK.DAO_ADDRESS, type: "address" },
@@ -165,8 +158,8 @@
         },
         async mounted()
         {
-            this.forms.DAIBalanceOf["0"].value = this.first_acc.address
-            this.forms.targetAllowance["0"].value = this.first_acc.address
+            this.forms.DAIBalanceOf.form_args["0"].value = this.first_acc.address
+            this.forms.targetAllowance.form_args["0"].value = this.first_acc.address
 
             await this.triggersend_daiBalanceOfAndAllowance()
         },

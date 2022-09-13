@@ -145,43 +145,9 @@
                     </div>
                 </div>
         </div>
-        <tx-card v-show="false" ref="accountVoteIndex"
-            :props="
-                {
-                    title: 'user vote index',
-                    form_args: forms.getVoterVoteIndex,
-                    abi: ABIS.DAO,
-                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                    function: 'getVoterVoteIndex',
-                    call_only: true,
-                    res_type: 'uint',
-                    advanced: true,
-                }"
-        />
-        <tx-card v-show="false" ref="ticketLength"
-            :props="
-                {
-                    title: 'user votes',
-                    form_args: forms.getVoterAmountOfVotes,
-                    abi: ABIS.DAO,
-                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                    function: 'getVoterAmountOfVotes',
-                    DEBUG: true,
-                    res_type: 'uint',
-                    call_only: true,
-                }"
-        />
-        <tx-card v-show="false" ref="ref_buyTicket"  class=" flex-column tx-xl  px-8 py-2" 
-            :props="
-                {
-                    title: LANG.buyTicket,
-                    form_args: forms.voteOnProposal,
-                    abi: ABIS.DAO,
-                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                    function: 'voteOnProposal',
-                    DEBUG: true,
-                }"
-        />
+        <tx-card v-show="false" ref="accountVoteIndex" :props="forms.getVoterVoteIndex" />
+        <tx-card v-show="false" ref="ticketLength" :props="forms.getVoterAmountOfVotes" />
+        <tx-card v-show="false" ref="ref_buyTicket"  class=" flex-column tx-xl  px-8 py-2" :props="forms.voteOnProposal" />
     </div>
 </template>
 
@@ -216,21 +182,44 @@
                     form_buyTicketRef: "",
                     form_buyTicketAmount: 0,
 
-                    getVoterVoteIndex: {                        
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                        
-                        "1": {placeholder:"",label:`value: "",`,value: "", type: "address" },
+                    getVoterVoteIndex: {        
+                        title: 'user vote index',
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'getVoterVoteIndex',
+                        call_only: true,
+                        res_type: 'uint',
+                        advanced: true,                
+                        form_args: {
+                            "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                            "1": {placeholder:"",label:`value: "",`,value: "", type: "address" },
+                        },
                     },
                     voteOnProposal: {
-                        "0": {placeholder:"Round",label:`value: "",`,value: "", type: "uint" },
-                        
-                        "1": {placeholder:"Amount of Votes",label:`value: '',`,value: '', type: "uint" },
-                        "2": {placeholder:"Refferal",label:`value: "",`,value: "", type: "address" },
+                        title: "buyticket",
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'voteOnProposal',
+                        DEBUG: true,
+                        form_args: {
+                            "0": {placeholder:"Round",label:`value: "",`,value: "", type: "uint" },
+                            
+                            "1": {placeholder:"Amount of Votes",label:`value: '',`,value: '', type: "uint" },
+                            "2": {placeholder:"Refferal",label:`value: "",`,value: "", type: "address" },
+                        },
                     },
-                    getVoterAmountOfVotes: {                        
-                        "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                        
-                        "1": {placeholder:"",label:`value: "",`,value: "", type: "address" },
+                    getVoterAmountOfVotes: {       
+                        title: 'user votes',
+                        abi: ABIS.DAO,
+                        address: CURRENT_NETWORK.DAO_ADDRESS,
+                        function: 'getVoterAmountOfVotes',
+                        DEBUG: true,
+                        res_type: 'uint',
+                        call_only: true,                 
+                        form_args: {
+                            "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
+                            "1": {placeholder:"",label:`value: "",`,value: "", type: "address" },
+                        },  
                     },
                 },  
                 values: {
@@ -246,9 +235,9 @@
         },
         async mounted()
         {
-            this.forms.getVoterVoteIndex["1"].value = this.first_acc.address
-            this.forms.getVoterAmountOfVotes["1"].value = this.first_acc.address
-            this.forms.voteOnProposal["2"].value = this.first_acc.address
+            this.forms.getVoterVoteIndex.form_args["1"].value = this.first_acc.address
+            this.forms.getVoterAmountOfVotes.form_args["1"].value = this.first_acc.address
+            this.forms.voteOnProposal.form_args["2"].value = this.first_acc.address
             this.forms.form_buyTicketRef = this.first_acc.address
 
             await this.trigger_currentTicket()
@@ -270,10 +259,10 @@
                 try {
                     console.log("this.forms.form_buyTicketAmount, this.forms.form_buyTicketRef")
                     console.log(this.forms.form_buyTicketAmount.toString(), this.forms.form_buyTicketRef)
-                    this.forms.voteOnProposal ["1"].value = this.forms.form_buyTicketAmount+""
+                    this.forms.voteOnProposal.form_args ["1"].value = this.forms.form_buyTicketAmount+""
                     if (this.first_acc.address != this.forms.form_buyTicketRef)
                     {
-                        this.forms.voteOnProposal["2"].value = this.forms.form_buyTicketRef
+                        this.forms.voteOnProposal.form_args["2"].value = this.forms.form_buyTicketRef
                     }
 
                     await this.$refs.ref_buyTicket.execute()
@@ -297,11 +286,11 @@
                     this.$emit("update_loading", {key: "currentTicket", value: true, })
 
                     try {
-                        this.forms.getVoterVoteIndex["0"].value = (parseInt(this._values.current_round) - 1)+""
+                        this.forms.getVoterVoteIndex.form_args["0"].value = (parseInt(this._values.current_round) - 1)+""
                         await this.$refs.accountVoteIndex.execute()
                         this.values.accountVoteIndex = this.$refs.accountVoteIndex._parsedResult
 
-                        this.forms.getVoterAmountOfVotes["0"].value = (parseInt(this._values.current_round) - 1)+""
+                        this.forms.getVoterAmountOfVotes.form_args["0"].value = (parseInt(this._values.current_round) - 1)+""
                         await this.$refs.ticketLength.execute()
                         this.values.accountVoteLength = this.$refs.ticketLength._parsedResult
 
@@ -330,7 +319,7 @@
                         this.values.accountVoteIndex = 0
                     }
 
-                    this.forms.voteOnProposal["0"].value = (parseInt(this._values.current_round) - 1)+""
+                    this.forms.voteOnProposal.form_args["0"].value = (parseInt(this._values.current_round) - 1)+""
                     
                     this.loadings.currentTicket = false
                     this.$emit("update_loading", {key: "currentTicket", value: false, })
