@@ -2,19 +2,6 @@
         
     <div class="flex-column " >
 
-        <tx-card v-show="false" ref="DAIBalanceOf"
-            :props="
-                {
-                    title: 'DAI',
-                    form_args: form.DAIBalanceOf,
-                    abi: ABIS.ERC20,
-                    address: CURRENT_NETWORK.BASE_USD_ADDRESS,
-                    function: 'balanceOf',
-                    res_type: 'uint256',
-                    button_only: true,
-                    call_only: true,
-                }"
-        /> 
         <tx-card v-show="false" ref="addFullTargetAllowance" 
             :props="
                 {
@@ -25,18 +12,6 @@
                     function: 'approve',
                     res_type: 'uint256',
                     button_only: true,
-                }"
-        />
-        <tx-card v-show="false" ref="deadline"
-            :props="
-                {
-                    title: 'getDeadline ',
-                    form_args: form.getProposalPropertyDeadline,
-                    abi: ABIS.DAO,
-                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                    function: 'proposals',
-                    res_type: 'struct.deadline.timestamp',
-                    call_only: true,
                 }"
         />
         
@@ -52,19 +27,6 @@
                     call_only: true,
                 }"
         />
-        <tx-card v-show="false" ref="currentRound"
-            :props="
-                {
-                    title: LANG.currentRound,
-                    form_args: {},
-                    abi: ABIS.DAO,
-                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                    function: 'numProposals',
-                    res_type: 'uint',
-                    button_only: true,
-                    call_only: true,
-                }"
-        />
         <tx-card v-show="false" ref="accountVoteIndex"
             :props="
                 {
@@ -77,18 +39,6 @@
                     call_only: true,
                     res_type: 'uint',
                     advanced: true,
-                }"
-        />
-        <tx-card  v-show="false" ref="prizePool"
-            :props="
-                {
-                    title: 'tokens required',
-                    form_args: form.amountOfTokensRequired,
-                    abi: ABIS.DAO,
-                    address: CURRENT_NETWORK.DAO_ADDRESS,
-                    function: 'proposals',
-                    res_type: 'struct.amountOfTokensRequired.uint256',
-                    call_only: true,
                 }"
         />
         <tx-card  v-show="false" ref="ref_getVoterRefAmount"
@@ -160,7 +110,106 @@
 
         <div id="award" style="position: absolute; top: 0; left: 0"></div>
         <div class="py-8" > </div>
+
+        <div v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" v-show="pro_mode">
+            <div  style="z-index: 50">
+                <div class="flex-column" >
+                    <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
+                        Results:
+
+                        
+                        <div class="opacity-50 tx-xs my-2" v-if="!!values.val_randomResultBlock" >
+                            <!-- <span class="tx-sm mb-2 flex-row">Block: {{values.val_randomResultBlock}}</span> -->
+
+                            <div v-if="loadings.resultsMulticall" class="flex-column opacity-75 tx-lg">
+                                <i class="fas fa-circle-notch spin-nback"></i>
+                                <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
+                            </div>
+                            <div class="tx-center">
+                                Scratch:
+                                <input type="text" name="" v-model="form.form_multiCallResultsStart" class="n-flat noborder px-2 py-1 tx-right n-tx" style="width: 30px">
+                                <!-- {{form.form_multiCallResultsStart}} -->
+                                ,
+                                {{form.form_multiCallResultsEnd}}
+                            </div>
+                                
+                            <div class="flex-row nowrap">
+                                
+                                <input type="range" name="" :max="values.accountVoteIndex + values.accountVoteLength" 
+                                :min="form.form_multiCallResultsStart"
+                                 v-model="form.form_multiCallResultsEnd" class="n-flat noborder pa-2 n-tx" style="width: 60px">
+
+                                <div class="clickable n-flat pa-2"
+                                    @click="getResultsMulticall"
+                                >
+                                    Get Results
+                                </div>
+                            </div>
+                            <div v-if="Object.keys(values.val_results) == 0" >
+                                <div class="py-4 tx-center opacity-50">
+                                    No Winning Tickets Yet
+                                </div>
+                            </div>
+                            <div v-if="Object.keys(values.val_results) != 0" >
+                                <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
+                                    
+                                    <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
+                                        <div class="flex-row py-1">
+                                            <div class="pr-2">
+                                                <!-- {{index}} -->
+                                                Ticket:
+                                            </div>
+                                            <div>
+                                                # {{item}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
+                            Not Done
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div v-if="values.dai_dao_allowance > 0" v-show="pro_mode">
+            <div class="flex-wrap ">
+                <tx-card  class=" flex-column  mt-3" 
+                    :props="
+                        {
+                            title: 'Make a proposal',
+                            form_args: form.createProposal,
+                            abi: ABIS.DAO,
+                            address: CURRENT_NETWORK.DAO_ADDRESS,
+                            function: 'createProposal',
+                        }"
+                />
+            </div>
+
+            <div class="flex-wrap ">
+                <tx-card  class=" flex-column  " 
+                    :props="
+                        {
+                            title: 'Withdraw from Proposal',
+                            form_args: form.withdrawFromProposal,
+                            abi: ABIS.DAO,
+                            address: CURRENT_NETWORK.DAO_ADDRESS,
+                            function: 'withdrawFromFailedProposal',
+                        }"
+                />
+            </div>
+            <div class="py-4" > </div>
+        </div>
+
         <div class="flex-column flex-lg_x-row pt-8">
+            <lotto-current-round ref="currentRound" 
+                @update_currentRound="update_currentRound" :_loadings="loadings" :_values="values"
+            />
+
             <div class="flex-column flex-md_x-row" >
 
                 <div @click="execute_addFullTargetAllowance"  v-if="values.dai_dao_allowance < 999999999" 
@@ -172,164 +221,7 @@
                     </div>
                     {{LANG.signup}} 
                 </div>
-                <div style="z-index: 50">
-                    <div class="flex-column n-flat border-r-15 mx-2 pa-2 px-4 pos-relative" style="z-index: 2" >  <!-- Prize Pool -->
-                        <div class="show-lg_x  tx-primary n-tx-s tx-xl" style="position: absolute; top: -100px; z-index: 999">
-                            <i class="fa fa-2x fa-award"></i>
-                        </div>
 
-                        <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
-
-                        
-
-                        <div v-if="loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
-                            <i class="fas fa-circle-notch spin-nback"></i>
-                            <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.walletInfo}}</span>
-                        </div>
-                        <div v-if="loadings.currentRoundAndLastTicket" class="flex-column opacity-75">
-                            <i class="fas fa-circle-notch spin-nback"></i>
-                            <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
-                        </div>
-                        <h1  class=" flex-column  tx-success" style="z-index: 88" v-if="values.prize_pool">
-                            ${{parseDecimals(values.prize_pool * 0.4)}} 
-                        </h1>
-                        <div class="flex-column " v-show="togglers.buy_advanced1">
-
-                            <div class="tx-xs opacity-50 w-100 flex-column my-3" >
-                                <span >{{values.deadline}}</span>
-                                
-                            </div>
-                            <div class="flex flex-align-start">
-
-                                <div  class=" flex-column tx-sm  " >
-                                    <span class="tx-xs">{{LANG.currentRound}}</span>
-                                    <span class="tx-xl">{{values.current_round - 1}}</span>
-                                </div>
-
-                                <div v-if="dark_mode" style="height: 70px; width: 2px; background: white; display: block;" class="mx-3 mb-3 opacity-10"></div>
-                                <div v-if="!dark_mode" style="height: 70px; width: 2px; background: black; display: block;" class="mx-3 mb-3 opacity-10"></div>
-
-                                <tx-card  class=" flex-column  mb-5" 
-                                    ref="lastTicketNumber"
-                                    :props="
-                                        {
-                                            title: LANG.lastTicketBought,
-                                            form_args: form.getProposalPropertyAmountVotes,
-                                            abi: ABIS.DAO,
-                                            address: CURRENT_NETWORK.DAO_ADDRESS,
-                                            function: 'proposals',
-                                            res_type: 'struct.amountOfVotes.uint',
-                                            button_only: true,
-                                            call_only: true,
-                                        }"
-                                />
-                            </div>
-                            <div v-if="values.dai_dao_allowance > 0" v-show="pro_mode">
-                                <div class="flex-wrap ">
-                                    <tx-card  class=" flex-column  mt-3" 
-                                        :props="
-                                            {
-                                                title: 'Make a proposal',
-                                                form_args: form.createProposal,
-                                                abi: ABIS.DAO,
-                                                address: CURRENT_NETWORK.DAO_ADDRESS,
-                                                function: 'createProposal',
-                                            }"
-                                    />
-                                </div>
-
-                                <div class="flex-wrap ">
-                                    <tx-card  class=" flex-column  " 
-                                        :props="
-                                            {
-                                                title: 'Withdraw from Proposal',
-                                                form_args: form.withdrawFromProposal,
-                                                abi: ABIS.DAO,
-                                                address: CURRENT_NETWORK.DAO_ADDRESS,
-                                                function: 'withdrawFromFailedProposal',
-                                            }"
-                                    />
-                                </div>
-                            </div>
-                            
-                        </div>
-
-
-                        <div class="w-100 flex-between tx-sm" v-if="values.dai_dao_allowance > 0">
-                            <div></div>
-                            <div @click="togglers.buy_advanced1 = !togglers.buy_advanced1"
-                            :class="[togglers.buy_advanced1 ? 'n-inset' : 'n-flat']"
-                                class=" clickable pa-2 opacity-hover-50 border-r-50"
-                            >
-                                <i :class="[togglers.buy_advanced1 ? 'fa-minus' : 'fa-plus']" class="fa"></i>
-                            </div>
-                        </div>
-
-                    </div>
-                    <template v-if="values.dai_dao_allowance > 0 && !!values.accountVoteIndex" >
-                        <div class="flex-column" v-show="togglers.buy_advanced1">
-                            <div class="flex-column  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
-                                Results:
-
-                                
-                                <div class="opacity-50 tx-xs my-2" v-if="!!values.val_randomResultBlock" >
-                                    <!-- <span class="tx-sm mb-2 flex-row">Block: {{values.val_randomResultBlock}}</span> -->
-
-                                    <div v-if="loadings.resultsMulticall" class="flex-column opacity-75 tx-lg">
-                                        <i class="fas fa-circle-notch spin-nback"></i>
-                                        <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
-                                    </div>
-                                    <div class="tx-center">
-                                        Scratch:
-                                        <input type="text" name="" v-model="form.form_multiCallResultsStart" class="n-flat noborder px-2 py-1 tx-right n-tx" style="width: 30px">
-                                        <!-- {{form.form_multiCallResultsStart}} -->
-                                        ,
-                                        {{form.form_multiCallResultsEnd}}
-                                    </div>
-                                        
-                                    <div class="flex-row nowrap">
-                                        
-                                        <input type="range" name="" :max="values.accountVoteIndex + values.accountVoteLength" 
-                                        :min="form.form_multiCallResultsStart"
-                                         v-model="form.form_multiCallResultsEnd" class="n-flat noborder pa-2 n-tx" style="width: 60px">
-
-                                        <div class="clickable n-flat pa-2"
-                                            @click="getResultsMulticall"
-                                        >
-                                            Get Results
-                                        </div>
-                                    </div>
-                                    <div v-if="Object.keys(values.val_results) == 0" >
-                                        <div class="py-4 tx-center opacity-50">
-                                            No Winning Tickets Yet
-                                        </div>
-                                    </div>
-                                    <div v-if="Object.keys(values.val_results) != 0" >
-                                        <div style="max-height: 100px; overflow-y: scroll;" class="py-2 n-inset">
-                                            
-                                            <div v-for="(item,index) in Object.keys(values.val_results)" class="flex-column w-100">
-                                                <div class="flex-row py-1">
-                                                    <div class="pr-2">
-                                                        <!-- {{index}} -->
-                                                        Ticket:
-                                                    </div>
-                                                    <div>
-                                                        # {{item}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="opacity-50 tx-xs my-5" v-if="!values.val_randomResultBlock">
-                                    Not Done
-                                </div>
-                            </div>
-
-                        </div>
-                    </template>
-                </div>
                 <div id="store"></div>
 
 
@@ -569,7 +461,7 @@
 
         <div style="height: 80px" class="show-md_lg"> </div>
 
-        <lotto-my-account ref="myAccount" @update_myAccount="update_myAccount"/>
+        <lotto-my-account ref="myAccount" @update_myAccount="update_myAccount" :update_loading="update_loading"/>
 
         <lotto-bottom-menu />
 
@@ -817,6 +709,7 @@
         </div>
 
 
+
         <div class="flex-column n-flat mx-2 pa-2" v-if="false">  <!--CONTRACT -->
             <h4 class="tx-ls-3 my-2 tx-center">CONTRACT </h4>
             <hr class="w-50 opacity-10">
@@ -892,6 +785,7 @@
     import txCard from "../components/tx-card.vue";
     import lottoBottomMenu from "./lotto/lotto-bottom-menu.vue";
     import lottoMyAccount from "./lotto/lotto-my-account.vue";
+    import lottoCurrentRound from "./lotto/lotto-current-round.vue";
 
     export default {
         name: 'lotto',     
@@ -900,6 +794,7 @@
 
             lottoBottomMenu,
             lottoMyAccount,
+            lottoCurrentRound,
         },
         data() {
             return {
@@ -1065,9 +960,6 @@
                     getProposalPropertyResult: {                        
                         "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
                     },
-                    getProposalPropertyDeadline: {                        
-                        "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
-                    },
                     form_getProposalPropertyResultBlock: {                        
                         "0": {placeholder:"",label:`value: '',`,value: '', type: "uint" },
                     },
@@ -1215,13 +1107,25 @@
                     resolve(true)
                 })
             },
+            update_loading(msg)
+            {
+                this.loadings[msg.key] = msg.value
+            },
             async update_myAccount(msg)
             {
                 console.log("update_myAccount",msg)
                 this.values.dai_balance_of = msg.data.dai_balance_of
                 this.values.dai_dao_allowance = msg.data.dai_dao_allowance
 
-                await this.trigger_currentRoundAndLastTicket()
+                // await this.trigger_currentRoundAndLastTicket()
+            },
+            async update_currentRound(msg)
+            {
+                console.log("update_currentRound",msg)
+                this.values.current_round = msg.data.current_round
+                this.values.prize_pool = msg.data.prize_pool
+
+                // await this.trigger_currentRoundAndLastTicket()
             },
             async makeMultiCall()
             {

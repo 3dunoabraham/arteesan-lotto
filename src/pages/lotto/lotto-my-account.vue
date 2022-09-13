@@ -161,6 +161,7 @@
             LANG()                  { return this.$store.getters.LANG },
             first_acc()             { return this.$store.getters.first_acc },
             pro_mode()              { return this.$store.getters.pro_mode },
+            dark_mode()             { return this.$store.getters.dark_mode },
         },
         async mounted()
         {
@@ -184,6 +185,7 @@
                 return new Promise(async (resolve,reject) =>
                 {
                     this.loadings.daiBalanceOfAndAllowance = true
+                    this.$emit("update_loading", {key: "daiBalanceOfAndAllowance", value: true, })
 
                     await this.$refs.DAIBalanceOf.execute()
                     this.values.dai_balance_of = this.$refs.DAIBalanceOf._parsedResult
@@ -191,6 +193,7 @@
                     this.values.dai_dao_allowance = this.$refs.targetAllowance._parsedResult
 
                     this.loadings.daiBalanceOfAndAllowance = false
+                    this.$emit("update_loading", {key: "daiBalanceOfAndAllowance", value: false, })
 
                     resolve(true)
                 })
