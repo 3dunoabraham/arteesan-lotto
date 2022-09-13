@@ -94,7 +94,7 @@
     </div>
 </template>
 <script>
-    import socialMedia from '../components/social-media.vue';
+    import socialMedia from './social-media.vue';
     export default {
         name: 'main-menu',    
         components: {

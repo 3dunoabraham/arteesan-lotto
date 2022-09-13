@@ -10,29 +10,15 @@
                     </span>
                 </div>
             </div>
-            <div v-if="accs_length">
-                <template v-if="current_page == 'lottery'">
-                    <div class=" py-8">
-                        <lotto v-if="accs_length" />
-                    </div>
-                </template>
+            <div v-if="accs_length && current_page == 'lottery'" class="py-8">
+                <lotto v-if="accs_length" />
             </div>
         </div>
-        <div v-if="accs_length" class="" style="height: 50px"> </div>
-        <div class="w-100 flex-center" v-if="loading">
-            <infispinner />
-        </div>
-        <div style="height: 80px" class="show-lg_x"> </div>
-        <div class="py-4 my-4 show-xs_lg"></div>
-        <footer class="flex-between ">
-            <div></div>
-            <div class="flex-column" style="z-index: 99" >
-                <div class="n-inset w-100 tx-center py-2 border-r-t-15 tx-ls-3" style="transform: translateY(5px);">arteesan</div>
-                <div class="flex-row"> <social-media  /> </div>
-            </div>
-            <div></div>
-        </footer>
-        <div class="py-4"></div>
+
+        <div v-if="accs_length" class="py-5"> </div>
+        <div class="w-100 flex-center" v-if="loading"> <infispinner /> </div>
+        <div class="show-lg_x py-8"> </div>
+        <custom-footer />
     </div>
 </template>
 <script>
@@ -44,13 +30,13 @@
     import infispinner from "../components/infispinner.vue";
     import newItem from "../components/new-item.vue";
     import txCard from "../components/tx-card.vue";
-    import socialMedia from '../components/social-media.vue';
+    import customFooter from '../components/custom-footer.vue';
 
     export default {
         name: 'home-page',     
         components: {
-            infispinner,
-            socialMedia, 
+            infispinner, 
+            customFooter,
 
             lotto,
 

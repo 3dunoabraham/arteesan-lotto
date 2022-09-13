@@ -132,8 +132,6 @@
     import { ethers, Contract }  from 'ethers';
     import { ABIS, CURRENT_NETWORK } from '../store/constants';
     import { parseDecimals, ERROR_HELPER, shortAddress, shortAddressSpaced } from '../store/helpers';
-    import newItem from "../components/new-item.vue";
-    import farmItem from "../components/farm-item.vue";
 
     import {
       Multicall,
@@ -178,10 +176,6 @@
                     args: {},
                 },
             }
-        },
-        components: {
-            newItem,
-            farmItem,
         },
 	    computed: {
             LANG()                  { return this.$store.getters.LANG },

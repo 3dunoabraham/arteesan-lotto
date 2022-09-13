@@ -1,51 +1,33 @@
 <template>
     <div :class="!!dark_mode ? 'dark-theme' : 'light-theme'" class="main-body n-bg n-tx w-100">
-        <template v-if="dark_mode">
-            <div class="pos-fixed top-0 w-100 h-100-vh flex-column flex-between noclick">
-                <svg class="show-md_x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#282b2f" fill-opacity="1" d="M0,160L48,138.7C96,117,192,75,288,85.3C384,96,480,160,576,160C672,160,768,96,864,85.3C960,75,1056,117,1152,154.7C1248,192,1344,224,1392,240L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
-
-                <svg class="show-xs_md pt-8 mt-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#282b2f" fill-opacity="1" d="M0,160L48,138.7C96,117,192,75,288,85.3C384,96,480,160,576,160C672,160,768,96,864,85.3C960,75,1056,117,1152,154.7C1248,192,1344,224,1392,240L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#282b2f" fill-opacity="1" d="M0,288L48,256C96,224,192,160,288,144C384,128,480,160,576,176C672,192,768,192,864,202.7C960,213,1056,235,1152,213.3C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
-            </div>
-        </template>
-        <template v-if="!dark_mode">
-            <div class="pos-fixed top-0 w-100 h-100-vh flex-column flex-between noclick">
-                <svg class="show-md_x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#d6d6d6" fill-opacity="1" d="M0,160L48,138.7C96,117,192,75,288,85.3C384,96,480,160,576,160C672,160,768,96,864,85.3C960,75,1056,117,1152,154.7C1248,192,1344,224,1392,240L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
-                <svg class="show-xs_md pt-8 mt-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#d6d6d6" fill-opacity="1" d="M0,160L48,138.7C96,117,192,75,288,85.3C384,96,480,160,576,160C672,160,768,96,864,85.3C960,75,1056,117,1152,154.7C1248,192,1344,224,1392,240L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#d6d6d6" fill-opacity="1" d="M0,288L48,256C96,224,192,160,288,144C384,128,480,160,576,176C672,192,768,192,864,202.7C960,213,1056,235,1152,213.3C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
-            </div>
-        </template>
-
+        <waves-frame />
         <main-menu />
         
-        <div style="height: 80px">
-        </div>
+        <div class="block py-8"></div>
 
         <home-page v-if="is_metaMask" />
-        <div v-else>
-            <h1>Please, install or login Metamask.</h1>
-        </div>
+        <div v-else> <h1>Please, install or login Metamask.</h1> </div>
 
-        <div style="height: 80px" class="show-xs_md"> </div>
+        <div class="show-xs_md block py-8"></div>
     </div>
 </template>
 <script>
     import homePage from "./pages/home-page.vue";
     
-    import mainMenu from "./modules/main-menu.vue";
-    import bottomMenu from "./modules/bottom-menu.vue";
+    import mainMenu from "./components/main-menu.vue";
+    import wavesFrame from './components/waves-frame.vue';
 
     export default {
         name: 'App',    
         components: {
             homePage,
+
             mainMenu,
-            bottomMenu,
+            wavesFrame,
         },
         computed: {
             dark_mode()     { return this.$store.getters.dark_mode },
             is_metaMask()   { return this.$store.getters.is_metaMask },
-            accs_length()           { return this.$store.getters.accs_length },
         }, 
     }
 </script>
