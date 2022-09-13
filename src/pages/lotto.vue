@@ -228,6 +228,10 @@
                 <div v-if="dark_mode" style="height: 200px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
                 <div v-if="!dark_mode" style="height: 200px; width: 2px; background: black; display: block;" class="opacity-10 show-xs_md" > </div>
 
+                <!-- <lotto-current-ticket ref="currentTicket" v-if="values.current_round > 0"
+                    @update_currentTicket="update_currentTicket" :_loadings="loadings" :_values="values"
+                /> -->
+
                 <div class="flex-column  n-flat border-r-25 mx-8 pa-2 pos-relative" style="z-index: 2" > <!-- Buy Ticket -->
 
                     <!-- <h5 class="tx-ls-5 my-2 tx-center opacity-50">OPEN LOTTO </h5>
@@ -785,6 +789,7 @@
     import txCard from "../components/tx-card.vue";
     import lottoBottomMenu from "./lotto/lotto-bottom-menu.vue";
     import lottoMyAccount from "./lotto/lotto-my-account.vue";
+    import lottoCurrentTicket from "./lotto/lotto-current-ticket.vue";
     import lottoCurrentRound from "./lotto/lotto-current-round.vue";
 
     export default {
@@ -795,6 +800,7 @@
             lottoBottomMenu,
             lottoMyAccount,
             lottoCurrentRound,
+            lottoCurrentTicket,
         },
         data() {
             return {
@@ -949,8 +955,6 @@
                     },
                     getVoterVoteIndex: {                        
                         "0": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
-                        // 
-                        "1": {placeholder:"",label:`value: "",`,value: "", type: "uint" },
                         
                         "1": {placeholder:"",label:`value: "",`,value: "", type: "address" },
                     },
@@ -1113,7 +1117,7 @@
             },
             async update_myAccount(msg)
             {
-                console.log("update_myAccount",msg)
+                // console.log("update_myAccount",msg)
                 this.values.dai_balance_of = msg.data.dai_balance_of
                 this.values.dai_dao_allowance = msg.data.dai_dao_allowance
 
@@ -1121,9 +1125,17 @@
             },
             async update_currentRound(msg)
             {
-                console.log("update_currentRound",msg)
+                // console.log("update_currentRound",msg)
                 this.values.current_round = msg.data.current_round
                 this.values.prize_pool = msg.data.prize_pool
+
+                // await this.trigger_currentRoundAndLastTicket()
+            },
+            async update_currentTicket(msg)
+            {
+                // console.log("update_currentTicket",msg)
+                this.values.accountVoteIndex = msg.data.accountVoteIndex
+                // this.values.prize_pool = msg.data.prize_pool
 
                 // await this.trigger_currentRoundAndLastTicket()
             },

@@ -166,10 +166,13 @@
 
             await this.trigger_currentRoundAndLastTicket()
 
-            this.$emit("update_currentRound", { data: {
-                current_round: this.values.current_round,
-                prize_pool: this.values.prize_pool,
-            }})
+            this.$nextTick(() => {
+                console.log("update_currentRound")
+                this.$emit("update_currentRound", { data: {
+                    current_round: this.values.current_round,
+                    prize_pool: this.values.prize_pool,
+                }})
+            })
         },
         methods: {
             parseDecimals,
@@ -184,7 +187,7 @@
                     this.$emit("update_loading", {key: "currentRoundAndLastTicket", value: true, })
 
                     await this.$refs.currentRound.execute()
-                    // console.log("this.values.current_round",this.$refs.currentRound._parsedResult)
+                    console.log("this.values.current_round",this.$refs.currentRound._parsedResult)
                     this.values.current_round = this.$refs.currentRound._parsedResult
 
                     if (this.values.current_round == 0) return this.loadings.currentRoundAndLastTicket = false
@@ -205,6 +208,7 @@
                     this.loadings.currentRoundAndLastTicket = false
                     this.$emit("update_loading", {key: "currentRoundAndLastTicket", value: false, })
                     // this.forms.voteOnProposal["0"].value = (parseInt(this.values.current_round) - 1)+""
+                    resolve(true)
                 })
             },
         },
