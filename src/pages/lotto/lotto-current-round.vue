@@ -20,19 +20,9 @@
         <h1  class=" flex-column  tx-error" style="z-index: 88" v-if="values.current_round == 0">
             ?
         </h1>
-        <h1  class=" flex-column  tx-success" style="z-index: 88" v-if="values.prize_pool">
+        <h1  class=" flex-column mb-0 tx-success" style="z-index: 88" v-if="values.prize_pool">
             ${{parseDecimals(values.prize_pool * 0.8)}} 
         </h1>
-
-        <div class="w-100 flex-between tx-sm" >
-            <div></div>
-            <div @click="togglers.round_advanced = !togglers.round_advanced"
-            :class="[togglers.round_advanced ? 'n-inset' : 'n-flat']"
-                class=" clickable pa-2 opacity-hover-50 border-r-50"
-            >
-                <i :class="[togglers.round_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
-            </div>
-        </div>
 
         <div class="flex-column " v-show="togglers.round_advanced">
 
@@ -43,10 +33,10 @@
                 <span v-if="values.deadline" >{{values.deadline}}</span>
                 
             </div>
-            <tx-card ref="ref_amountOfTokensRequired" :props="forms.form_getProposalamountOfTokensRequired" />
-            <tx-card ref="ref_amountOfTokens" :props="forms.form_getProposalamountOfTokens" />
-            <tx-card  class=" flex-column  mt-3" :props="forms.balanceOfDAO" />
-            <tx-card  v-show="true" ref="prizePool" :props="forms.amountOfTokensRequired" />
+            <tx-card v-show="false"  ref="ref_amountOfTokensRequired" :props="forms.form_getProposalamountOfTokensRequired" />
+            <tx-card v-show="false"  ref="ref_amountOfTokens" :props="forms.form_getProposalamountOfTokens" />
+            <tx-card v-show="false"   class=" flex-column  mt-3" :props="forms.balanceOfDAO" />
+            <tx-card v-show="false" ref="prizePool" :props="forms.amountOfTokensRequired" />
             <hr class="w-50 opacity-10">
             <div class="flex flex-align-start">
 
@@ -59,6 +49,16 @@
                 <div v-if="!dark_mode" style="height: 70px; width: 2px; background: black; display: block;" class="mx-3 mb-3 opacity-10"></div>
 
                 <tx-card  class=" flex-column  mb-5" ref="lastTicketNumber" :props="forms.amountOfVotes" />
+            </div>
+        </div>
+
+        <div class="w-100 flex-between tx-sm" >
+            <div></div>
+            <div @click="togglers.round_advanced = !togglers.round_advanced"
+            :class="[togglers.round_advanced ? 'n-inset' : 'n-flat']"
+                class=" clickable pa-2 opacity-hover-50 border-r-50"
+            >
+                <i :class="[togglers.round_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
             </div>
         </div>
     </div>

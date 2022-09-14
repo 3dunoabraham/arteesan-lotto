@@ -10,17 +10,17 @@ body {
 }
 
 :root {
-  --primary-color: #f4891d;
+  --primary-color: #FF9933;
   --primary-color-light-1: #f7a331;
   --primary-color-light-2: #f5c46c;
   --tertiary-color-light-3: #f8e2be;
 
-  --secondary-color: #0b85ff;
+  --secondary-color: #2da5ec;
   --secondary-color-light-1: #42a0ff;
   --secondary-color-light-2: #8cbae8;
   --secondary-color-light-3: #a7caed;
 
-  --tertiary-color: #ec407a;
+  --tertiary-color: #FF66CC;
   --tertiary-color-light-1: #ff83b5;
   --tertiary-color-light-2: #ffb0d0;
   --tertiary-color-light-3: #ffcee1;
@@ -89,7 +89,7 @@ body {
 .light-theme .n-tx-s {   text-shadow: 2px 2px 3px #aaaaaa }
 .light-theme.n-bg,
 .light-theme .n-bg {    background: #e0e0e0; }
-.light-theme .n-flat {    background: #e0e0e0;                    box-shadow: 5px 5px 13px #b8b8b8, -5px -5px 13px #ffffff; }
+.light-theme .n-flat {    background: #eeeeee;                    box-shadow: 5px 5px 13px #b8b8b8, -5px -5px 13px #ffffff; }
 .light-theme .n-conca {   background: linear-gradient(145deg, #cacaca, #f0f0f0);    box-shadow: 5px 5px 13px #b8b8b8, -5px -5px 13px #ffffff; }
 .light-theme .n-conve {   background: linear-gradient(145deg, #f0f0f0, #cacaca);    box-shadow: 5px 5px 13px #b8b8b8, -5px -5px 13px #ffffff; }
 .light-theme .n-inset {   background: #e0e0e0;                    box-shadow: inset 5px 5px 13px #b8b8b8, inset -5px -5px 13px #ffffff; }
@@ -100,7 +100,7 @@ body {
 .dark-theme .n-tx-s {   text-shadow: 3px 3px 2px #111111 }
 .dark-theme.n-bg,
 .dark-theme .n-bg {     background: #2c2f34; }
-.dark-theme .n-flat {   background: #2c2f34;                    box-shadow: 3px 3px 6px #17191c, -3px -3px 6px #41454c; }
+.dark-theme .n-flat {   background: #313439;                    box-shadow: 3px 3px 6px #17191c, -3px -3px 6px #41454c; }
 .dark-theme .n-flat-disabled {   background: #4e4f52;                    box-shadow: 3px 3px 6px #25272b, -3px -3px 6px #41454c; }
 .dark-theme .n-conca {    background: linear-gradient(145deg, #222428, #35383d);    box-shadow: 3px 3px 6px #17191c, -3px -3px 6px #41454c; }
 .dark-theme .n-conve {    background: linear-gradient(145deg, #35383d, #222428);    box-shadow: 3px 3px 6px #17191c, -3px -3px 6px #41454c; }

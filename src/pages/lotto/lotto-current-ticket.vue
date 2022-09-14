@@ -5,7 +5,7 @@
 
         <!-- <h5 class="tx-ls-5 my-2 tx-center opacity-50">OPEN LOTTO </h5>
         <hr class="w-100 opacity-10 "> -->
-        <div class="show-lg_x  n-tx-s tx-xl"  style="color: #0b85ff; position: absolute; top: -55px;"><i class="fa fa-store"></i></div>
+        <div class="show-lg_x  n-tx-s tx-xl tx-secondary"  style="position: absolute; top: -55px;"><i class="fa fa-store"></i></div>
 
         <h5 class="tx-ls-5 my-2 tx-center opacity-50"> {{LANG.myTicket.toUpperCase() }} </h5>
 

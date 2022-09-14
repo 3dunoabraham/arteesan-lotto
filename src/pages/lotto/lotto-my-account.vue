@@ -35,7 +35,7 @@
             </div>
             <div class="flex-column " v-show="togglers.dao_advanced">
                 <div class="flex-column " v-show="pro_mode">
-                    <tx-card  class=" flex-column  mt-3" :props="forms.addTargetAllowance" />
+                    <tx-card v-show="false"  class=" flex-column  mt-3" :props="forms.addTargetAllowance" />
                 </div>
             </div>
         </div>
