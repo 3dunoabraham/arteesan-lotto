@@ -3,22 +3,18 @@
 
     <div class="flex-column ">
         <tx-card ref="addTargetAllowance" :props="forms.addTargetAllowance" />
-        <tx-card :props="forms.createProposal" />
     </div>
 
-    <hr class="w-50 opacity-10">
 
-    <div class="flex-column ">
+    <div class="flex-column " v-if='current_sub_page == "owner"'>
+        <tx-card :props="forms.createProposal" />
+        <hr class="w-50 opacity-10">
         <tx-card :props="forms.executeProposal" />
         <tx-card :props="forms.requestResolveRound" />
         <tx-card :props="forms.resolveBet" />
         <tx-card :props="forms.withdrawFromProposal" />
         <tx-card :props="forms.withdrawBalance" />
-    </div>
-
-    <hr class="w-50 opacity-10">
-
-    <div class="flex-column ">
+        <hr class="w-50 opacity-10">
         <tx-card :props="forms.transferOwnership"/>
         <tx-card :props="forms.setRequester" />
         <tx-card :props="forms.setLotto" />
@@ -62,7 +58,7 @@
                         },
                     },
                     addTargetAllowance: {
-                        title: 'Set  DAI Allowance to target',
+                        title: 'Sign DAO Contract',
                         abi: ABIS.ERC20,
                         address: CURRENT_NETWORK.BASE_USD_ADDRESS,
                         function: 'approve',
@@ -156,6 +152,7 @@
             first_acc()             { return this.$store.getters.first_acc },
             pro_mode()              { return this.$store.getters.pro_mode },
             dark_mode()             { return this.$store.getters.dark_mode },
+            current_sub_page()      { return this.$store.getters.current_sub_page },
         },
         async mounted()
         {

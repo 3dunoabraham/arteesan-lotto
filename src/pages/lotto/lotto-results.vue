@@ -77,17 +77,17 @@
     <tx-card v-show="false" ref="ref_getVoteScratchedNumberMulticall" :props="forms.form_getVoteScratchedNumberMulticall"/> <!-- yes -->
     <div class="flex-column " v-if="pro_mode">
         <div class="flex-column " >
-            <tx-card :props="forms.getVoteScratchedNumber" />
-            <tx-card :props="forms.wonAmount" />
-            <tx-card :props="forms.getWinner" />
-            <tx-card :props="forms.getWonAmountMulticall"/>
+            <tx-card v-show="false" :props="forms.getVoteScratchedNumber" />
+            <tx-card v-show="false" :props="forms.wonAmount" />
+            <tx-card v-show="false" :props="forms.getWinner" />
+            <tx-card v-show="false" :props="forms.getWonAmountMulticall"/>
             <tx-card ref="ref_getVoteScratchedNumberMulticall" :props="forms.form_getVoteScratchedNumberMulticall"/> <!-- yes -->
         </div>
 
-        <hr class="w-50 opacity-10">
+        <!-- <hr class="w-50 opacity-10"> -->
 
         <div class="flex-column ">
-            <tx-card :props="forms.withdrawAmount" />
+            <tx-card v-show="false" :props="forms.withdrawAmount" />
             <tx-card :props="forms.withdrawAll" />
         </div>
     </div>
@@ -122,7 +122,7 @@
                     form_multiCallResultsEnd: null,
 
                     form_getVoteScratchedNumberMulticall: {    
-                        title: 'form_getVoteScratchedNumberMulticall',
+                        title: 'Get Results',
                         abi: ABIS.LOTTO,
                         address: CURRENT_NETWORK.LOTTO_ADDRESS,
                         function: 'getWonAmount',
@@ -202,7 +202,7 @@
                         },
                     },
                     withdrawAll: {                        
-                        title: 'withdrawAll',
+                        title: 'Withdraw All Prizes',
                         abi: ABIS.LOTTO,
                         address: CURRENT_NETWORK.LOTTO_ADDRESS,
                         function: 'withdrawAll',

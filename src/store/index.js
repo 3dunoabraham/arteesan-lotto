@@ -7,8 +7,15 @@ import { LANG } from './lang';
 
 const store = createStore({
   state() {
+
+    var url_string = window.location.href
+    var urlparams = (new URL(url_string)).searchParams;
+    // console.log("***",url_string, url);
+    var thepage = urlparams.get("page");
+    console.log("page",thepage);
     return {
       currentPseudoPage: "lottery",
+      currentSubPage: thepage,
       LANG,
       darkMode: true,
       proMode: false,
@@ -78,6 +85,9 @@ const store = createStore({
   getters: {
     current_page(state) {
       return state.currentPseudoPage
+    },
+    current_sub_page(state) {
+      return state.currentSubPage
     },
     LANG(state) {
       return state.LANG[state.englishMode ? "EN" : "ES"];
