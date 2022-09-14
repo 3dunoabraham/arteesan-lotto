@@ -20,7 +20,12 @@
                     ,
                     {{forms.form_multiCallResultsEnd}}
                 </div>
-                    
+
+                <div v-if="loadings.resultsMulticall" class="flex-column opacity-75 tx-lg">
+                    <i class="fas fa-circle-notch spin-nback"></i>
+                    <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> Winning Tickets</span>
+                </div>
+
                 <div class="flex-row nowrap" >
                     
                     <input type="range" name="" :max="_values.accountVoteIndex + _values.accountVoteLength" 
@@ -69,6 +74,7 @@
 
     </div>
 
+    <tx-card v-show="false" ref="ref_getVoteScratchedNumberMulticall" :props="forms.form_getVoteScratchedNumberMulticall"/> <!-- yes -->
     <div class="flex-column " v-if="pro_mode">
         <div class="flex-column " >
             <tx-card :props="forms.getVoteScratchedNumber" />
@@ -232,7 +238,9 @@
             async getResultsMulticall()
             {
                 if (this.loadings.resultsMulticall) return
+                console.log("loadings.resultsMulticall", this.loadings.resultsMulticall)
                 this.loadings.resultsMulticall = true
+                console.log("loadings.resultsMulticall", this.loadings.resultsMulticall)
 
                 try {
                     // this.form.form_multiCallResultsStart = this.values.accountVoteIndex
@@ -249,7 +257,7 @@
 
                     this.values.val_results = {...this.$refs.ref_getVoteScratchedNumberMulticall.theResult}
                     console.log("this.values.val_results",this.values.val_results.length)
-                    alert(`multicall ready ${Object.keys(this.values.val_results).length}`)
+                    alert(`multicall ready | ${Object.keys(this.values.val_results).length} tickets read`)
                     // this.values.val_results = asd.filter((i, o) => o != 0).reduce((o, key) => Object.assign(o, {[key]: "whatever"}), {})
                     // console.log("asd", this.$refs.ref_getVoteScratchedNumberMulticall)
                     // console.log("asd", this.$refs.ref_getVoteScratchedNumberMulticall.theResult)
@@ -263,7 +271,8 @@
 
                     // await this.$refs.targetAllowance.execute()
                 } catch (error) {
-                    console.log("failed call")
+                    console.log("failed call", error)
+                this.loadings.resultsMulticall = false
                 }
 
                 this.loadings.resultsMulticall = false
