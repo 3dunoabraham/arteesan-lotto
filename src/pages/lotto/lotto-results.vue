@@ -1,8 +1,8 @@
 <template>
 <div>
 
-    <div class="flex-column" >
-        <div class="flex-column z-10  n-conve my-2 border-r-25 mx-8 pa-2 px-5 " > <!-- Results -->
+    <div class="flex-column"  v-if="_values && !!_values.val_randomResultBlock">
+        <div class="flex-column z-10  n-conve my-2 border-r-25 mx-8 pa-2 mb-0 pb-0 px-5 " > <!-- Results -->
             Results:
 
             

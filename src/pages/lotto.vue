@@ -1,4 +1,13 @@
 <template>
+
+    <!-- 
+        minwiw 500vh
+        blok when loading
+        add more button when already bought ticket
+        add time of round to my ticket
+        add reactivity
+        enahnce conditionals component s
+     -->
 <div class="flex-column " >
 
     <tx-card v-show="false" ref="ref_getVoteScratchedNumberMulticall" :props="form.form_getVoteScratchedNumberMulticall" />
@@ -62,9 +71,17 @@
             <div v-if="dark_mode" style="height: 200px; width: 2px; background: white; display: block;" class="opacity-10 show-xs_md" > </div>
             <div v-if="!dark_mode" style="height: 200px; width: 2px; background: black; display: block;" class="opacity-10 show-xs_md" > </div>
 
-            <lotto-current-ticket ref="currentTicket" v-if="values.current_round > 0" @signup="execute_addFullTargetAllowance"
-                @update_currentTicket="update_currentTicket" :_loadings="loadings" :_values="values" @update_loading="update_loading"
-            />
+            <div class="flex-column " >
+                <lotto-current-ticket ref="currentTicket" v-if="values.current_round > 0" @signup="execute_addFullTargetAllowance"
+                    @update_currentTicket="update_currentTicket" :_loadings="loadings" :_values="values" @update_loading="update_loading"
+                />
+                <lotto-results class="" ref="lottoResults"
+                    :_loadings="loadings" :_values="values" :_forms="{
+                        form_multiCallResultsStart: form.form_multiCallResultsStart,
+                        form_multiCallResultsEnd: form.form_multiCallResultsEnd}"
+                    @update_results="update_results"  @update_loading="update_loading"
+                />
+            </div>
         </div>
 
         <div id="user"></div>
@@ -96,12 +113,6 @@
     <div class="flex-around flex-wrap w-100 my-4">
         <lotto-settings v-show="pro_mode" class="z-10 n-flat pa-2  border-r-15" />
         <div v-if="values.dai_dao_allowance > 0" class="z-10">
-            <lotto-results class="n-inset pa-2 border-r-15" ref="lottoResults"
-                :_loadings="loadings" :_values="values" :_forms="{
-                    form_multiCallResultsStart: form.form_multiCallResultsStart,
-                    form_multiCallResultsEnd: form.form_multiCallResultsEnd}"
-                @update_results="update_results"  @update_loading="update_loading"
-            />
         </div>
     </div>
 </div>
