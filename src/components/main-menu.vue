@@ -2,8 +2,8 @@
     <div style="background: linear-gradient(180deg,#00000033, #00000000)" class="w-100 pos-fixed z-999">
 
         <div class="flex-between flex-align-start show-md_x"> 
-            <div class="flex show-md_x">
-                <a class="nodeco letter-s-3 noborder n-tx tx-md n-flat clickable flex-column"
+            <div class="flex show-md_x" >
+                <a v-show="pro_mode" class="nodeco letter-s-3 noborder n-tx tx-md n-flat clickable flex-column"
                     href="https://gamearteesan.gitbook.io/arteesan/"  target="_blank"
                     style="border-radius: 0 30px 30px 0"
                 >
@@ -21,7 +21,7 @@
                     </span>
                 </button>
             </div>
-            <div class="flex-column-r flex-md_x-row flex-align-start">
+            <div class="flex-column-r flex-md_x-row flex-align-start" v-show="pro_mode">
                 <button class="noborder n-tx tx-sm n-conca clickable flex-center border-r-15 mt-3 mr-3"
                     @click="changeNightMode"
                 >
@@ -69,14 +69,14 @@
                     </a>
                 </div>
             </div>
-            <button class="noborder n-tx tx-md n-conca clickable flex-center border-r-15 show-sm_md"
+            <button class="noborder n-tx tx-md n-conca clickable flex-center border-r-15 show-xs_md tx-sm"
                 @click="changeProMode"
                 style=""
             >
-                <span class="pa-2 py-4  opacity-hover-50">
-                    <i class="fas tx-sm" v-if="pro_mode" > <span> PRO</span></i>
-                    <i class="fas tx-sm" v-else > <span> DEFAULT</span></i>
-                </span>
+                <small class="pa-2 py-4  opacity-hover-50">
+                    <i class="fas tx-sm" v-if="pro_mode" > <small> PRO</small></i>
+                    <i class="fas tx-sm" v-else > <small> DEFAULT</small></i>
+                </small>
             </button>
             <div class="flex-column-r flex-md_x-row flex-align-start">
                 <button class="noborder n-tx tx-sm n-conca clickable flex-center border-r-15 mt-3 mr-3"
