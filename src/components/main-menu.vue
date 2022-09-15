@@ -11,16 +11,20 @@
                         <i class="mr-2 fas fa-external-link-alt"></i> Docs
                     </span>
                 </a>
-                <button class="noborder n-tx ml-4 tx-sm n-conca clickable flex-center border-r-15 show-md_x"
+            </div>
+                <button class="noborder n-tx ml-4 tx-sm  clickable flex-center border-r-15 show-md_x"
+                        :class="[!pro_mode ? 'n-conca' : 'n-inset']"
                     @click="changeProMode"
                     style=""
                 >
                     <span class="pa-2 py-4  opacity-hover-50">
                         <i class="fas tx-sm" v-if="pro_mode" > <span> PRO</span></i>
-                        <i class="fas tx-sm" v-else > <span> DEFAULT</span></i>
+                        <i class="fas tx-sm"  v-else > <span> PRO</span></i>
+
+                        <!-- <i class="fas tx-sm" v-if="pro_mode" > <span> <i class="mr- fas tx-lg fa-bars"></i></span></i>
+                        <i class="fas tx-sm"  v-else > <span> <i class="mr- fas tx-lg fa-bars"></i></span></i> -->
                     </span>
                 </button>
-            </div>
             <div class="flex-column-r flex-md_x-row flex-align-start" v-show="pro_mode">
                 <button class="noborder n-tx tx-sm n-conca clickable flex-center border-r-15 mt-3 mr-3"
                     @click="changeNightMode"

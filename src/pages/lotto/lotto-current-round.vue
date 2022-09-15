@@ -1,12 +1,12 @@
 <template>
 <div>
 
-    <div class="flex-column n-flat border-r-15 mx-2 pa-2 px-4 pos-relative" style="z-index: 2" >  <!-- Prize Pool -->
+    <div class="flex-column n-flat border-r-15 mx-2 pa-5 px-3 pos-relative h-50vh" style="z-index: 2" >  <!-- Prize Pool -->
         <div class="show-lg_x  tx-primary n-tx-s tx-xl" style="position: absolute; top: -100px; z-index: 999">
             <i class="fa fa-2x fa-award"></i>
         </div>
 
-        <h3 class="tx-ls-5 my-2  tx-center">{{LANG.prizePool}} </h3>
+        <h3 class="tx-ls-5 my-2   tx-center">{{LANG.prizePool}} </h3>
 
         <div v-if="_loadings.daiBalanceOfAndAllowance" class="flex-column opacity-75">
             <i class="fas fa-circle-notch spin-nback"></i>
@@ -17,10 +17,10 @@
             <span class="opacity-75 tx-xs tx-center mt-1">{{LANG.loading}} <br> {{LANG.roundInfo}}</span>
         </div>
 
-        <h1  class=" flex-column  tx-error" style="z-index: 88" v-if="values.current_round == 0">
+        <h1  class=" flex-column tx-xxl tx-error" style="z-index: 88" v-if="values.current_round == 0">
             ?
         </h1>
-        <h1  class=" flex-column mb-0 tx-success" style="z-index: 88" v-if="values.prize_pool">
+        <h1  class=" flex-column tx-xxl mb-0 tx-success" style="z-index: 88" v-if="values.prize_pool">
             ${{parseDecimals(values.prize_pool * 0.8)}} 
         </h1>
 
@@ -42,21 +42,25 @@
 
                 <div  class=" flex-column tx-sm  " >
                     <span class="tx-xs">{{LANG.currentRound}}</span>
-                    <span class="tx-xl" v-if="values.current_round">{{values.current_round - 1}}</span>
+                    <span  class="tx-xl" v-if="values.current_round">{{values.current_round - 1}}</span>
                 </div>
 
-                <div v-if="dark_mode" style="height: 70px; width: 2px; background: white; display: block;" class="mx-3 mb-3 opacity-10"></div>
-                <div v-if="!dark_mode" style="height: 70px; width: 2px; background: black; display: block;" class="mx-3 mb-3 opacity-10"></div>
+                <div v-show="pro_mode" v-if="dark_mode" style="height: 70px; width: 2px; background: white; display: block;" class="mx-3 mb-3 opacity-10"></div>
+                <div v-show="pro_mode" v-if="!dark_mode" style="height: 70px; width: 2px; background: black; display: block;" class="mx-3 mb-3 opacity-10"></div>
 
-                <tx-card  class=" flex-column  mb-5" ref="lastTicketNumber" :props="forms.amountOfVotes" />
+                <tx-card v-show="pro_mode" class=" flex-column  mb-5" ref="lastTicketNumber" :props="forms.amountOfVotes" />
             </div>
+        <a  href="#store" class="n-flat pos-relative  n-tx px-4 py-2 border-r-15 flex-column tx-sm nodeco"  style="z-index: 2000">
+            <i class="fa fa-store"></i>
+            <small class="pt-1 tx-xs nodeco">{{LANG.buyTicket}}</small>
+        </a>
         </div>
 
-        <div class="w-100 flex-between tx-sm" >
+        <div class="w-100 flex-between tx-lg   " >
             <div></div>
             <div @click="togglers.round_advanced = !togglers.round_advanced"
             :class="[togglers.round_advanced ? 'n-inset' : 'n-flat']"
-                class=" clickable pa-2 opacity-hover-50 border-r-50"
+                class=" clickable  opacity-hover-50 border-r-50 py-2 px-3"
             >
                 <i :class="[togglers.round_advanced ? 'fa-minus' : 'fa-plus']" class="fa"></i>
             </div>

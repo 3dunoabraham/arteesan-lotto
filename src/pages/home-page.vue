@@ -11,7 +11,7 @@
                 </span>
             </div>
         </div>
-        <div v-if="accs_length && current_page == 'lottery'" class="py-8">
+        <div v-if="accs_length && current_page == 'lottery'" class="py-8 w-100">
             <lotto v-if="accs_length" />
         </div>
     </div>

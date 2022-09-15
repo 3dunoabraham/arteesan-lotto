@@ -7,8 +7,9 @@
         add time of round to my ticket
         add reactivity
         enahnce conditionals component s
+        putt my account on menu
      -->
-<div class="flex-column " >
+<div class="flex-column w-100" >
 
     <tx-card v-show="false" ref="ref_getVoteScratchedNumberMulticall" :props="form.form_getVoteScratchedNumberMulticall" />
     <tx-card v-show="false" ref="ref_withdrawBonus" :props="form.withdrawRefBonus" />
@@ -59,8 +60,8 @@
 
     
 
-    <div class="flex-column flex-lg_x-row pt-8">
-        <lotto-current-round ref="currentRound" @update_loading="update_loading" class="z-50"
+    <div class="flex-column flex-lg_x-row pt-8 flex-1 w-100 ">
+        <lotto-current-round ref="currentRound" @update_loading="update_loading" class="z-50 flex-1 w-100 "
             @update_currentRound="update_currentRound" :_loadings="loadings" :_values="values"
         />
 
